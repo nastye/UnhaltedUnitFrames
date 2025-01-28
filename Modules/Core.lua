@@ -348,20 +348,3 @@ for i = 1, 8 or MAX_BOSS_FRAMES do
     end
     UUF:RegisterRangeFrame(bossFrame, "boss" .. i) -- Range Checking
 end
-
---[[
-    # Useful Stuff
-    * `self.unit` can be used for comparison.
-    * `self.unit == "player"` for player frame.
-    * You can use this to set specific options for specific frames. This can be completed in the `CreateUnitFrame` function.
-
-    Spawning A Frame:
-    * Register Style.
-    * Set Active Style.
-    * Spawn Frame.
-    * Set Point.
-
-    Range Checks
-    * Range Checking is toxic. But using `OnEvent` is better than `OnUpdate`.
-    * If you don't want to check range, remove the `UUF:RegisterRangeFrame` line.
-]]
