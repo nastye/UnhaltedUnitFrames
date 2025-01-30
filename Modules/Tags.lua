@@ -1,58 +1,13 @@
 local _, UUF = ...
 local oUF = UUF.oUF
 local nameBlacklist = UUF.nameBlacklist
--- Health: Current Value (Shortened)
-oUF.Tags.Methods["Health:Current:Short"] = function(unit)
-    local unitHealth = UnitHealth(unit)
-    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
-    if unitStatus then
-        return unitStatus
-    else
-        return UUF:FormatLargeNumber(unitHealth)
-    end
-end
 
--- Absorb: Current Value (Shortened)
-oUF.Tags.Methods["Absorb:Current:Short"] = function(unit)
-    local unitAbsorb = UnitGetTotalAbsorbs(unit)
-    if unitAbsorb > 0 then 
-        return UUF:FormatLargeNumber(unitAbsorb)
-    end
-end
-
--- Health: Percentage
-oUF.Tags.Methods["Health:Percent"] = function(unit)
-    local unitHealth = UnitHealth(unit)
-    local unitMaxHealth = UnitHealthMax(unit)
-    local unitHealthPercent = unitHealth / unitMaxHealth * 100
-    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
-    if unitStatus then
-        return unitStatus
-    else
-        return string.format("%.1f%%", unitHealthPercent)
-    end
-end
-
--- Health + Absorbs: Percentage
-oUF.Tags.Methods["Health:EffectivePercent"] = function(unit)
+oUF.Tags.Methods["CurHP-PerHP:Short"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
-    local unitEffectiveHealth = unitHealth + unitAbsorb
-    local unitHealthPercent = unitEffectiveHealth / unitMaxHealth * 100
-    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
-    if unitStatus then
-        return unitStatus
-    else
-        return string.format("%.1f%%", unitHealthPercent)
-    end
-end
-
--- Health: Current Value + Percentage (Shortened)
-oUF.Tags.Methods["Health:CurrentWithPercent:Short"] = function(unit)
-    local unitHealth = UnitHealth(unit)
-    local unitMaxHealth = UnitHealthMax(unit)
-    local unitHealthPercent = unitHealth / unitMaxHealth * 100
+    if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
+    local unitHealthPercent = (unitMaxHealth > 0) and (unitHealth / unitMaxHealth * 100) or 0
     local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
     if unitStatus then
         return unitStatus
@@ -61,32 +16,29 @@ oUF.Tags.Methods["Health:CurrentWithPercent:Short"] = function(unit)
     end
 end
 
--- Health + Absorbs: Current Value + Percentage (Shortened)
-oUF.Tags.Methods["Health:EffectiveCurrentWithPercent:Short"] = function(unit)
-    local unitHealth = UnitHealth(unit)
-    local unitMaxHealth = UnitHealthMax(unit)
-    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
-    local unitEffectiveHealth = unitHealth + unitAbsorb
-    local unitHealthPercent = unitEffectiveHealth / unitMaxHealth * 100
-    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
-    if unitStatus then
-        return unitStatus
-    else
-        return string.format("%s • %.1f%%", UUF:FormatLargeNumber(unitEffectiveHealth), unitHealthPercent)
-    end
+-- Absorb: Current Value (Shortened)
+oUF.Tags.Methods["CurAbsorb:Short"] = function(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit)
+    if unitAbsorb and unitAbsorb > 0 then return UUF:FormatLargeNumber(unitAbsorb) end
 end
 
 -- Power: Current Value (Shortened)
-oUF.Tags.Methods["Power:Current:Short"] = function(unit)
+oUF.Tags.Methods["CurPP:Short"] = function(unit)
     local unitPower = UnitPower(unit)
-    return UUF:FormatLargeNumber(unitPower)
+    local unitPowerType = UnitPowerType(unit)
+    if unitPowerType == 0 then
+        local unitPowerPercent = UnitPower(unit) / UnitPowerMax(unit) * 100
+        return string.format("%.1f%%", unitPowerPercent)
+    else
+        return UUF:FormatLargeNumber(unitPower)
+    end
 end
 
 -- Unit Name with Target of Target
-oUF.Tags.Methods["Name:TargetofTarget"] = function(unit)
+oUF.Tags.Methods["ToT"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
-    if unitTarget then
+    if unitTarget and unitTarget ~= "" then
         return string.format("%s » %s", unitName, unitTarget)
     else
         return unitName
@@ -94,10 +46,10 @@ oUF.Tags.Methods["Name:TargetofTarget"] = function(unit)
 end
 
 -- Unit Name with Target of Target - Short
-oUF.Tags.Methods["Name:TargetofTarget:Shorten"] = function(unit)
+oUF.Tags.Methods["ToT:Shorten"] = function(unit)
     local unitName = UUF:ShortenName(UnitName(unit), nameBlacklist)
     local unitTarget = UnitName(unit .. "target")
-    if unitTarget then
+    if unitTarget and unitTarget ~= "" then
         return string.format("%s » %s", unitName, unitTarget)
     else
         return unitName
@@ -105,9 +57,9 @@ oUF.Tags.Methods["Name:TargetofTarget:Shorten"] = function(unit)
 end
 
 -- Unit Name with Target of Target with Class Color / Reaction Color
-oUF.Tags.Methods["Name:TargetofTarget:Colored"] = function(unit)
-    local unitName = UUF:GetColoredName(unit)
-    local unitTarget = UUF:GetColoredName(unit .. "target")
+oUF.Tags.Methods["ToT:Colored"] = function(unit)
+    local unitName = UUF:WrapTextInColor(UnitName(unit), unit)
+    local unitTarget = UUF:WrapTextInColor(UnitName(unit .. "target"), unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return string.format("%s » %s", unitName, unitTarget)
     else
@@ -116,9 +68,10 @@ oUF.Tags.Methods["Name:TargetofTarget:Colored"] = function(unit)
 end
 
 -- Unit Name with Target of Target with Class Color / Reaction Color - Short
-oUF.Tags.Methods["Name:TargetofTarget:Colored:Shorten"] = function(unit)
-    local unitName = UUF:ShortenName(UUF:GetColoredName(unit), nameBlacklist)
-    local unitTarget = UUF:GetColoredName(unit .. "target")
+oUF.Tags.Methods["ToT:Colored:Shorten"] = function(unit)
+    local shortenUnitName = UUF:ShortenName(UnitName(unit), nameBlacklist)
+    local unitName = UUF:WrapTextInColor(shortenUnitName, unit)
+    local unitTarget = UUF:WrapTextInColor(UnitName(unit .. "target"), unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return string.format("%s » %s", unitName, unitTarget)
     else
@@ -128,33 +81,29 @@ end
 
 -- Unit Name with Class Color / Reaction Color
 oUF.Tags.Methods["Name:Colored"] = function(unit)
-    return UUF:GetColoredName(unit)
+    return UUF:WrapTextInColor(UnitName(unit), unit)
 end
 
 -- Unit Name (Last Name)
-oUF.Tags.Methods["Name:LastOnly"] = function(unit)
+oUF.Tags.Methods["Name:Last"] = function(unit)
     return UUF:ShortenName(UnitName(unit), nameBlacklist)
 end
 
 -- Unit Name (Last Name) - Colored
-oUF.Tags.Methods["Name:LastOnly:Colored"] = function(unit)
-    local unitName = UUF:ShortenName(UnitName(unit), nameBlacklist)
-    return UUF:WrapTextInColor(unitName, unit)
+oUF.Tags.Methods["Name:Last:Colored"] = function(unit)
+    local shortenUnitName = UUF:ShortenName(UnitName(unit), nameBlacklist)
+    return UUF:WrapTextInColor(shortenUnitName, unit)
 end
 
 -- Register with oUF
 -- Register the relevant tag with the appropriate events. Don't overdo it.
-oUF.Tags.Events["Health:Current:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH"
+oUF.Tags.Events["Health:EffectiveCurrentWithPercent:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Absorb:Current:Short"] = "UNIT_ABSORB_AMOUNT_CHANGED"
-oUF.Tags.Events["Health:Percent"] = "UNIT_HEALTH UNIT_MAXHEALTH"
-oUF.Tags.Events["Health:EffectivePercent"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
-oUF.Tags.Events["Health:CurrentWithPercent:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH"
-oUF.Tags.Events["Health:EffectiveCurrentWithPercent:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Power:Current:Short"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
-oUF.Tags.Events["Name:TargetofTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-oUF.Tags.Events["Name:TargetofTarget:Colored"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-oUF.Tags.Events["Name:Colored"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-oUF.Tags.Events["Name:LastOnly"] = "UNIT_NAME_UPDATE"
-oUF.Tags.Events["Name:TargetofTarget:Colored:Shorten"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-oUF.Tags.Events["Name:TargetofTarget:Shorten"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-oUF.Tags.Events["Name:LastOnly:Colored"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["ToT"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["ToT:Shorten"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["ToT:Colored"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["ToT:Colored:Shorten"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Colored"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Last"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Last:Colored"] = "UNIT_NAME_UPDATE"

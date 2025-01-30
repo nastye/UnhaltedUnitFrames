@@ -128,42 +128,24 @@ function UUF:FormatLargeNumber(value)
 end
 
 -- Get Coloured Name: For Kwepp / Dark Frames.
-function UUF:GetColoredName(unit)
-	local unitName = UnitName(unit)
-	if not unitName then return "" end
-	if UnitIsPlayer(unit) then
-		local unitClass = select(2, UnitClass(unit))
-		local unitColor = RAID_CLASS_COLORS[unitClass]
-		if unitColor then
-			return string.format("|cff%02x%02x%02x%s|r", unitColor.r * 255, unitColor.g * 255, unitColor.b * 255, unitName)
-		end
-	else
-		local reaction = UnitReaction(unit, "player")
-		if reaction then
-			local r, g, b = unpack(oUF.colors.reaction[reaction])
-			return string.format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, unitName)
-		end
-	end
-	return unitName
-end
-
--- Wrap Text in Class Color / Reaction Color for Kwepp / Dark Frames.
-function UUF:WrapTextInColor(text, unit)
-	if not text then return "" end
-	if UnitIsPlayer(unit) then
-		local unitClass = select(2, UnitClass(unit))
-		local unitColor = RAID_CLASS_COLORS[unitClass]
-		if unitColor then
-			return string.format("|cff%02x%02x%02x%s|r", unitColor.r * 255, unitColor.g * 255, unitColor.b * 255, text)
-		end
-	else
-		local reaction = UnitReaction(unit, "player")
-		if reaction then
-			local r, g, b = unpack(oUF.colors.reaction[reaction])
-			return string.format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, text)
-		end
-	end
-	return text
+function UUF:WrapTextInColor(unitName, unit)
+    if not unitName then return "" end
+    if not unit then return unitName end
+    local unitColor
+    if UnitIsPlayer(unit) then
+        local unitClass = select(2, UnitClass(unit))
+        unitColor = RAID_CLASS_COLORS[unitClass]
+    else
+        local reaction = UnitReaction(unit, "player")
+        if reaction then
+            local r, g, b = unpack(oUF.colors.reaction[reaction])
+            unitColor = { r = r, g = g, b = b }
+        end
+    end
+    if unitColor then
+        return string.format("|cff%02x%02x%02x%s|r", unitColor.r * 255, unitColor.g * 255, unitColor.b * 255, unitName)
+    end
+    return unitName
 end
 
 -- Shorten Name

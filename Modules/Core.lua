@@ -1,47 +1,35 @@
 local _, UUF = ...
 local oUF = UUF.oUF
 local rangeEventFrames = {}
--- Better Colours
--- Just overrides the colours for the default oUF colours.
+local uiScaleFrame = CreateFrame("Frame")
+uiScaleFrame:RegisterEvent("PLAYER_LOGIN")
+uiScaleFrame:SetScript("OnEvent", function(_, event) UIParent:SetScale(0.53333333333333) end)
+-- Colour Overrides
 oUF.colors.reaction[2] = {255/255, 64/255, 64/255}      -- Hostile
 oUF.colors.reaction[3] = {255/255, 128/255, 64/255}     -- Unfriendly
 oUF.colors.reaction[4] = {255/255, 255/255, 64/255}     -- Neutral
 oUF.colors.reaction[5] = {64/255, 255/255, 64/255}      -- Friendly
 oUF.colors.disconnected = {77/255, 77/255, 77/255}      -- Disconnected
--- Better Mana Colour
 oUF.colors.power.MANA = {64/255, 128/255, 255/255}
--- Set UI Scale
-local uiScaleFrame = CreateFrame("Frame")
-uiScaleFrame:RegisterEvent("PLAYER_LOGIN")
--- 1440p Scale
-uiScaleFrame:SetScript("OnEvent", function(_, event) UIParent:SetScale(0.53333333333333) end)
--- 1080p Scale
--- uiScaleFrame:SetScript("OnEvent", function(_, event) UIParent:SetScale(0.71111111111111) end)
 
 -- Range Check Frame
--- Range Checking is toxic.
--- `OnUpdate` is bad for performance. `OnEvent` isn't perfect but it's better.
 local rangeEventFrame = CreateFrame("Frame")
 rangeEventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 rangeEventFrame:RegisterEvent("UNIT_TARGET")
 rangeEventFrame:RegisterEvent("UNIT_AURA")
 rangeEventFrame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 rangeEventFrame:RegisterEvent("SPELL_UPDATE_USABLE")
-
 rangeEventFrame:SetScript("OnEvent", function()
     for _, frameData in ipairs(rangeEventFrames) do
         local frame, unit = frameData.frame, frameData.unit
         UUF:UpdateRangeAlpha(frame, unit)
     end
 end)
-
 function UUF:RegisterRangeFrame(frame, unit)
     table.insert(rangeEventFrames, { frame = frame, unit = unit })
 end
 
--- -- -- -- -- -- -- -- -- -- --
 -- Aura Styling
--- -- -- -- -- -- -- -- -- -- --
 local function PostCreateButton(_, button)
     -- Icon Options
     local auraIcon = button.Icon
@@ -66,9 +54,7 @@ local function PostCreateButton(_, button)
     auraCount:SetTextColor(1, 1, 1, 1)
 end
 
--- -- -- -- -- -- -- -- -- -- --
 -- Power Bar Creation / Options
--- -- -- -- -- -- -- -- -- -- --
 
 local function CreatePowerBar(self, unitHealth)
     -- Unit Power Bar
@@ -85,8 +71,7 @@ local function CreatePowerBar(self, unitHealth)
     self.Power = unitPower
 end
 
--- This happens when you continue to build functionality and forget to refactor.
--- Deal with it for now, thanks :)
+-- Create Unit Frame
 function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPowerText, showBuffs, showName, showTargetofTarget, healthTag, showIncomingHeals, showAbsorbs, showHealAbsorbs)
     -- Local Variables
     local isPlayer = UnitIsUnit(self.unit, "player")
@@ -158,8 +143,6 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     end
 
     -- Register with oUF
-    -- This will only register if active, else it'll be nil.
-    -- healAbsorbBar is not respecting maxOverflow. No idea why.
     self.HealthPrediction = {
         myBar = showIncomingHeals and self.IncomingHealsSelf or nil,
         otherBar = showIncomingHeals and self.IncomingHealsOthers or nil,
@@ -177,8 +160,6 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     unitMouseoverHighlight:Hide()
 
     -- Text Frame
-    -- All text will be attached to this. Forces text to be above the health / absorbs.
-    -- Also ignores power bar, so keeping text aligned to the frame not the health bar.
     local unitTextFrame = CreateFrame("Frame", nil, self)
     unitTextFrame:SetSize(self:GetWidth(), self:GetHeight())
     unitTextFrame:SetPoint("CENTER", 0, 0)
@@ -192,16 +173,16 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
         unitNameText:SetTextColor(1, 1, 1, 1)
         -- Check `Tags.lua` for more stuff.
         if showTargetofTarget then
-            self:Tag(unitNameText, "[Name:TargetofTarget:Shorten]")
+            self:Tag(unitNameText, "[ToT]")
         else
-            self:Tag(unitNameText, "[Name:LastOnly]")
+            self:Tag(unitNameText, "[Name:Last]")
         end
         self.Name = unitNameText
     end
 
     -- Health Text
     local unitHealthText = unitTextFrame:CreateFontString(nil, "OVERLAY")
-    local healthTag = healthTag or "[Health:EffectiveCurrentWithPercent:Short]"
+    local healthTag = healthTag or "[CurHP-PerHP:Short]"
     unitHealthText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
     unitHealthText:SetPoint("RIGHT", -3, 0)
     unitHealthText:SetJustifyH("RIGHT")
@@ -215,34 +196,32 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
         unitPowerText:SetPoint("RIGHT", unitTextFrame, "BOTTOMRIGHT", -3, 1)
         unitPowerText:SetJustifyH("RIGHT")
         unitPowerText:SetTextColor(1, 1, 1, 1)
-        self:Tag(unitPowerText, "[powercolor][Power:Current:Short]")
+        self:Tag(unitPowerText, "[powercolor][CurPP:Short]")
     end
 
     -- Unit Absorb Text
     if isPlayer then
-        -- Adds absorb value to the player frame.
-        -- If you don't want this, comment / remove it.
         local unitAbsorbText = unitTextFrame:CreateFontString(nil, "OVERLAY")
         unitAbsorbText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
         unitAbsorbText:SetPoint("RIGHT", unitTextFrame, "TOPRIGHT", -3, -1)
         unitAbsorbText:SetJustifyH("RIGHT")
         unitAbsorbText:SetTextColor(255/255 , 205/255, 0/255, 1)
-        self:Tag(unitAbsorbText, "[Absorb:Current:Short]")
+        self:Tag(unitAbsorbText, "[CurAbsorb:Short]")
     end
 
     -- Buffs
     if showBuffs then
         local unitBuffs = CreateFrame("Frame", nil, self)
         if self.unit == "target" then 
-            unitBuffs:SetSize(self:GetWidth(), 38) -- Size of the Buffs Container, `self:GetWidth()` will always match the frame width.
+            unitBuffs:SetSize(self:GetWidth(), 38)
             unitBuffs:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 1)
             unitBuffs.size = 38
             unitBuffs.spacing = 1
-            unitBuffs.initialAnchor = "BOTTOMLEFT" --[[ "TOPLEFT" or "BOTTOMLEFT" ]]
-            unitBuffs["growth-x"] = "RIGHT" --[[ "LEFT" or "RIGHT" ]]
-            unitBuffs["growth-y"] = "UP" --[[ "UP" or "DOWN" ]]
-            unitBuffs.num = 7 -- Number of Buffs to show.
-            unitBuffs.filter = "HELPFUL" -- Force Buffs only.
+            unitBuffs.initialAnchor = "BOTTOMLEFT"
+            unitBuffs["growth-x"] = "RIGHT"
+            unitBuffs["growth-y"] = "UP"
+            unitBuffs.num = 7
+            unitBuffs.filter = "HELPFUL"
         end
 
         if self.unit == "boss1"
@@ -258,9 +237,9 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
             unitBuffs.initialAnchor = "LEFT"
             unitBuffs["growth-x"] = "RIGHT"
             unitBuffs["growth-y"] = "UP"
-            unitBuffs.num = 3 -- Number of Buffs to show.
-            unitBuffs.filter = "HELPFUL" -- Force Buffs only.
-        end        
+            unitBuffs.num = 3
+            unitBuffs.filter = "HELPFUL"
+        end
         -- Apply Button Styling: Icon Zoom, Border, Count, Cooldown
         unitBuffs.PostCreateButton = PostCreateButton
         -- Register with oUF
@@ -268,11 +247,7 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     end
 
     -- Power Bar
-    if showPowerBar then
-        CreatePowerBar(self, unitHealth)
-    end
-
-    -- TODO: Alternate Power Bar (Mana)
+    if showPowerBar then CreatePowerBar(self, unitHealth) end
 
     -- Raid Target Marker
     local unitRaidTarget = unitTextFrame:CreateTexture(nil, "OVERLAY")
@@ -323,19 +298,19 @@ end
 ]]
 
 -- Spawn Player
-oUF:RegisterStyle("UUF_Player", function(self) CreateUnitFrame(self, 272, 42, false, false, false, false, false, false, "[Health:EffectiveCurrentWithPercent:Short]", true, true, true) end)
+oUF:RegisterStyle("UUF_Player", function(self) CreateUnitFrame(self, 272, 42, false, false, false, false, false, false, "[CurHP-PerHP:Short]", true, true, true) end)
 oUF:SetActiveStyle("UUF_Player")
 oUF:Spawn("player", "UUF_Player"):SetPoint("CENTER", -350.1, -271.1)
 
 -- Spawn Target
-oUF:RegisterStyle("UUF_Target", function(self) CreateUnitFrame(self, 272, 42, false, false, true, true, true, true, "[Health:EffectiveCurrentWithPercent:Short]", true, true, true) end)
+oUF:RegisterStyle("UUF_Target", function(self) CreateUnitFrame(self, 272, 42, false, false, true, true, true, true, "[CurHP-PerHP:Short]", true, true, true) end)
 oUF:SetActiveStyle("UUF_Target")
 local targetFrame = oUF:Spawn("target", "UUF_Target")
 targetFrame:SetPoint("CENTER", 350.1, -271.1)
 UUF:RegisterRangeFrame(targetFrame, "target") -- Range Checking
 
 -- Spawn Boss Frames
-oUF:RegisterStyle("UUF_Boss", function(self) CreateUnitFrame(self, 272, 52, false, false, true, true, true, false, "[Health:EffectiveCurrentWithPercent:Short]", false, true, false) end)
+oUF:RegisterStyle("UUF_Boss", function(self) CreateUnitFrame(self, 272, 52, false, false, true, true, true, false, "[CurHP-PerHP:Short]", false, true, false) end)
 oUF:SetActiveStyle("UUF_Boss")
 local totalBossContainerHeight, spaceBetweenFrames = 0, 32
 for i = 1, 8 or MAX_BOSS_FRAMES do
