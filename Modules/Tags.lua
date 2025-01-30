@@ -85,8 +85,9 @@ oUF.Tags.Methods["Name:Colored"] = function(unit)
 end
 
 -- Unit Name (Last Name)
-oUF.Tags.Methods["Name:Last"] = function(unit)
-    return UUF:ShortenName(UnitName(unit), nameBlacklist)
+oUF.Tags.Methods["Name:Shorten"] = function(unit)
+    local shortenUnitName = UUF:ShortenName(UnitName(unit), nameBlacklist)
+    return shortenUnitName
 end
 
 -- Unit Name (Last Name) - Colored
@@ -105,5 +106,5 @@ oUF.Tags.Events["ToT:Shorten"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["ToT:Colored"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["ToT:Colored:Shorten"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["Name:Colored"] = "UNIT_NAME_UPDATE"
-oUF.Tags.Events["Name:Last"] = "UNIT_NAME_UPDATE"
-oUF.Tags.Events["Name:Last:Colored"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Shorten"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Shorten:Colored"] = "UNIT_NAME_UPDATE"

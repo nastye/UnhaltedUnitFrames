@@ -169,19 +169,27 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     if showName then
         local unitNameText = unitTextFrame:CreateFontString(nil, "OVERLAY")
         unitNameText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
-        if self.unit == "pet" or self.unit == "focus" then
+
+        if self.unit == "pet" 
+        or self.unit == "focus"
+        then
             unitNameText:SetPoint("CENTER", 0, 0)
             unitNameText:SetJustifyH("CENTER")
-            self:Tag(unitNameText, "[Name:Last]")
-        else
+            self:Tag(unitNameText, "[Name:Shorten]")
+        end
+
+        if self.unit == "player"
+        or self.unit == "target"
+        then
             unitNameText:SetPoint("LEFT", 3, 0)
             unitNameText:SetJustifyH("LEFT")
             if showTargetofTarget then
-                self:Tag(unitNameText, "[ToT]")
+                self:Tag(unitNameText, "[ToT:Shorten]")
             else
-                self:Tag(unitNameText, "[Name:Last]")
+                self:Tag(unitNameText, "[Name:Shorten]")
             end
         end
+
         unitNameText:SetTextColor(1, 1, 1, 1)
         self.Name = unitNameText
     end
@@ -275,7 +283,7 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     self.ReadyCheckIndicator = unitReadyCheckIndicator
 
     -- Combat Indicator
-    if isPlayer then 
+    if isPlayer then
         local unitCombatEventFrame = CreateFrame("Frame", nil, self)
         local unitCombatIndicator = unitTextFrame:CreateFontString(nil, "OVERLAY")
         unitCombatIndicator:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
