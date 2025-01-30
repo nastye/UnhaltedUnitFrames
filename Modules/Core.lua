@@ -74,7 +74,7 @@ end
 -- Create Unit Frame
 function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPowerText, showBuffs, showName, showTargetofTarget, healthTag, showIncomingHeals, showAbsorbs, showHealAbsorbs)
     -- Local Variables
-    local isPlayer = UnitIsUnit(self.unit, "player")
+    local isPlayer = self.unit == "player"
     self:SetSize(unitW, unitH)
 
     -- Unit Backdrop

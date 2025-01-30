@@ -97,9 +97,9 @@ end
 
 -- Register with oUF
 -- Register the relevant tag with the appropriate events. Don't overdo it.
-oUF.Tags.Events["Health:EffectiveCurrentWithPercent:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
-oUF.Tags.Events["Absorb:Current:Short"] = "UNIT_ABSORB_AMOUNT_CHANGED"
-oUF.Tags.Events["Power:Current:Short"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+oUF.Tags.Events["CurHP-PerHP:Short"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["CurAbsorb:Short"] = "UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["CurPP:Short"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 oUF.Tags.Events["ToT"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["ToT:Shorten"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["ToT:Colored"] = "UNIT_NAME_UPDATE"
