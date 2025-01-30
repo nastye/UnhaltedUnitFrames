@@ -169,17 +169,23 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     if showName then
         local unitNameText = unitTextFrame:CreateFontString(nil, "OVERLAY")
         unitNameText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
-        unitNameText:SetPoint("LEFT", 3, 0)
-        unitNameText:SetJustifyH("LEFT")
-        unitNameText:SetTextColor(1, 1, 1, 1)
-        -- Check `Tags.lua` for more stuff.
-        if showTargetofTarget then
-            self:Tag(unitNameText, "[ToT]")
-        else
+        if self.unit == "pet" or self.unit == "focus" then
+            unitNameText:SetPoint("CENTER", 0, 0)
+            unitNameText:SetJustifyH("CENTER")
             self:Tag(unitNameText, "[Name:Last]")
+        else
+            unitNameText:SetPoint("LEFT", 3, 0)
+            unitNameText:SetJustifyH("LEFT")
+            if showTargetofTarget then
+                self:Tag(unitNameText, "[ToT]")
+            else
+                self:Tag(unitNameText, "[Name:Last]")
+            end
         end
+        unitNameText:SetTextColor(1, 1, 1, 1)
         self.Name = unitNameText
     end
+
 
     -- Health Text
     local unitHealthText = unitTextFrame:CreateFontString(nil, "OVERLAY")
@@ -221,7 +227,7 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
             unitBuffs.initialAnchor = "BOTTOMLEFT"
             unitBuffs["growth-x"] = "RIGHT"
             unitBuffs["growth-y"] = "UP"
-            unitBuffs.num = 7
+            unitBuffs.num = 4
             unitBuffs.filter = "HELPFUL"
         end
 
@@ -343,3 +349,13 @@ for i = 1, 8 or MAX_BOSS_FRAMES do
     end
     UUF:RegisterRangeFrame(bossFrame, "boss" .. i) -- Range Checking
 end
+
+-- Spawn Pet Frame
+oUF:RegisterStyle("UUF_Pet", function(self) CreateUnitFrame(self, 116, 38, false, false, false, false, true, false, "", false, false, false) end)
+oUF:SetActiveStyle("UUF_Pet")
+oUF:Spawn("pet", "UUF_Pet"):SetPoint("BOTTOMLEFT", UUF_Player, "TOPLEFT", 0, 1.1)
+
+-- Spawn Focus Frame
+oUF:RegisterStyle("UUF_Focus", function(self) CreateUnitFrame(self, 116, 38, false, false, false, false, true, false, "", false, false, false) end)
+oUF:SetActiveStyle("UUF_Focus")
+oUF:Spawn("focus", "UUF_Focus"):SetPoint("BOTTOMRIGHT", UUF_Target, "TOPRIGHT", 0, 1.1)
