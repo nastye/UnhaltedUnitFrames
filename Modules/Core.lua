@@ -163,6 +163,7 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     local unitTextFrame = CreateFrame("Frame", nil, self)
     unitTextFrame:SetSize(self:GetWidth(), self:GetHeight())
     unitTextFrame:SetPoint("CENTER", 0, 0)
+    unitTextFrame:SetFrameLevel(5)
 
     -- Name Text
     if showName then
@@ -266,6 +267,25 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     unitReadyCheckIndicator:SetSize(24, 24)
     unitReadyCheckIndicator:SetPoint("CENTER", unitTextFrame, "CENTER", 0, 0)
     self.ReadyCheckIndicator = unitReadyCheckIndicator
+
+    -- Combat Indicator
+    if isPlayer then 
+        local unitCombatEventFrame = CreateFrame("Frame", nil, self)
+        local unitCombatIndicator = unitTextFrame:CreateFontString(nil, "OVERLAY")
+        unitCombatIndicator:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+        unitCombatIndicator:SetPoint("LEFT", unitTextFrame, "TOPLEFT", 3, 0)
+        unitCombatIndicator:SetJustifyH("LEFT")
+        unitCombatIndicator:SetTextColor(1, 0, 0, 1)
+        unitCombatEventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        unitCombatEventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+        unitCombatEventFrame:SetScript("OnEvent", function(_, event)
+            if UnitAffectingCombat("player") then
+                unitCombatIndicator:SetText("X")
+            else
+                unitCombatIndicator:SetText("")
+            end
+        end)
+    end
 
     -- Scripts
     self:RegisterForClicks("AnyUp")
