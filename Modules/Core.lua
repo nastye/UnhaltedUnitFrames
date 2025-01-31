@@ -2,6 +2,7 @@ local _, UUF = ...
 local oUF = UUF.oUF
 local rangeEventFrames = {}
 local uiScaleFrame = CreateFrame("Frame")
+
 uiScaleFrame:RegisterEvent("PLAYER_LOGIN")
 uiScaleFrame:SetScript("OnEvent", function(_, event) UIParent:SetScale(0.53333333333333) end)
 -- Colour Overrides
@@ -71,6 +72,16 @@ local function CreatePowerBar(self, unitHealth)
     self.Power = unitPower
 end
 
+local function UpdateDispelHighlight(self, debuffType, color)
+    if debuffType and color then
+        self.Health:SetStatusBarColor(color.r, color.g, color.b)
+    else
+        self.Health.colorClass = true
+        self.Health.colorReaction = true
+        self.Health:ForceUpdate()
+    end
+end
+
 -- Create Unit Frame
 function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPowerText, showBuffs, showName, showTargetofTarget, healthTag, showIncomingHeals, showAbsorbs, showHealAbsorbs)
     -- Local Variables
@@ -96,6 +107,25 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
     unitHealth.colorClass = true
     unitHealth.colorReaction = true
 
+    -- Dispel Highlight
+    local unitDispelHighlight = unitHealth:CreateTexture(nil, "OVERLAY")
+    unitDispelHighlight:SetAllPoints()
+    unitDispelHighlight:SetTexture("Interface\\RaidFrame\\Raid-Bar-Hp-Fill")
+    unitDispelHighlight:SetVertexColor(1, 1, 1, 0)
+
+    self.Dispellable = {
+        dispelTexture = unitDispelHighlight,
+        DispelHighlight = function(frame, debuffType)
+            UpdateDispelHighlight(frame, debuffType)
+        end
+    }
+
+    self:RegisterEvent("UNIT_AURA", function(_, unit)
+        if unit == self.unit then
+            local debuffType = oUF_Dispellable and oUF_Dispellable:GetDispelType(unit)
+            UpdateDispelHighlight(self, debuffType)
+        end
+    end)
     -- Incoming Heals
     if showIncomingHeals then
         -- Player
