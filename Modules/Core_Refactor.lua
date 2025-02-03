@@ -20,7 +20,7 @@ local UUF_CONFIG = {
         UseClassColours = true,
         UseReactionColours = true,
         AuraStyling = {
-            Icon = {
+            Zoom = {
                 TexCoords = {0.07, 0.93, 0.07, 0.93},
             },
             Cooldown = {
