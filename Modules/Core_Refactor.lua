@@ -19,6 +19,23 @@ local UUF_CONFIG = {
         FrameBorderSize = 1,
         UseClassColours = true,
         UseReactionColours = true,
+        AuraStyling = {
+            Icon = {
+                TexCoords = {0.07, 0.93, 0.07, 0.93},
+            },
+            Cooldown = {
+                SetDrawEdge = false,
+                SetReverse = true,
+            },
+            Count = {
+                Anchor = "BOTTOMRIGHT",
+                XPos = 0,
+                YPos = 3,
+                FontSize = 12,
+                Colour = {1, 1, 1, 1},
+                Justify = "RIGHT",
+            },
+        }
     },
     Player = {
         -- Frame Config
@@ -50,6 +67,15 @@ local UUF_CONFIG = {
             SetHealAbsorbsBarW = function(self) return self.FrameW - 2 end,
             SetHealAbsorbsBarH = function(self) return self.FrameH - 2 end,
             HealAbsorbsColour = {128/255, 64/255, 255/255, 1},
+        },
+        PowerBar = {
+            Show = true,
+            SetFrameW = function(self) return self.FrameW - 2 end,
+            FrameH = 3,
+            Anchor = "BOTTOMLEFT",
+            XPos = 1,
+            YPos = 1,
+            ColourByPowerType = true,
         },
         NameText = {
             Anchor = "LEFT",
@@ -112,7 +138,116 @@ local UUF_CONFIG = {
                 YPos = 0,
                 Size = 24,
             },
+        },
+        Range = {
+            Show = true,
         }
     },
+    Target = {
+        -- Frame Config
+        FrameW = 200,
+        FrameH = 50,
+        FrameX = 0,
+        FrameY = 0,
+        -- Health Bar Config
+        HealthBar = {
+            SetFrameW = function(self) return self.FrameW - 2 end,
+            SetFrameH = function(self) return self.FrameH - 2 end,
+            Anchor = "TOPLEFT",
+            XPos = 1,
+            YPos = -1,
+            Colour = {26/255, 26/255, 26/255, 1},
+            -- Incoming Heals / Absorbs Bar Config
+            ShowIncomingHeals = true,
+            ShowAbsorbs = true,
+            ShowHealAbsorbs = true,
+            -- Incoming Heals
+            SetIncomingHealsBarW = function(self) return self.FrameW - 2 end,
+            SetIncomingHealsBarH = function(self) return self.FrameH - 2 end,
+            IncomingHealsColour = {64/255, 255/255, 64/255, 1},
+            -- Absorbs
+            SetAbsorbsBarW = function(self) return self.FrameW - 2 end,
+            SetAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            AbsorbsColour = {255/255, 205/255, 0/255, 1},
+            -- Heal Absorbs
+            SetHealAbsorbsBarW = function(self) return self.FrameW - 2 end,
+            SetHealAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            HealAbsorbsColour = {128/255, 64/255, 255/255, 1},
+        },
+        PowerBar = {
+            Show = true,
+            SetFrameW = function(self) return self.FrameW - 2 end,
+            FrameH = 3,
+            Anchor = "BOTTOMLEFT",
+            XPos = 1,
+            YPos = 1,
+            ColourByPowerType = true,
+        },
+        NameText = {
+            Anchor = "LEFT",
+            XPos = 1,
+            YPos = 0,
+            FontSize = 12,
+            Colour = {1, 1, 1, 1},
+            Justify = "LEFT",
+            Tag = "[name]",
+        },
+        -- Health Tag Config
+        HealthText = {
+            Anchor = "RIGHT",
+            XPos = -1,
+            YPos = 0,
+            FontSize = 12,
+            Colour = {1, 1, 1, 1},
+            Justify = "RIGHT",
+            Tag = "[curhp]",
+        },
+        -- Buffs Config
+        Buffs =  {
+            SetFrameW = function(self) return self.FrameW end,
+            AnchorFrom = "BOTTOMLEFT",
+            AnchorTo = "TOPLEFT",
+            XPos = 0,
+            YPos = 1,
+            Size = 38,
+            Limit = 4,
+            Spacing = 1,
+            GrowthX = "RIGHT",
+            GrowthY = "UP",
+        },
+        Indicators = {
+            RaidTarget = {
+                Show = true,
+                Anchor = "CENTER",
+                XPos = 0,
+                YPos = 0,
+                Size = 24,
+            },
+            SummonIndicator = {
+                Show = true,
+                Anchor = "CENTER",
+                XPos = 0,
+                YPos = 0,
+                Size = 24,
+            },
+            ReadyCheck = {
+                Show = true,
+                Anchor = "CENTER",
+                XPos = 0,
+                YPos = 0,
+                Size = 24,
+            },
+            Combat = {
+                Show = true,
+                Anchor = "CENTER",
+                XPos = 0,
+                YPos = 0,
+                Size = 24,
+            },
+        },
+        Range = {
+            Show = true,
+        }
+    }
 }
 -- End Configuration
