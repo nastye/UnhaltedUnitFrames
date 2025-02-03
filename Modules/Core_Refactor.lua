@@ -43,10 +43,11 @@ local UUF_CONFIG = {
         FrameH = 50,
         FrameX = 0,
         FrameY = 0,
+        FrameAnchor = "CENTER",
         -- Health Bar Config
         HealthBar = {
-            SetFrameW = function(self) return self.FrameW - 2 end,
-            SetFrameH = function(self) return self.FrameH - 2 end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetFrameH = function(unitConfig) return unitConfig.FrameH - 2 end,
             Anchor = "TOPLEFT",
             XPos = 1,
             YPos = -1,
@@ -56,21 +57,21 @@ local UUF_CONFIG = {
             ShowAbsorbs = true,
             ShowHealAbsorbs = true,
             -- Incoming Heals
-            SetIncomingHealsBarW = function(self) return self.FrameW - 2 end,
-            SetIncomingHealsBarH = function(self) return self.FrameH - 2 end,
+            SetIncomingHealsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetIncomingHealsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             IncomingHealsColour = {64/255, 255/255, 64/255, 1},
             -- Absorbs
-            SetAbsorbsBarW = function(self) return self.FrameW - 2 end,
-            SetAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            SetAbsorbsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetAbsorbsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             AbsorbsColour = {255/255, 205/255, 0/255, 1},
             -- Heal Absorbs
-            SetHealAbsorbsBarW = function(self) return self.FrameW - 2 end,
-            SetHealAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            SetHealAbsorbsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetHealAbsorbsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             HealAbsorbsColour = {128/255, 64/255, 255/255, 1},
         },
         PowerBar = {
             Show = true,
-            SetFrameW = function(self) return self.FrameW - 2 end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW - 2 end,
             FrameH = 3,
             Anchor = "BOTTOMLEFT",
             XPos = 1,
@@ -98,7 +99,7 @@ local UUF_CONFIG = {
         },
         -- Buffs Config
         Buffs =  {
-            SetFrameW = function(self) return self.FrameW end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW end,
             AnchorFrom = "BOTTOMLEFT",
             AnchorTo = "TOPLEFT",
             XPos = 0,
@@ -151,8 +152,8 @@ local UUF_CONFIG = {
         FrameY = 0,
         -- Health Bar Config
         HealthBar = {
-            SetFrameW = function(self) return self.FrameW - 2 end,
-            SetFrameH = function(self) return self.FrameH - 2 end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetFrameH = function(unitConfig) return unitConfig.FrameH - 2 end,
             Anchor = "TOPLEFT",
             XPos = 1,
             YPos = -1,
@@ -162,21 +163,21 @@ local UUF_CONFIG = {
             ShowAbsorbs = true,
             ShowHealAbsorbs = true,
             -- Incoming Heals
-            SetIncomingHealsBarW = function(self) return self.FrameW - 2 end,
-            SetIncomingHealsBarH = function(self) return self.FrameH - 2 end,
+            SetIncomingHealsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetIncomingHealsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             IncomingHealsColour = {64/255, 255/255, 64/255, 1},
             -- Absorbs
-            SetAbsorbsBarW = function(self) return self.FrameW - 2 end,
-            SetAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            SetAbsorbsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetAbsorbsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             AbsorbsColour = {255/255, 205/255, 0/255, 1},
             -- Heal Absorbs
-            SetHealAbsorbsBarW = function(self) return self.FrameW - 2 end,
-            SetHealAbsorbsBarH = function(self) return self.FrameH - 2 end,
+            SetHealAbsorbsBarW = function(unitConfig) return unitConfig.FrameW - 2 end,
+            SetHealAbsorbsBarH = function(unitConfig) return unitConfig.FrameH - 2 end,
             HealAbsorbsColour = {128/255, 64/255, 255/255, 1},
         },
         PowerBar = {
             Show = true,
-            SetFrameW = function(self) return self.FrameW - 2 end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW - 2 end,
             FrameH = 3,
             Anchor = "BOTTOMLEFT",
             XPos = 1,
@@ -204,7 +205,7 @@ local UUF_CONFIG = {
         },
         -- Buffs Config
         Buffs =  {
-            SetFrameW = function(self) return self.FrameW end,
+            SetFrameW = function(unitConfig) return unitConfig.FrameW end,
             AnchorFrom = "BOTTOMLEFT",
             AnchorTo = "TOPLEFT",
             XPos = 0,
