@@ -397,12 +397,12 @@ UUF:RegisterRangeFrame(targetFrame, "target")
 -- Spawn Boss Frames
 oUF:RegisterStyle("UUF_Boss", function(self) CreateUnitFrame(self, bossFrameW, bossFrameH, false, false, true, true, true, false, bossHealthTag, false, true, false, true, false, false) end)
 oUF:SetActiveStyle("UUF_Boss")
-local totalBossContainerHeight = 0
-for i = 1, MAX_BOSS_FRAMES do
+local totalBossContainerHeight, yOffset = 0, 0
+for i = 1, 8 or MAX_BOSS_FRAMES do
     local bossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
     if i == 1 then
         totalBossContainerHeight = (bossFrame:GetHeight() + bossVerticalSpacing) * MAX_BOSS_FRAMES - bossVerticalSpacing
-        bossFrame:SetPoint("CENTER", UIParent, "CENTER", bossFrameX, totalBossContainerHeight / 2 - bossFrame:GetHeight() / 2)
+        bossFrame:SetPoint("CENTER", UIParent, "CENTER", bossFrameX, (totalBossContainerHeight / 2 - bossFrame:GetHeight() / 2) + yOffset)
     else
         bossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -bossVerticalSpacing)
     end

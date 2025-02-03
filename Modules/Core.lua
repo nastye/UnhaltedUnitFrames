@@ -210,6 +210,11 @@ function CreateUnitFrame(self, unitW, unitH, shouldReverse, showPowerBar, showPo
 
         if self.unit == "player"
         or self.unit == "target"
+        or self.unit == "boss1"
+        or self.unit == "boss2"
+        or self.unit == "boss3"
+        or self.unit == "boss4"
+        or self.unit == "boss5"
         then
             unitNameText:SetPoint("LEFT", 3, 0)
             unitNameText:SetJustifyH("LEFT")
@@ -376,12 +381,12 @@ UUF:RegisterRangeFrame(targetFrame, "target") -- Range Checking
 -- Spawn Boss Frames
 oUF:RegisterStyle("UUF_Boss", function(self) CreateUnitFrame(self, 272, 52, false, false, true, true, true, false, "[CurHP-PerHP:Short]", false, true, false) end)
 oUF:SetActiveStyle("UUF_Boss")
-local totalBossContainerHeight, spaceBetweenFrames = 0, 32
+local totalBossContainerHeight, spaceBetweenFrames, yOffset = 0, 32, 0
 for i = 1, 8 or MAX_BOSS_FRAMES do
     local bossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
     if i == 1 then
         totalBossContainerHeight = (bossFrame:GetHeight() + spaceBetweenFrames) * MAX_BOSS_FRAMES - spaceBetweenFrames
-        bossFrame:SetPoint("CENTER", UIParent, "CENTER", 750.1, totalBossContainerHeight / 2 - bossFrame:GetHeight() / 2)
+        bossFrame:SetPoint("CENTER", UIParent, "CENTER", 750.1, (totalBossContainerHeight / 2 - bossFrame:GetHeight() / 2) + yOffset)
     else
         bossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -spaceBetweenFrames)
     end
