@@ -105,7 +105,7 @@ function UUF:SpawnPlayerFrame()
     oUF:RegisterStyle("UUF_Player", UUF.CreatePlayerFrame)
     oUF:SetActiveStyle("UUF_Player")
     self.PlayerFrame = oUF:Spawn("player", "UUF_Player")
-    self.PlayerFrame:SetPoint("CENTER", UIParent, "CENTER", Frame.XPosition, Frame.YPosition)
+    self.PlayerFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
 end
 
 
@@ -124,7 +124,7 @@ function UUF:UpdatePlayerFrame(FrameName)
     if FrameName then
         FrameName:ClearAllPoints()
         FrameName:SetSize(Frame.Width, Frame.Height)
-        FrameName:SetPoint("CENTER", UIParent, "CENTER", Frame.XPosition, Frame.YPosition)
+        FrameName:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
     end
 
     if FrameName.unitBackdrop then

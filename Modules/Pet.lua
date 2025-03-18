@@ -13,12 +13,12 @@ function UUF:CreatePetFrame()
     
     self:SetSize(Frame.Width, Frame.Height)
 
-    local unitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
-    unitBackdrop:SetAllPoints()
-    unitBackdrop:SetBackdrop({ bgFile = General.BackgroundTexture, edgeFile = General.BorderTexture, edgeSize = General.BorderSize, })
-    unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
-    unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
-    unitBackdrop:SetFrameLevel(1)
+    self.unitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
+    self.unitBackdrop:SetAllPoints()
+    self.unitBackdrop:SetBackdrop({ bgFile = General.BackgroundTexture, edgeFile = General.BorderTexture, edgeSize = General.BorderSize, })
+    self.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+    self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+    self.unitBackdrop:SetFrameLevel(1)
 
     local unitHealthBar = CreateFrame("StatusBar", nil, self)
     unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
@@ -28,6 +28,8 @@ function UUF:CreatePetFrame()
     unitHealthBar.colorReaction = General.ColourByReaction
     unitHealthBar.colorClass = General.ColourByClass
     unitHealthBar.colorDisconnected = General.ColourIfDisconnected
+    unitHealthBar.colorTapping = General.ColourIfTapped
+
     unitHealthBar:SetFrameLevel(2)
     self.Health = unitHealthBar
 
@@ -102,6 +104,114 @@ function UUF:SpawnPetFrame()
     local Frame = UUF.DB.global.Pet.Frame
     oUF:RegisterStyle("UUF_Pet", UUF.CreatePetFrame)
     oUF:SetActiveStyle("UUF_Pet")
-    self.UUF_Pet = oUF:Spawn("pet", "UUF_Pet")
-    self.UUF_Pet:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    self.PetFrame = oUF:Spawn("pet", "UUF_Pet")
+    self.PetFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+end
+
+
+function UUF:UpdatePetFrame(FrameName)
+    if not FrameName then return end
+
+    local Frame = UUF.DB.global.Pet.Frame
+    local General = UUF.DB.global.General
+    local Buffs = UUF.DB.global.Pet.Buffs
+    local Debuffs = UUF.DB.global.Pet.Debuffs
+    local TargetMarker = UUF.DB.global.Pet.TargetMarker
+    local LeftText = UUF.DB.global.Pet.Texts.Left
+    local RightText = UUF.DB.global.Pet.Texts.Right
+    local CenterText = UUF.DB.global.Pet.Texts.Center
+
+    if FrameName then
+        FrameName:ClearAllPoints()
+        FrameName:SetSize(Frame.Width, Frame.Height)
+        FrameName:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    end
+
+    if FrameName.unitBackdrop then
+        FrameName.unitBackdrop:SetBackdrop({
+            bgFile = General.BackgroundTexture,
+            edgeFile = General.BorderTexture,
+            edgeSize = General.BorderSize,
+        })
+        FrameName.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+        FrameName.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+    end
+
+    if FrameName.Health then
+        FrameName.Health:SetSize(Frame.Width - 2, Frame.Height - 2)
+        FrameName.Health:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
+        FrameName.Health:SetStatusBarTexture(General.ForegroundTexture)
+        FrameName.Health:SetStatusBarColor(unpack(General.ForegroundColour))
+        FrameName.Health.colorReaction = General.ColourByReaction
+        FrameName.Health.colorClass = General.ColourByClass
+        FrameName.Health.colorDisconnected = General.ColourIfDisconnected
+        FrameName.Health:ForceUpdate()
+    end
+
+    if Buffs.Enabled then
+        FrameName.Buffs:ClearAllPoints()
+        FrameName.Buffs:SetSize(FrameName:GetWidth(), Buffs.Size)
+        FrameName.Buffs:SetPoint(Buffs.AnchorFrom, FrameName, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
+        FrameName.Buffs.size = Buffs.Size
+        FrameName.Buffs.spacing = Buffs.Spacing
+        FrameName.Buffs.num = Buffs.Num
+        FrameName.Buffs.initialAnchor = Buffs.AnchorFrom
+        FrameName.Buffs["growth-x"] = Buffs.GrowthX
+        FrameName.Buffs["growth-y"] = Buffs.GrowthY
+        FrameName.Buffs.filter = "HELPFUL"
+        FrameName.Buffs:Show()
+        FrameName.Buffs:ForceUpdate()
+    else
+        if FrameName.Buffs then
+            FrameName.Buffs:Hide()
+        end
+    end
+
+    if Debuffs.Enabled then
+        FrameName.Debuffs:ClearAllPoints()
+        FrameName.Debuffs:SetSize(FrameName:GetWidth(), Debuffs.Size)
+        FrameName.Debuffs:SetPoint(Debuffs.AnchorFrom, FrameName, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
+        FrameName.Debuffs.size = Debuffs.Size
+        FrameName.Debuffs.spacing = Debuffs.Spacing
+        FrameName.Debuffs.num = Debuffs.Num
+        FrameName.Debuffs.initialAnchor = Debuffs.AnchorFrom
+        FrameName.Debuffs["growth-x"] = Debuffs.GrowthX
+        FrameName.Debuffs["growth-y"] = Debuffs.GrowthY
+        FrameName.Debuffs.filter = "HELPFUL"
+        FrameName.Debuffs:Show()
+        FrameName.Debuffs:ForceUpdate()
+    else
+        if FrameName.Debuffs then
+            FrameName.Debuffs:Hide()
+        end
+    end
+
+    if FrameName.unitLeftText then
+        FrameName.unitLeftText:ClearAllPoints()
+        FrameName.unitLeftText:SetFont(General.Font, LeftText.FontSize, General.FontFlag)
+        FrameName.unitLeftText:SetPoint("LEFT", FrameName, "LEFT", LeftText.XOffset, LeftText.YOffset)
+        FrameName:Tag(FrameName.unitLeftText, LeftText.Tag)
+    end
+
+    if FrameName.unitRightText then
+        FrameName.unitRightText:ClearAllPoints()
+        FrameName.unitRightText:SetFont(General.Font, RightText.FontSize, General.FontFlag)
+        FrameName.unitRightText:SetPoint("RIGHT", FrameName, "RIGHT", RightText.XOffset, RightText.YOffset)
+        FrameName:Tag(FrameName.unitRightText, RightText.Tag)
+    end
+
+    if FrameName.unitCenterText then
+        FrameName.unitCenterText:ClearAllPoints()
+        FrameName.unitCenterText:SetFont(General.Font, CenterText.FontSize, General.FontFlag)
+        FrameName.unitCenterText:SetPoint("CENTER", FrameName, "CENTER", CenterText.XOffset, CenterText.YOffset)
+        FrameName:Tag(FrameName.unitCenterText, CenterText.Tag)
+    end
+
+    if FrameName.RaidTargetIndicator and TargetMarker.Enabled then
+        FrameName.RaidTargetIndicator:ClearAllPoints()
+        FrameName.RaidTargetIndicator:SetSize(TargetMarker.Size, TargetMarker.Size)
+        FrameName.RaidTargetIndicator:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
+    end
+
+    FrameName:UpdateTags()
 end

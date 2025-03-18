@@ -26,6 +26,11 @@ end
 
 function UUF:UpdateFrames()
     UUF:UpdatePlayerFrame(self.PlayerFrame)
+    UUF:UpdateTargetFrame(self.TargetFrame)
+    UUF:UpdateFocusFrame(self.FocusFrame)
+    UUF:UpdatePetFrame(self.PetFrame)
+    UUF:UpdateTargetTargetFrame(self.TargetTargetFrame)
+    UUF:UpdateAllBossFrames()
 end
 
 function UUF:UpdateUIScale()
@@ -237,6 +242,29 @@ function UUF:CreateGUI()
             FrameOptions:SetTitle("Frame Options")
             FrameOptions:SetLayout("Flow")
             FrameOptions:SetFullWidth(true)
+
+            local FrameAnchorFrom = UUFGUI:Create("Dropdown")
+            FrameAnchorFrom:SetLabel("Anchor From")
+            FrameAnchorFrom:SetList(AnchorPoints)
+            FrameAnchorFrom:SetValue(Frame.AnchorFrom)
+            FrameAnchorFrom:SetCallback("OnValueChanged", function(widget, event, value) Frame.AnchorFrom = value UUF:UpdateFrames() end)
+            FrameAnchorFrom:SetRelativeWidth(0.33)
+            FrameOptions:AddChild(FrameAnchorFrom)
+
+            local FrameAnchorTo = UUFGUI:Create("Dropdown")
+            FrameAnchorTo:SetLabel("Anchor To")
+            FrameAnchorTo:SetList(AnchorPoints)
+            FrameAnchorTo:SetValue(Frame.AnchorTo)
+            FrameAnchorTo:SetCallback("OnValueChanged", function(widget, event, value) Frame.AnchorTo = value UUF:UpdateFrames() end)
+            FrameAnchorTo:SetRelativeWidth(0.33)
+            FrameOptions:AddChild(FrameAnchorTo)
+
+            local FrameAnchorParent = UUFGUI:Create("EditBox")
+            FrameAnchorParent:SetLabel("Anchor Parent")
+            FrameAnchorParent:SetText(Frame.AnchorParent)
+            FrameAnchorParent:SetCallback("OnEnterPressed", function(widget, event, value) Frame.AnchorParent = value UUF:UpdateFrames() end)
+            FrameAnchorParent:SetRelativeWidth(0.33)
+            FrameOptions:AddChild(FrameAnchorParent)
 
             local FrameWidth = UUFGUI:Create("Slider")
             FrameWidth:SetLabel("Frame Width")

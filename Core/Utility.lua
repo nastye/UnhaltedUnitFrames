@@ -23,3 +23,38 @@ function UUF:PostCreateButton(_, button)
     auraCount:SetJustifyH("RIGHT")
     auraCount:SetTextColor(1, 1, 1, 1)
 end
+
+function UUF:FormatLargeNumber(value)
+    if value < 999 then
+        return value
+    elseif value < 999999 then
+        return string.format("%.1fk", value / 1000)
+    elseif value < 99999999 then
+        return string.format("%.2fm", value / 1000000)
+    elseif value < 999999999 then
+        return string.format("%.1fm", value / 1000000)
+    elseif value < 99999999999 then
+        return string.format("%.2fb", value / 1000000000)
+    end
+    return string.format("%db", value / 1000000000)
+end
+
+function UUF:WrapTextInColor(unitName, unit)
+    if not unitName then return "" end
+    if not unit then return unitName end
+    local unitColor
+    if UnitIsPlayer(unit) then
+        local unitClass = select(2, UnitClass(unit))
+        unitColor = RAID_CLASS_COLORS[unitClass]
+    else
+        local reaction = UnitReaction(unit, "player")
+        if reaction then
+            local r, g, b = unpack(oUF.colors.reaction[reaction])
+            unitColor = { r = r, g = g, b = b }
+        end
+    end
+    if unitColor then
+        return string.format("|cff%02x%02x%02x%s|r", unitColor.r * 255, unitColor.g * 255, unitColor.b * 255, unitName)
+    end
+    return unitName
+end
