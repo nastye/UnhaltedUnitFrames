@@ -11,10 +11,10 @@ The entire project is solo developed.
 - [oUF Framework](https://www.curseforge.com/wow/addons/ouf)
 
 ## Still To Come:
-- [] Test Mode for Customization.
-- [] Power Bars.
-- [] Cast Bars (Interest Based).
-- [] Incoming Heals / Absorbs / Heal Absorbs.
+- [ ] Test Mode for Customization.
+- [ ] Power Bars.
+- [ ] Cast Bars (Interest Based).
+- [ ] Incoming Heals / Absorbs / Heal Absorbs.
 
 ## Currently Functioning:
 - Frames Implemented:
