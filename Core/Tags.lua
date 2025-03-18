@@ -15,6 +15,20 @@ oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
+    local unitHealth = UnitHealth(unit)
+    local unitMaxHealth = UnitHealthMax(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
+    if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
+    local unitHealthPercent = (unitMaxHealth > 0) and (unitHealth / unitMaxHealth * 100) or 0
+    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
+    if unitStatus then
+        return unitStatus
+    else
+        return string.format("%.1f%%", unitHealthPercent)
+    end
+end
+
 oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
@@ -25,8 +39,6 @@ oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
     end
 end
 
-oUF.Tags.Methods["ColouredText"] = function(unit) UUF:WrapTextInColor(UnitName(unit), unit) end
-
 oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
-oUF.Tags.Events["ColouredText"] = "UNIT_NAME_UPDATE UNIT_CLASSIFICATION_CHANGED"
+oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
