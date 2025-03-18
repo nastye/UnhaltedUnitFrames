@@ -18,18 +18,18 @@ The entire project is solo developed.
 
 ## Currently Functioning:
 - Frames Implemented:
-    ✅ Player
-    ✅ Target
-    ✅ Target of Target
-    ✅ Pet
-    ✅ Focus
-    ✅ Boss
+    - ✅ Player
+    - ✅ Target
+    - ✅ Target of Target
+    - ✅ Pet
+    - ✅ Focus
+    - ✅ Boss
 - Options Implemented:
-    ✅ Background / Foreground Texture Swapping.
-    ✅ UI Scaling.
-    ✅ Font & Font Flag Swapping.
-    ✅ Custom Power Colours.
-    ✅ Resize / Repositioning.
-    ✅ Customized Anchors.
-    ✅ Buff / Debuff Customizations.
-    ✅ Target Marker Customizations.
+    - ✅ Background / Foreground Texture Swapping.
+    - ✅ UI Scaling.
+    - ✅ Font & Font Flag Swapping.
+    - ✅ Custom Power Colours.
+    - ✅ Resize / Repositioning.
+    - ✅ Customized Anchors.
+    - ✅ Buff / Debuff Customizations.
+    - ✅ Target Marker Customizations.
