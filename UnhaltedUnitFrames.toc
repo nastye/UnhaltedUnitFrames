@@ -1,4 +1,0 @@
-## Title: |cFF8080FFUnhalted|r Unit Frames
-## Interface: 110007
-
-Init.xml
