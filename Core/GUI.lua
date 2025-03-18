@@ -33,6 +33,20 @@ function UUF:UpdateFrames()
     UUF:UpdateBossFrames()
 end
 
+function UUF:CreateReloadPrompt()
+    StaticPopupDialogs["UUF_RELOAD_PROMPT"] = {
+        text = "Reload is necessary for changes to take effect. Reload Now?",
+        button1 = "Reload",
+        button2 = "Later",
+        OnAccept = function() ReloadUI() end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        preferredIndex = 3,
+    }
+    StaticPopup_Show("UUF_RELOAD_PROMPT")
+end
+
 function UUF:UpdateUIScale()
     UIParent:SetScale(UUF.DB.global.General.UIScale)
 end
@@ -85,22 +99,28 @@ function UUF:CreateGUI()
         UIScale:SetLabel("UI Scale")
         UIScale:SetSliderValues(0.5, 2, 0.01)
         UIScale:SetValue(General.UIScale)
-        UIScale:SetCallback("OnValueChanged", function(widget, event, value) General.UIScale = value UUF:UpdateUIScale() end)
-        UIScale:SetRelativeWidth(0.33)
+        UIScale:SetCallback("OnValueChanged", function(widget, event, value) General.UIScale = value end)
+        UIScale:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(UIScale)
 
         local TenEightyP = UUFGUI:Create("Button")
         TenEightyP:SetText("1080p")
         TenEightyP:SetCallback("OnClick", function(widget, event, value) General.UIScale = 0.7111111111111 UIScale:SetValue(0.7111111111111) UUF:UpdateUIScale() end)
-        TenEightyP:SetRelativeWidth(0.33)
+        TenEightyP:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(TenEightyP)
 
         local FourteenFortyP = UUFGUI:Create("Button")
         FourteenFortyP:SetText("1440p")
         FourteenFortyP:SetCallback("OnClick", function(widget, event, value) General.UIScale = 0.5333333333333 UIScale:SetValue(0.5333333333333) UUF:UpdateUIScale() end)
-        FourteenFortyP:SetRelativeWidth(0.33)
+        FourteenFortyP:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(FourteenFortyP)
 
+        local ApplyUIScale = UUFGUI:Create("Button")
+        ApplyUIScale:SetText("Apply")
+        ApplyUIScale:SetCallback("OnClick", function(widget, event, value) UUF:UpdateUIScale() end)
+        ApplyUIScale:SetRelativeWidth(0.25)
+        UIScaleContainer:AddChild(ApplyUIScale)
+        
         UUFGUI_Container:AddChild(UIScaleContainer)
 
         -- Font Options
@@ -241,6 +261,15 @@ function UUF:CreateGUI()
         local CenterText = UUF.DB.global[Unit].Texts.Center
 
         local function DrawFrameContainer(UUFGUI_Container)
+            if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" then 
+                local Enabled = UUFGUI:Create("CheckBox")
+                Enabled:SetLabel("Enable Frame [|cFF8080FFReload|r]")
+                Enabled:SetValue(Frame.Enabled)
+                Enabled:SetCallback("OnValueChanged", function(widget, event, value) Frame.Enabled = value UUF:CreateReloadPrompt() end)
+                Enabled:SetFullWidth(true)
+                UUFGUI_Container:AddChild(Enabled)
+            end
+
             -- Frame Options
             local FrameOptions = UUFGUI:Create("InlineGroup")
             FrameOptions:SetTitle("Frame Options")
@@ -315,7 +344,7 @@ function UUF:CreateGUI()
             local BuffsEnabled = UUFGUI:Create("CheckBox")
             BuffsEnabled:SetLabel("Enable Buffs [|cFF8080FFReload|r]")
             BuffsEnabled:SetValue(Buffs.Enabled)
-            BuffsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Buffs.Enabled = value UUF:UpdateFrames() end)
+            BuffsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Buffs.Enabled = value UUF:CreateReloadPrompt() end)
             BuffsEnabled:SetFullWidth(true)
             BuffOptions:AddChild(BuffsEnabled)
 
@@ -402,7 +431,7 @@ function UUF:CreateGUI()
             local DebuffsEnabled = UUFGUI:Create("CheckBox")
             DebuffsEnabled:SetLabel("Enable Debuffs [|cFF8080FFReload|r]")
             DebuffsEnabled:SetValue(Debuffs.Enabled)
-            DebuffsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Debuffs.Enabled = value UUF:UpdateFrames() end)
+            DebuffsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Debuffs.Enabled = value UUF:CreateReloadPrompt() end)
             DebuffsEnabled:SetFullWidth(true)
             DebuffOptions:AddChild(DebuffsEnabled)
 
@@ -489,7 +518,7 @@ function UUF:CreateGUI()
             local TargetMarkerEnabled = UUFGUI:Create("CheckBox")
             TargetMarkerEnabled:SetLabel("Enable Target Marker [|cFF8080FFReload|r]")
             TargetMarkerEnabled:SetValue(TargetMarker.Enabled)
-            TargetMarkerEnabled:SetCallback("OnValueChanged", function(widget, event, value) TargetMarker.Enabled = value UUF:UpdateFrames() end)
+            TargetMarkerEnabled:SetCallback("OnValueChanged", function(widget, event, value) TargetMarker.Enabled = value UUF:CreateReloadPrompt() end)
             TargetMarkerEnabled:SetFullWidth(true)
             TargetMarkerOptions:AddChild(TargetMarkerEnabled)
 

@@ -10,6 +10,8 @@ function UUF:CreateTargetTargetFrame()
     local LeftText = UUF.DB.global.TargetTarget.Texts.Left
     local RightText = UUF.DB.global.TargetTarget.Texts.Right
     local CenterText = UUF.DB.global.TargetTarget.Texts.Center
+
+    if not Frame.Enabled then return end
     
     self:SetSize(Frame.Width, Frame.Height)
 
@@ -112,7 +114,7 @@ end
 
 function UUF:UpdateTargetTargetFrame(FrameName)
     if not FrameName then return end
-
+    
     local Frame = UUF.DB.global.TargetTarget.Frame
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global.TargetTarget.Buffs

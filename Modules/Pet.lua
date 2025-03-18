@@ -10,6 +10,8 @@ function UUF:CreatePetFrame()
     local LeftText = UUF.DB.global.Pet.Texts.Left
     local RightText = UUF.DB.global.Pet.Texts.Right
     local CenterText = UUF.DB.global.Pet.Texts.Center
+
+    if not Frame.Enabled then return end
     
     self:SetSize(Frame.Width, Frame.Height)
 

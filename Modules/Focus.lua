@@ -10,6 +10,8 @@ function UUF:CreateFocusFrame()
     local LeftText = UUF.DB.global.Focus.Texts.Left
     local RightText = UUF.DB.global.Focus.Texts.Right
     local CenterText = UUF.DB.global.Focus.Texts.Center
+
+    if not Frame.Enabled then return end
     
     self:SetSize(Frame.Width, Frame.Height)
 

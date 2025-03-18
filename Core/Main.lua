@@ -151,8 +151,8 @@ UUF.Defaults = {
             }
         },
         TargetTarget = {
-            Enabled                 = true,
             Frame = {
+                Enabled                 = true,
                 Width               = 100,
                 Height              = 42,
                 XPosition           = 1.1,
@@ -215,8 +215,8 @@ UUF.Defaults = {
             }
         },
         Focus = {
-            Enabled                 = true,
             Frame = {
+                Enabled                 = true,
                 Width               = 272,
                 Height              = 36,
                 XPosition           = 0,
@@ -279,8 +279,8 @@ UUF.Defaults = {
             }
         },
         Pet = {
-            Enabled                 = true,
             Frame = {
+                Enabled                 = true,
                 Width               = 272,
                 Height              = 10,
                 XPosition           = 0,
@@ -343,7 +343,6 @@ UUF.Defaults = {
             }
         },
         Boss = {
-            Enabled                 = true,
             Frame = {
                 Width               = 250,
                 Height              = 42,
