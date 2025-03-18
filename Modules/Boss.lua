@@ -25,6 +25,7 @@ function UUF:CreateBossFrame()
     unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
     unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
     unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
+    unitHealthBar:SetMinMaxValues(0, 100)
     unitHealthBar.colorReaction = General.ColourByReaction
     unitHealthBar.colorClass = General.ColourByClass
     unitHealthBar.colorDisconnected = General.ColourIfDisconnected
@@ -118,7 +119,7 @@ function UUF:SpawnBossFrame()
     end
 end
 
-function UUF:UpdateAllBossFrames()
+function UUF:UpdateBossFrames()
     if not UUF.BossFrames then return end
     for _, frame in ipairs(UUF.BossFrames) do
         UUF:UpdateBossFrame(frame)

@@ -25,6 +25,7 @@ function UUF:CreateFocusFrame()
     unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
     unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
     unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
+    unitHealthBar:SetMinMaxValues(0, 100)
     unitHealthBar.colorReaction = General.ColourByReaction
     unitHealthBar.colorClass = General.ColourByClass
     unitHealthBar.colorDisconnected = General.ColourIfDisconnected

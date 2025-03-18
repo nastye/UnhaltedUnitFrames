@@ -30,11 +30,15 @@ function UUF:UpdateFrames()
     UUF:UpdateFocusFrame(self.FocusFrame)
     UUF:UpdatePetFrame(self.PetFrame)
     UUF:UpdateTargetTargetFrame(self.TargetTargetFrame)
-    UUF:UpdateAllBossFrames()
+    UUF:UpdateBossFrames()
 end
 
 function UUF:UpdateUIScale()
     UIParent:SetScale(UUF.DB.global.General.UIScale)
+end
+
+function UUF:StartTestMode()
+    UUF:CreateFakeBossFrames("TestBossFrame")
 end
 
 local AnchorPoints = {
@@ -71,7 +75,7 @@ function UUF:CreateGUI()
 
     local function DrawGeneralContainer(UUFGUI_Container)
         local General = UUF.DB.global.General
-
+        
         local UIScaleContainer = UUFGUI:Create("InlineGroup")
         UIScaleContainer:SetTitle("UI Scale")
         UIScaleContainer:SetLayout("Flow")
