@@ -6,8 +6,10 @@ local GUI_HEIGHT = 800
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub("LibSharedMedia-3.0")
+LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]])
 local LSMFonts = {}
 local LSMTextures = {}
+local LSMBorders = {}
 
 local PowerNames = {
     [0] = "Mana",
@@ -32,6 +34,14 @@ function UUF:GenerateLSMFonts()
         LSMFonts[Font] = Path
     end
     return LSMFonts
+end
+
+function UUF:GenerateLSMBorders()
+    local Borders = LSM:HashTable("border")
+    for Path, Border in pairs(Borders) do
+        LSMBorders[Border] = Path
+    end
+    return LSMBorders
 end
 
 function UUF:GenerateLSMTextures()
@@ -176,7 +186,7 @@ function UUF:CreateGUI()
         ForegroundTexture:SetList(UUF:GenerateLSMTextures())
         ForegroundTexture:SetValue(General.ForegroundTexture)
         ForegroundTexture:SetCallback("OnValueChanged", function(widget, event, value) General.ForegroundTexture = value UUF:UpdateFrames() end)
-        ForegroundTexture:SetRelativeWidth(0.5)
+        ForegroundTexture:SetRelativeWidth(0.33)
         TextureOptionsContainer:AddChild(ForegroundTexture)
 
         local BackgroundTexture = UUFGUI:Create("Dropdown")
@@ -184,8 +194,16 @@ function UUF:CreateGUI()
         BackgroundTexture:SetList(UUF:GenerateLSMTextures())
         BackgroundTexture:SetValue(General.BackgroundTexture)
         BackgroundTexture:SetCallback("OnValueChanged", function(widget, event, value) General.BackgroundTexture = value UUF:UpdateFrames() end)
-        BackgroundTexture:SetRelativeWidth(0.5)
+        BackgroundTexture:SetRelativeWidth(0.33)
         TextureOptionsContainer:AddChild(BackgroundTexture)
+
+        local BorderTexture = UUFGUI:Create("Dropdown")
+        BorderTexture:SetLabel("Border Texture")
+        BorderTexture:SetList(UUF:GenerateLSMBorders())
+        BorderTexture:SetValue(General.BorderTexture)
+        BorderTexture:SetCallback("OnValueChanged", function(widget, event, value) General.BorderTexture = value UUF:UpdateFrames() end)
+        BorderTexture:SetRelativeWidth(0.33)
+        TextureOptionsContainer:AddChild(BorderTexture)
         
         UUFGUI_Container:AddChild(TextureOptionsContainer)
 

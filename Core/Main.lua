@@ -15,6 +15,7 @@ UUF.Defaults = {
             ForegroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
             BorderColour            = {0 / 255, 0 / 255, 0 / 255, 1},
             BorderSize              = 1,
+            BorderInset             = 1,
             ColourByClass           = true,
             ColourByReaction        = true,
             ColourIfDisconnected    = true,
