@@ -10,8 +10,10 @@ function UUF:CreateFocusFrame()
     local LeftText = UUF.DB.global.Focus.Texts.Left
     local RightText = UUF.DB.global.Focus.Texts.Right
     local CenterText = UUF.DB.global.Focus.Texts.Center
-
-    if not Frame.Enabled then return end
+    local TopLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopLeft
+    local TopRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopRight
+    local BottomLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomLeft
+    local BottomRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomRight
     
     self:SetSize(Frame.Width, Frame.Height)
 
@@ -89,6 +91,36 @@ function UUF:CreateFocusFrame()
     self.unitCenterText:SetJustifyH("CENTER")
     self:Tag(self.unitCenterText, CenterText.Tag)
 
+    self.unitCenterText = unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitCenterText:SetFont(General.Font, CenterText.FontSize, General.FontFlag)
+    self.unitCenterText:SetPoint("CENTER", unitHighLevelFrame, "CENTER", CenterText.XOffset, CenterText.YOffset)
+    self.unitCenterText:SetJustifyH("CENTER")
+    self:Tag(self.unitCenterText, CenterText.Tag)
+
+    self.unitTopLeftText = unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitTopLeftText:SetFont(General.Font, TopLeftText.FontSize, General.FontFlag)
+    self.unitTopLeftText:SetPoint("TOPLEFT", unitHighLevelFrame, "TOPLEFT", TopLeftText.XOffset, TopLeftText.YOffset)
+    self.unitTopLeftText:SetJustifyH("LEFT")
+    self:Tag(self.unitTopLeftText, TopLeftText.Tag)
+
+    self.unitTopRightText = unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitTopRightText:SetFont(General.Font, TopRightText.FontSize, General.FontFlag)
+    self.unitTopRightText:SetPoint("TOPRIGHT", unitHighLevelFrame, "TOPRIGHT", TopRightText.XOffset, TopRightText.YOffset)
+    self.unitTopRightText:SetJustifyH("RIGHT")
+    self:Tag(self.unitTopRightText, TopRightText.Tag)
+
+    self.unitBottomLeftText = unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitBottomLeftText:SetFont(General.Font, BottomLeftText.FontSize, General.FontFlag)
+    self.unitBottomLeftText:SetPoint("BOTTOMLEFT", unitHighLevelFrame, "BOTTOMLEFT", BottomLeftText.XOffset, BottomLeftText.YOffset)
+    self.unitBottomLeftText:SetJustifyH("LEFT")
+    self:Tag(self.unitBottomLeftText, BottomLeftText.Tag)
+
+    self.unitBottomRightText = unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitBottomRightText:SetFont(General.Font, BottomRightText.FontSize, General.FontFlag)
+    self.unitBottomRightText:SetPoint("BOTTOMRIGHT", unitHighLevelFrame, "BOTTOMRIGHT", BottomRightText.XOffset, BottomRightText.YOffset)
+    self.unitBottomRightText:SetJustifyH("RIGHT")
+    self:Tag(self.unitBottomRightText, BottomRightText.Tag)
+
     if TargetMarker.Enabled then
         local unitTargetMarker = unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
         unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
@@ -123,6 +155,10 @@ function UUF:UpdateFocusFrame(FrameName)
     local LeftText = UUF.DB.global.Focus.Texts.Left
     local RightText = UUF.DB.global.Focus.Texts.Right
     local CenterText = UUF.DB.global.Focus.Texts.Center
+    local TopLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopLeft
+    local TopRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopRight
+    local BottomLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomLeft
+    local BottomRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomRight
 
     if FrameName then
         FrameName:ClearAllPoints()
@@ -208,6 +244,34 @@ function UUF:UpdateFocusFrame(FrameName)
         FrameName.unitCenterText:SetFont(General.Font, CenterText.FontSize, General.FontFlag)
         FrameName.unitCenterText:SetPoint("CENTER", FrameName, "CENTER", CenterText.XOffset, CenterText.YOffset)
         FrameName:Tag(FrameName.unitCenterText, CenterText.Tag)
+    end
+
+    if FrameName.unitTopLeftText then
+        FrameName.unitTopLeftText:ClearAllPoints()
+        FrameName.unitTopLeftText:SetFont(General.Font, TopLeftText.FontSize, General.FontFlag)
+        FrameName.unitTopLeftText:SetPoint("TOPLEFT", FrameName, "TOPLEFT", TopLeftText.XOffset, TopLeftText.YOffset)
+        FrameName:Tag(FrameName.unitTopLeftText, TopLeftText.Tag)
+    end
+
+    if FrameName.unitTopRightText then
+        FrameName.unitTopRightText:ClearAllPoints()
+        FrameName.unitTopRightText:SetFont(General.Font, TopRightText.FontSize, General.FontFlag)
+        FrameName.unitTopRightText:SetPoint("TOPRIGHT", FrameName, "TOPRIGHT", TopRightText.XOffset, TopRightText.YOffset)
+        FrameName:Tag(FrameName.unitTopRightText, TopRightText.Tag)
+    end
+
+    if FrameName.unitBottomLeftText then
+        FrameName.unitBottomLeftText:ClearAllPoints()
+        FrameName.unitBottomLeftText:SetFont(General.Font, BottomLeftText.FontSize, General.FontFlag)
+        FrameName.unitBottomLeftText:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", BottomLeftText.XOffset, BottomLeftText.YOffset)
+        FrameName:Tag(FrameName.unitBottomLeftText, BottomLeftText.Tag)
+    end
+
+    if FrameName.unitBottomRightText then
+        FrameName.unitBottomRightText:ClearAllPoints()
+        FrameName.unitBottomRightText:SetFont(General.Font, BottomRightText.FontSize, General.FontFlag)
+        FrameName.unitBottomRightText:SetPoint("BOTTOMRIGHT", FrameName, "BOTTOMRIGHT", BottomRightText.XOffset, BottomRightText.YOffset)
+        FrameName:Tag(FrameName.unitBottomRightText, BottomRightText.Tag)
     end
 
     if FrameName.RaidTargetIndicator and TargetMarker.Enabled then

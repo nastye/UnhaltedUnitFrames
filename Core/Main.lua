@@ -100,6 +100,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }  
             }
         },
         Target = {
@@ -163,6 +189,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }  
             }
         },
         TargetTarget = {
@@ -227,6 +279,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "[name]",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }  
             }
         },
         Focus = {
@@ -291,6 +369,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }  
             }
         },
         Pet = {
@@ -355,6 +459,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "[name]",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }                
             }
         },
         Boss = {
@@ -419,6 +549,32 @@ UUF.Defaults = {
                     YOffset         = 0,
                     Tag             = "",
                 },
+                AdditionalTexts = {
+                    TopLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    TopRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomLeft = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                    BottomRight = {
+                        FontSize        = 12,
+                        XOffset         = 0,
+                        YOffset         = 0,
+                        Tag             = "",
+                    },
+                }
             }
         }
     }

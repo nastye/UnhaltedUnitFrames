@@ -290,6 +290,10 @@ function UUF:CreateGUI()
         local LeftText = UUF.DB.global[Unit].Texts.Left
         local RightText = UUF.DB.global[Unit].Texts.Right
         local CenterText = UUF.DB.global[Unit].Texts.Center
+        local TopLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopLeft
+        local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
+        local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
+        local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
 
         local function DrawFrameContainer(UUFGUI_Container)
             if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" then 
@@ -713,12 +717,170 @@ function UUF:CreateGUI()
             CenterTextOptions:AddChild(CenterTextTag)
         end
 
+        local function DrawAdditionalTextsContainer(UUFGUI_Container)
+            local AdditionalTextOptions = UUFGUI:Create("InlineGroup")
+            AdditionalTextOptions:SetTitle("Additional Text Options")
+            AdditionalTextOptions:SetLayout("Flow")
+            AdditionalTextOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(AdditionalTextOptions)
+
+            local TopLeftTextOptions = UUFGUI:Create("InlineGroup")
+            TopLeftTextOptions:SetTitle("Top Left Text Options")
+            TopLeftTextOptions:SetLayout("Flow")
+            TopLeftTextOptions:SetFullWidth(true)
+            AdditionalTextOptions:AddChild(TopLeftTextOptions)
+
+            local TopLeftTextFontSize = UUFGUI:Create("Slider")
+            TopLeftTextFontSize:SetLabel("Font Size")
+            TopLeftTextFontSize:SetSliderValues(1, 64, 1)
+            TopLeftTextFontSize:SetValue(TopLeftText.FontSize)
+            TopLeftTextFontSize:SetCallback("OnValueChanged", function(widget, event, value) TopLeftText.FontSize = value UUF:UpdateFrames() end)
+            TopLeftTextFontSize:SetRelativeWidth(0.33)
+            TopLeftTextOptions:AddChild(TopLeftTextFontSize)
+
+            local TopLeftTextXOffset = UUFGUI:Create("Slider")
+            TopLeftTextXOffset:SetLabel("X Offset")
+            TopLeftTextXOffset:SetSliderValues(-64, 64, 1)
+            TopLeftTextXOffset:SetValue(TopLeftText.XOffset)
+            TopLeftTextXOffset:SetCallback("OnValueChanged", function(widget, event, value) TopLeftText.XOffset = value UUF:UpdateFrames() end)
+            TopLeftTextXOffset:SetRelativeWidth(0.33)
+            TopLeftTextOptions:AddChild(TopLeftTextXOffset)
+
+            local TopLeftTextYOffset = UUFGUI:Create("Slider")
+            TopLeftTextYOffset:SetLabel("Y Offset")
+            TopLeftTextYOffset:SetSliderValues(-64, 64, 1)
+            TopLeftTextYOffset:SetValue(TopLeftText.YOffset)
+            TopLeftTextYOffset:SetCallback("OnValueChanged", function(widget, event, value) TopLeftText.YOffset = value UUF:UpdateFrames() end)
+            TopLeftTextYOffset:SetRelativeWidth(0.33)
+            TopLeftTextOptions:AddChild(TopLeftTextYOffset)
+
+            local TopLeftTextTag = UUFGUI:Create("EditBox")
+            TopLeftTextTag:SetLabel("Tag")
+            TopLeftTextTag:SetText(TopLeftText.Tag)
+            TopLeftTextTag:SetCallback("OnEnterPressed", function(widget, event, value) TopLeftText.Tag = value UUF:UpdateFrames() end)
+            TopLeftTextTag:SetFullWidth(true)
+            TopLeftTextOptions:AddChild(TopLeftTextTag)
+
+            local TopRightTextOptions = UUFGUI:Create("InlineGroup")
+            TopRightTextOptions:SetTitle("Top Right Text Options")
+            TopRightTextOptions:SetLayout("Flow")
+            TopRightTextOptions:SetFullWidth(true)
+            AdditionalTextOptions:AddChild(TopRightTextOptions)
+
+            local TopRightTextFontSize = UUFGUI:Create("Slider")
+            TopRightTextFontSize:SetLabel("Font Size")
+            TopRightTextFontSize:SetSliderValues(1, 64, 1)
+            TopRightTextFontSize:SetValue(TopRightText.FontSize)
+            TopRightTextFontSize:SetCallback("OnValueChanged", function(widget, event, value) TopRightText.FontSize = value UUF:UpdateFrames() end)
+            TopRightTextFontSize:SetRelativeWidth(0.33)
+            TopRightTextOptions:AddChild(TopRightTextFontSize)
+
+            local TopRightTextXOffset = UUFGUI:Create("Slider")
+            TopRightTextXOffset:SetLabel("X Offset")
+            TopRightTextXOffset:SetSliderValues(-64, 64, 1)
+            TopRightTextXOffset:SetValue(TopRightText.XOffset)
+            TopRightTextXOffset:SetCallback("OnValueChanged", function(widget, event, value) TopRightText.XOffset = value UUF:UpdateFrames() end)
+            TopRightTextXOffset:SetRelativeWidth(0.33)
+            TopRightTextOptions:AddChild(TopRightTextXOffset)
+
+            local TopRightTextYOffset = UUFGUI:Create("Slider")
+            TopRightTextYOffset:SetLabel("Y Offset")
+            TopRightTextYOffset:SetSliderValues(-64, 64, 1)
+            TopRightTextYOffset:SetValue(TopRightText.YOffset)
+            TopRightTextYOffset:SetCallback("OnValueChanged", function(widget, event, value) TopRightText.YOffset = value UUF:UpdateFrames() end)
+            TopRightTextYOffset:SetRelativeWidth(0.33)
+            TopRightTextOptions:AddChild(TopRightTextYOffset)
+
+            local TopRightTextTag = UUFGUI:Create("EditBox")
+            TopRightTextTag:SetLabel("Tag")
+            TopRightTextTag:SetText(TopRightText.Tag)
+            TopRightTextTag:SetCallback("OnEnterPressed", function(widget, event, value) TopRightText.Tag = value UUF:UpdateFrames() end)
+            TopRightTextTag:SetFullWidth(true)
+            TopRightTextOptions:AddChild(TopRightTextTag)
+
+            local BottomLeftTextOptions = UUFGUI:Create("InlineGroup")
+            BottomLeftTextOptions:SetTitle("Bottom Left Text Options")
+            BottomLeftTextOptions:SetLayout("Flow")
+            BottomLeftTextOptions:SetFullWidth(true)
+            AdditionalTextOptions:AddChild(BottomLeftTextOptions)
+
+            local BottomLeftTextFontSize = UUFGUI:Create("Slider")
+            BottomLeftTextFontSize:SetLabel("Font Size")
+            BottomLeftTextFontSize:SetSliderValues(1, 64, 1)
+            BottomLeftTextFontSize:SetValue(BottomLeftText.FontSize)
+            BottomLeftTextFontSize:SetCallback("OnValueChanged", function(widget, event, value) BottomLeftText.FontSize = value UUF:UpdateFrames() end)
+            BottomLeftTextFontSize:SetRelativeWidth(0.33)
+            BottomLeftTextOptions:AddChild(BottomLeftTextFontSize)
+
+            local BottomLeftTextXOffset = UUFGUI:Create("Slider")
+            BottomLeftTextXOffset:SetLabel("X Offset")
+            BottomLeftTextXOffset:SetSliderValues(-64, 64, 1)
+            BottomLeftTextXOffset:SetValue(BottomLeftText.XOffset)
+            BottomLeftTextXOffset:SetCallback("OnValueChanged", function(widget, event, value) BottomLeftText.XOffset = value UUF:UpdateFrames() end)
+            BottomLeftTextXOffset:SetRelativeWidth(0.33)
+            BottomLeftTextOptions:AddChild(BottomLeftTextXOffset)
+
+            local BottomLeftTextYOffset = UUFGUI:Create("Slider")
+            BottomLeftTextYOffset:SetLabel("Y Offset")
+            BottomLeftTextYOffset:SetSliderValues(-64, 64, 1)
+            BottomLeftTextYOffset:SetValue(BottomLeftText.YOffset)
+            BottomLeftTextYOffset:SetCallback("OnValueChanged", function(widget, event, value) BottomLeftText.YOffset = value UUF:UpdateFrames() end)
+            BottomLeftTextYOffset:SetRelativeWidth(0.33)
+            BottomLeftTextOptions:AddChild(BottomLeftTextYOffset)
+
+            local BottomLeftTextTag = UUFGUI:Create("EditBox")
+            BottomLeftTextTag:SetLabel("Tag")
+            BottomLeftTextTag:SetText(BottomLeftText.Tag)
+            BottomLeftTextTag:SetCallback("OnEnterPressed", function(widget, event, value) BottomLeftText.Tag = value UUF:UpdateFrames() end)
+            BottomLeftTextTag:SetFullWidth(true)
+            BottomLeftTextOptions:AddChild(BottomLeftTextTag)
+
+            local BottomRightTextOptions = UUFGUI:Create("InlineGroup")
+            BottomRightTextOptions:SetTitle("Bottom Right Text Options")
+            BottomRightTextOptions:SetLayout("Flow")
+            BottomRightTextOptions:SetFullWidth(true)
+            AdditionalTextOptions:AddChild(BottomRightTextOptions)
+
+            local BottomRightTextFontSize = UUFGUI:Create("Slider")
+            BottomRightTextFontSize:SetLabel("Font Size")
+            BottomRightTextFontSize:SetSliderValues(1, 64, 1)
+            BottomRightTextFontSize:SetValue(BottomRightText.FontSize)
+            BottomRightTextFontSize:SetCallback("OnValueChanged", function(widget, event, value) BottomRightText.FontSize = value UUF:UpdateFrames() end)
+            BottomRightTextFontSize:SetRelativeWidth(0.33)
+            BottomRightTextOptions:AddChild(BottomRightTextFontSize)
+
+            local BottomRightTextXOffset = UUFGUI:Create("Slider")
+            BottomRightTextXOffset:SetLabel("X Offset")
+            BottomRightTextXOffset:SetSliderValues(-64, 64, 1)
+            BottomRightTextXOffset:SetValue(BottomRightText.XOffset)
+            BottomRightTextXOffset:SetCallback("OnValueChanged", function(widget, event, value) BottomRightText.XOffset = value UUF:UpdateFrames() end)
+            BottomRightTextXOffset:SetRelativeWidth(0.33)
+            BottomRightTextOptions:AddChild(BottomRightTextXOffset)
+
+            local BottomRightTextYOffset = UUFGUI:Create("Slider")
+            BottomRightTextYOffset:SetLabel("Y Offset")
+            BottomRightTextYOffset:SetSliderValues(-64, 64, 1)
+            BottomRightTextYOffset:SetValue(BottomRightText.YOffset)
+            BottomRightTextYOffset:SetCallback("OnValueChanged", function(widget, event, value) BottomRightText.YOffset = value UUF:UpdateFrames() end)
+            BottomRightTextYOffset:SetRelativeWidth(0.33)
+            BottomRightTextOptions:AddChild(BottomRightTextYOffset)
+
+            local BottomRightTextTag = UUFGUI:Create("EditBox")
+            BottomRightTextTag:SetLabel("Tag")
+            BottomRightTextTag:SetText(BottomRightText.Tag)
+            BottomRightTextTag:SetCallback("OnEnterPressed", function(widget, event, value) BottomRightText.Tag = value UUF:UpdateFrames() end)
+            BottomRightTextTag:SetFullWidth(true)
+            BottomRightTextOptions:AddChild(BottomRightTextTag)
+        end
+
         local function SelectedGroup(UUFGUI_Container, Event, Group)
             UUFGUI_Container:ReleaseChildren()
             if Group == "Frame" then
                 DrawFrameContainer(UUFGUI_Container)
             elseif Group == "Texts" then
                 DrawTextsContainer(UUFGUI_Container)
+            elseif Group == "Additional Texts" then
+                DrawAdditionalTextsContainer(UUFGUI_Container)
             elseif Group == "Buffs" then
                 DrawBuffsContainer(UUFGUI_Container)
             elseif Group == "Debuffs" then
@@ -733,6 +895,7 @@ function UUF:CreateGUI()
         GUIContainerTabGroup:SetTabs({
             { text = "Frame",                           value = "Frame"},
             { text = "Texts",                           value = "Texts" },
+            { text = "Additional Texts",                value = "Additional Texts" },
             { text = "Buffs",                           value = "Buffs" },
             { text = "Debuffs",                         value = "Debuffs" },
             { text = "Target Marker",                   value = "TargetMarker" },
