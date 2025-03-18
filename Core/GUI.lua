@@ -43,6 +43,7 @@ function UUF:GenerateLSMTextures()
 end
 
 function UUF:UpdateFrames()
+    UUF:LoadCustomColours()
     UUF:UpdatePlayerFrame(self.PlayerFrame)
     UUF:UpdateTargetFrame(self.TargetFrame)
     UUF:UpdateFocusFrame(self.FocusFrame)
