@@ -1,4 +1,5 @@
 local _, UUF = ...
+local oUF = UUF.oUF
 local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 
 UUF.Defaults = {
@@ -20,9 +21,23 @@ UUF.Defaults = {
             ColourIfTapped          = true,
             CustomColours = {
                 Power = {
-                    
+                    [0] = {0, 0, 1},
+                    [1] = {1, 0, 0},
+                    [2] = {1, 0.5, 0.25},
+                    [3] = {1, 1, 0},
+                    [4] = {1, 0.96, 0.41},
+                    [5] = {0.5, 0.5, 0.5},
+                    [6] = {0, 0.82, 1},
+                    [7] = {0.5, 0, 0.5},
+                    [8] = {0.3, 0.52, 0.9},
+                    [9] = {1, 0.9, 0.4},
+                    [11] = {0, 0.5, 1},
+                    [13] = {0.4, 0, 0.8},
+                    [17] = {0.8, 0.3, 0.3},
+                    [18] = {0.5, 0.2, 0.2}
                 }
             }
+            
         },
         Player = {
             Frame = {
@@ -416,6 +431,32 @@ function UUF:SetupSlashCommands()
     SlashCmdList["UUF"] = function() UUF:CreateGUI() end
 end
 
+function UUF:LoadCustomColours()
+    local General = UUF.DB.global.General
+    local PowerTypesToString = {
+        [0] = "MANA",
+        [1] = "RAGE",
+        [2] = "FOCUS",
+        [3] = "ENERGY",
+        [4] = "COMBO_POINTS",
+        [5] = "RUNES",
+        [6] = "RUNIC_POWER",
+        [7] = "SOUL_SHARDS",
+        [8] = "LUNAR_POWER",
+        [9] = "HOLY_POWER",
+        [11] = "MAELSTROM",
+        [13] = "INSANITY",
+        [17] = "FURY",
+        [18] = "PAIN"
+    }
+    for powerType, color in pairs(General.CustomColours.Power) do
+        local powerTypeString = PowerTypesToString[powerType]
+        if powerTypeString then
+            oUF.colors.power[powerTypeString] = color
+        end
+    end
+end
+
 function UnhaltedUF:OnInitialize()
     UUF.DB = LibStub("AceDB-3.0"):New("UUFDB", UUF.Defaults)
     for k, v in pairs(UUF.Defaults) do
@@ -427,6 +468,7 @@ end
 
 function UnhaltedUF:OnEnable()
     UIParent:SetScale(UUF.DB.global.General.UIScale)
+    UUF:LoadCustomColours()
     UUF:SpawnPlayerFrame()
     UUF:SpawnTargetFrame()
     UUF:SpawnTargetTargetFrame()

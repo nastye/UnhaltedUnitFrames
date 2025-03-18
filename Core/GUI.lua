@@ -1,4 +1,5 @@
 local _, UUF = ...
+local oUF = UUF.oUF
 local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
 local GUI_WIDTH = 800
 local GUI_HEIGHT = 640
@@ -7,6 +8,23 @@ local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub("LibSharedMedia-3.0")
 local LSMFonts = {}
 local LSMTextures = {}
+
+local PowerNames = {
+    [0] = "Mana",
+    [1] = "Rage",
+    [2] = "Focus",
+    [3] = "Energy",
+    [4] = "Combo Points",
+    [5] = "Runes",
+    [6] = "Runic Power",
+    [7] = "Soul Shards",
+    [8] = "Lunar Power",
+    [9] = "Holy Power",
+    [11] = "Maelstrom",
+    [13] = "Insanity",
+    [17] = "Fury",
+    [18] = "Pain"
+}
 
 function UUF:GenerateLSMFonts()
     local Fonts = LSM:HashTable("font")
@@ -51,10 +69,6 @@ function UUF:UpdateUIScale()
     UIParent:SetScale(UUF.DB.global.General.UIScale)
 end
 
-function UUF:StartTestMode()
-    UUF:CreateFakeBossFrames("TestBossFrame")
-end
-
 local AnchorPoints = {
     ["TOPLEFT"] = "Top Left",
     ["TOP"] = "Top",
@@ -89,7 +103,6 @@ function UUF:CreateGUI()
 
     local function DrawGeneralContainer(UUFGUI_Container)
         local General = UUF.DB.global.General
-        
         local UIScaleContainer = UUFGUI:Create("InlineGroup")
         UIScaleContainer:SetTitle("UI Scale")
         UIScaleContainer:SetLayout("Flow")
@@ -236,17 +249,28 @@ function UUF:CreateGUI()
         TappedColour:SetRelativeWidth(0.25)
         ColouringOptionsContainer:AddChild(TappedColour)
 
-        -- local CustomColours = UUFGUI:Create("InlineGroup")
-        -- CustomColours:SetTitle("Custom Colours")
-        -- CustomColours:SetLayout("Flow")
-        -- CustomColours:SetFullWidth(true)
-        -- ColouringOptionsContainer:AddChild(CustomColours)
+        local CustomColours = UUFGUI:Create("InlineGroup")
+        CustomColours:SetTitle("Custom Colours")
+        CustomColours:SetLayout("Flow")
+        CustomColours:SetFullWidth(true)
+        ColouringOptionsContainer:AddChild(CustomColours)
 
-        -- local PowerColours = UUFGUI:Create("InlineGroup")
-        -- PowerColours:SetTitle("Power Colours")
-        -- PowerColours:SetLayout("Flow")
-        -- PowerColours:SetFullWidth(true)
-        -- CustomColours:AddChild(PowerColours)
+        local PowerColours = UUFGUI:Create("InlineGroup")
+        PowerColours:SetTitle("Power Colours")
+        PowerColours:SetLayout("Flow")
+        PowerColours:SetFullWidth(true)
+        CustomColours:AddChild(PowerColours)
+
+        for powerType, powerColour in pairs(General.CustomColours.Power) do
+            local PowerColour = UUFGUI:Create("ColorPicker")
+            PowerColour:SetLabel(PowerNames[powerType])
+            local R, G, B = unpack(powerColour)
+            PowerColour:SetColor(R, G, B)
+            PowerColour:SetCallback("OnValueChanged", function(widget, _, r, g, b) General.CustomColours.Power[powerType] = {r, g, b} UUF:UpdateFrames() end)
+            PowerColour:SetHasAlpha(false)
+            PowerColour:SetRelativeWidth(0.25)
+            PowerColours:AddChild(PowerColour)
+        end
 
         UUFGUI_Container:AddChild(ColouringOptionsContainer)
     end
