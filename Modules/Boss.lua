@@ -14,12 +14,19 @@ function UUF:CreateBossFrame()
     local TopRightText = UUF.DB.global.Boss.Texts.AdditionalTexts.TopRight
     local BottomLeftText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomRight
+
+    local BackdropTemplate = {
+        bgFile = General.BackgroundTexture,
+        edgeFile = General.BorderTexture,
+        edgeSize = General.BorderSize,
+        insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
+    }
     
     self:SetSize(Frame.Width, Frame.Height)
 
     self.unitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.unitBackdrop:SetAllPoints()
-    self.unitBackdrop:SetBackdrop({ bgFile = General.BackgroundTexture, edgeFile = General.BorderTexture, edgeSize = General.BorderSize, })
+    self.unitBackdrop:SetBackdrop(BackdropTemplate)
     self.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
     self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBackdrop:SetFrameLevel(1)
@@ -135,31 +142,6 @@ function UUF:CreateBossFrame()
     self:SetScript("OnLeave", UnitFrame_OnLeave)
 end
 
-function UUF:SpawnBossFrame()
-    local Frame = UUF.DB.global.Boss.Frame
-    oUF:RegisterStyle("UUF_Boss", UUF.CreateBossFrame)
-    oUF:SetActiveStyle("UUF_Boss")
-    UUF.BossFrames = {}
-    local BossContainer, BossSpacing = 0, Frame.Spacing
-    for i = 1, 8 do
-        local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
-        UUF.BossFrames[i] = BossFrame
-        if i == 1 then
-            BossContainer = (BossFrame:GetHeight() + BossSpacing) * MAX_BOSS_FRAMES - BossSpacing
-            BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2))
-        else
-            BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
-        end
-    end
-end
-
-function UUF:UpdateBossFrames()
-    if not UUF.BossFrames then return end
-    for _, frame in ipairs(UUF.BossFrames) do
-        UUF:UpdateBossFrame(frame)
-    end
-end
-
 function UUF:UpdateBossFrame(FrameName)
     if not FrameName then return end
 
@@ -176,6 +158,13 @@ function UUF:UpdateBossFrame(FrameName)
     local BottomLeftText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomRight
 
+    local BackdropTemplate = {
+        bgFile = General.BackgroundTexture,
+        edgeFile = General.BorderTexture,
+        edgeSize = General.BorderSize,
+        insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
+    }
+
     if FrameName then
         FrameName:ClearAllPoints()
         FrameName:SetSize(Frame.Width, Frame.Height)
@@ -183,11 +172,7 @@ function UUF:UpdateBossFrame(FrameName)
     end
 
     if FrameName.unitBackdrop then
-        FrameName.unitBackdrop:SetBackdrop({
-            bgFile = General.BackgroundTexture,
-            edgeFile = General.BorderTexture,
-            edgeSize = General.BorderSize,
-        })
+        FrameName.unitBackdrop:SetBackdrop(BackdropTemplate)
         FrameName.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
         FrameName.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     end
@@ -297,4 +282,30 @@ function UUF:UpdateBossFrame(FrameName)
     end
 
     FrameName:UpdateTags()
+end
+
+
+function UUF:SpawnBossFrame()
+    local Frame = UUF.DB.global.Boss.Frame
+    oUF:RegisterStyle("UUF_Boss", UUF.CreateBossFrame)
+    oUF:SetActiveStyle("UUF_Boss")
+    UUF.BossFrames = {}
+    local BossContainer, BossSpacing = 0, Frame.Spacing
+    for i = 1, 8 do
+        local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
+        UUF.BossFrames[i] = BossFrame
+        if i == 1 then
+            BossContainer = (BossFrame:GetHeight() + BossSpacing) * MAX_BOSS_FRAMES - BossSpacing
+            BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2))
+        else
+            BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
+        end
+    end
+end
+
+function UUF:UpdateBossFrames()
+    if not UUF.BossFrames then return end
+    for _, frame in ipairs(UUF.BossFrames) do
+        UUF:UpdateBossFrame(frame)
+    end
 end

@@ -14,12 +14,19 @@ function UUF:CreateFocusFrame()
     local TopRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopRight
     local BottomLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomRight
+
+    local BackdropTemplate = {
+        bgFile = General.BackgroundTexture,
+        edgeFile = General.BorderTexture,
+        edgeSize = General.BorderSize,
+        insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
+    }
     
     self:SetSize(Frame.Width, Frame.Height)
 
     self.unitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.unitBackdrop:SetAllPoints()
-    self.unitBackdrop:SetBackdrop({ bgFile = General.BackgroundTexture, edgeFile = General.BorderTexture, edgeSize = General.BorderSize, })
+    self.unitBackdrop:SetBackdrop(BackdropTemplate)
     self.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
     self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBackdrop:SetFrameLevel(1)
@@ -160,6 +167,13 @@ function UUF:UpdateFocusFrame(FrameName)
     local BottomLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomRight
 
+    local BackdropTemplate = {
+        bgFile = General.BackgroundTexture,
+        edgeFile = General.BorderTexture,
+        edgeSize = General.BorderSize,
+        insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
+    }
+
     if FrameName then
         FrameName:ClearAllPoints()
         FrameName:SetSize(Frame.Width, Frame.Height)
@@ -167,11 +181,7 @@ function UUF:UpdateFocusFrame(FrameName)
     end
 
     if FrameName.unitBackdrop then
-        FrameName.unitBackdrop:SetBackdrop({
-            bgFile = General.BackgroundTexture,
-            edgeFile = General.BorderTexture,
-            edgeSize = General.BorderSize,
-        })
+        FrameName.unitBackdrop:SetBackdrop(BackdropTemplate)
         FrameName.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
         FrameName.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     end
