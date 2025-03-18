@@ -273,7 +273,13 @@ function UUF:CreateGUI()
             PowerColours:AddChild(PowerColour)
         end
 
+        local ResetToDefault = UUFGUI:Create("Button")
+        ResetToDefault:SetText("Reset Settings")
+        ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
+        ResetToDefault:SetRelativeWidth(1)
+        
         UUFGUI_Container:AddChild(ColouringOptionsContainer)
+        UUFGUI_Container:AddChild(ResetToDefault)
     end
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)

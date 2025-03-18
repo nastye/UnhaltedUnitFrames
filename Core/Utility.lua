@@ -58,3 +58,9 @@ function UUF:WrapTextInColor(unitName, unit)
     end
     return unitName
 end
+
+function UUF:ResetDefaultSettings()
+    UUF.DB:ResetDB()
+    UUF:UpdateFrames()
+    UUF:CreateReloadPrompt()
+end
