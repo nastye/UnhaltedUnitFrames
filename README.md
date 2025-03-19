@@ -5,6 +5,8 @@ Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard Playe
 
 The entire project is solo developed.
 
+If you want to test this before the public release. You can **download**, **extract** and **rename** the folder from `UnhaltedUnitFrames-master` to `UnhaltedUF`. This should get it all working.
+
 ## Libraries
 
 - [Ace3](https://www.curseforge.com/wow/addons/ace3)
