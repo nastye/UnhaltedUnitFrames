@@ -33,3 +33,5 @@ The entire project is solo developed.
     - ✅ Customized Anchors.
     - ✅ Buff / Debuff Customizations.
     - ✅ Target Marker Customizations.
+# Demonstration Video
+[![Watch the video](https://img.youtube.com/vi/2Cr489hgasA/maxresdefault.jpg)](https://youtu.be/2Cr489hgasA?si=FILunCDH-zj2uUSt)
