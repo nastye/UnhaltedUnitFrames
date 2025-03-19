@@ -947,14 +947,14 @@ function UUF:CreateGUI()
             local HealthTags = UUF:FetchHealthTagDescriptions()
 
             local HealthTagOptions = UUFGUI:Create("InlineGroup")
-            HealthTagOptions:SetTitle("Health Tag Options")
+            HealthTagOptions:SetTitle("Health Tags")
             HealthTagOptions:SetLayout("Flow")
             HealthTagOptions:SetFullWidth(true)
             UUFGUI_Container:AddChild(HealthTagOptions)
 
             for Title, TableData in pairs(HealthTags) do
                 local Tag, Desc = TableData.Tag, TableData.Desc
-                HealthTagTitle = UUFGUI:Create("Label")
+                HealthTagTitle = UUFGUI:Create("Heading")
                 HealthTagTitle:SetText(Title)
                 HealthTagTitle:SetRelativeWidth(1)
                 HealthTagOptions:AddChild(HealthTagTitle)
@@ -962,31 +962,83 @@ function UUF:CreateGUI()
                 local HealthTagTag = UUFGUI:Create("EditBox")
                 HealthTagTag:SetText(Tag)
                 HealthTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
-                HealthTagTag:SetRelativeWidth(0.3)
+                HealthTagTag:SetRelativeWidth(0.25)
                 HealthTagOptions:AddChild(HealthTagTag)
 
                 HealthTagDescription = UUFGUI:Create("EditBox")
                 HealthTagDescription:SetText(Desc)
                 HealthTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
-                HealthTagDescription:SetRelativeWidth(0.7)
+                HealthTagDescription:SetRelativeWidth(0.75)
                 HealthTagOptions:AddChild(HealthTagDescription)
             end
         end
 
-        local function DrawPowerTagsContainer(UUFGUI_Container)
-            print("Power Tags")
-        end
+        -- local function DrawPowerTagsContainer(UUFGUI_Container)
+        --     -- local PowerTags = UUF:FetchPowerTagDescriptions()
+
+        --     -- local PowerTagOptions = UUFGUI:Create("InlineGroup")
+        --     -- PowerTagOptions:SetTitle("Power Tags")
+        --     -- PowerTagOptions:SetLayout("Flow")
+        --     -- PowerTagOptions:SetFullWidth(true)
+        --     -- UUFGUI_Container:AddChild(PowerTagOptions)
+
+        --     -- for Title, TableData in pairs(PowerTags) do
+        --     --     local Tag, Desc = TableData.Tag, TableData.Desc
+        --     --     PowerTagTitle = UUFGUI:Create("Label")
+        --     --     PowerTagTitle:SetText(Title)
+        --     --     PowerTagTitle:SetRelativeWidth(1)
+        --     --     PowerTagOptions:AddChild(PowerTagTitle)
+
+        --     --     local PowerTagTag = UUFGUI:Create("EditBox")
+        --     --     PowerTagTag:SetText(Tag)
+        --     --     PowerTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+        --     --     PowerTagTag:SetRelativeWidth(0.3)
+        --     --     PowerTagOptions:AddChild(PowerTagTag)
+
+        --     --     PowerTagDescription = UUFGUI:Create("EditBox")
+        --     --     PowerTagDescription:SetText(Desc)
+        --     --     PowerTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+        --     --     PowerTagDescription:SetRelativeWidth(0.7)
+        --     --     PowerTagOptions:AddChild(PowerTagDescription)
+        --     -- end
+        -- end
 
         local function DrawNameTagsContainer(UUFGUI_Container)
-            print("Name Tags")
+            local NameTags = UUF:FetchNameTagDescriptions()
+
+            local NameTagOptions = UUFGUI:Create("InlineGroup")
+            NameTagOptions:SetTitle("Name Tags")
+            NameTagOptions:SetLayout("Flow")
+            NameTagOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(NameTagOptions)
+
+            for Title, TableData in pairs(NameTags) do
+                local Tag, Desc = TableData.Tag, TableData.Desc
+                NameTagTitle = UUFGUI:Create("Heading")
+                NameTagTitle:SetText(Title)
+                NameTagTitle:SetRelativeWidth(1)
+                NameTagOptions:AddChild(NameTagTitle)
+
+                local NameTagTag = UUFGUI:Create("EditBox")
+                NameTagTag:SetText(Tag)
+                NameTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                NameTagTag:SetRelativeWidth(0.3)
+                NameTagOptions:AddChild(NameTagTag)
+
+                NameTagDescription = UUFGUI:Create("EditBox")
+                NameTagDescription:SetText(Desc)
+                NameTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                NameTagDescription:SetRelativeWidth(0.7)
+                NameTagOptions:AddChild(NameTagDescription)
+            end
         end
 
         local function SelectedGroup(UUFGUI_Container, Event, Group)
             UUFGUI_Container:ReleaseChildren()
             if Group == "Health" then
                 DrawHealthTagContainer(UUFGUI_Container)
-            elseif Group == "Power" then
-                DrawPowerTagsContainer(UUFGUI_Container)
+            -- elseif Group == "Power" then
+            --     DrawPowerTagsContainer(UUFGUI_Container)
             elseif Group == "Name" then
                 DrawNameTagsContainer(UUFGUI_Container)
             end
@@ -996,7 +1048,7 @@ function UUF:CreateGUI()
         GUIContainerTabGroup:SetLayout("Flow")
         GUIContainerTabGroup:SetTabs({
             { text = "Health",                              value = "Health"},
-            { text = "Power",                               value = "Power" },
+            -- { text = "Power",                               value = "Power" },
             { text = "Name",                                value = "Name" },
         })
         

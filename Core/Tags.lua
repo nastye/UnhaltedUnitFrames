@@ -94,3 +94,15 @@ local HealthTagsDescription = {
 function UUF:FetchHealthTagDescriptions()
     return HealthTagsDescription
 end
+
+local NameTagsDescription = {
+    ["Name with Target's Target"] = {Tag = "[Name:NamewithTargetTarget]", Desc = "Displays Name with Target's Target"},
+    ["Target's Target"] = {Tag = "[Name:TargetTarget]", Desc = "Displays Target's Target"},
+    ["Name with Target's Target (Coloured)"] = {Tag = "[Name:NamewithTargetTarget:Coloured]", Desc = "Displays Name with Target's Target (Reaction / Class Coloured)"},
+    ["Target's Target (Coloured)"] = {Tag = "[Name:TargetTarget:Coloured]", Desc = "Displays Target's Target (Reaction / Class Coloured)"},
+}
+
+function UUF:FetchNameTagDescriptions()
+    return NameTagsDescription
+end
+
