@@ -83,3 +83,14 @@ oUF.Tags.Events["Name:TargetTarget:Coloured"] = "UNIT_TARGET"
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
+
+
+local HealthTagsDescription = {
+    ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},
+    ["Percent Health with Absorbs"] = {Tag = "[Health:PerHPwithAbsorbs]", Desc = "Displays Percent Health with Absorbs"},
+    ["Current Health"] = {Tag = "[Health:CurHP]", Desc = "Displays Current Health"},
+}
+
+function UUF:FetchHealthTagDescriptions()
+    return HealthTagsDescription
+end

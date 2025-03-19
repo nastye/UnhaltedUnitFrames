@@ -941,6 +941,71 @@ function UUF:CreateGUI()
         UUFGUI_Container:AddChild(GUIContainerTabGroup)
     end
 
+    local function DrawTagsContainer(UUFGUI_Container)
+
+        local function DrawHealthTagContainer(UUFGUI_Container)
+            local HealthTags = UUF:FetchHealthTagDescriptions()
+
+            local HealthTagOptions = UUFGUI:Create("InlineGroup")
+            HealthTagOptions:SetTitle("Health Tag Options")
+            HealthTagOptions:SetLayout("Flow")
+            HealthTagOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(HealthTagOptions)
+
+            for Title, TableData in pairs(HealthTags) do
+                local Tag, Desc = TableData.Tag, TableData.Desc
+                HealthTagTitle = UUFGUI:Create("Label")
+                HealthTagTitle:SetText(Title)
+                HealthTagTitle:SetRelativeWidth(1)
+                HealthTagOptions:AddChild(HealthTagTitle)
+
+                local HealthTagTag = UUFGUI:Create("EditBox")
+                HealthTagTag:SetText(Tag)
+                HealthTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                HealthTagTag:SetRelativeWidth(0.3)
+                HealthTagOptions:AddChild(HealthTagTag)
+
+                HealthTagDescription = UUFGUI:Create("EditBox")
+                HealthTagDescription:SetText(Desc)
+                HealthTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                HealthTagDescription:SetRelativeWidth(0.7)
+                HealthTagOptions:AddChild(HealthTagDescription)
+            end
+        end
+
+        local function DrawPowerTagsContainer(UUFGUI_Container)
+            print("Power Tags")
+        end
+
+        local function DrawNameTagsContainer(UUFGUI_Container)
+            print("Name Tags")
+        end
+
+        local function SelectedGroup(UUFGUI_Container, Event, Group)
+            UUFGUI_Container:ReleaseChildren()
+            if Group == "Health" then
+                DrawHealthTagContainer(UUFGUI_Container)
+            elseif Group == "Power" then
+                DrawPowerTagsContainer(UUFGUI_Container)
+            elseif Group == "Name" then
+                DrawNameTagsContainer(UUFGUI_Container)
+            end
+        end
+
+        GUIContainerTabGroup = UUFGUI:Create("TabGroup")
+        GUIContainerTabGroup:SetLayout("Flow")
+        GUIContainerTabGroup:SetTabs({
+            { text = "Health",                              value = "Health"},
+            { text = "Power",                               value = "Power" },
+            { text = "Name",                                value = "Name" },
+        })
+        
+        GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
+        GUIContainerTabGroup:SelectTab("Health")
+        GUIContainerTabGroup:SetFullWidth(true)
+        UUFGUI_Container:AddChild(GUIContainerTabGroup)
+    end
+
     function SelectedGroup(UUFGUI_Container, Event, Group)
         UUFGUI_Container:ReleaseChildren()
         if Group == "General" then
@@ -957,6 +1022,8 @@ function UUF:CreateGUI()
             DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Boss" then
             DrawUnitContainer(UUFGUI_Container, Group)
+        elseif Group == "Tags" then
+            DrawTagsContainer(UUFGUI_Container)
         end
     end
 
@@ -970,6 +1037,7 @@ function UUF:CreateGUI()
         { text = "Target of Target",                value = "TargetTarget" },
         { text = "Focus",                           value = "Focus" },
         { text = "Pet",                             value = "Pet" },
+        { text = "Tags",                            value = "Tags" },
     })
     GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
     GUIContainerTabGroup:SelectTab("General")
