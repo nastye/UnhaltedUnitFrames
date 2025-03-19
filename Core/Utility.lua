@@ -1,5 +1,5 @@
 local _, UUF = ...
-
+local oUF = UUF.oUF
 function UUF:PostCreateButton(_, button)
     -- Icon Options
     local auraIcon = button.Icon
