@@ -9,6 +9,9 @@ LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]])
 local LSMFonts = {}
 local LSMTextures = {}
 local LSMBorders = {}
+local Supporters = {
+    [1] = {Supporter = "", Comment = ""},
+}
 
 local PowerNames = {
     [0] = "Mana",

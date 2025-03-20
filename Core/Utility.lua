@@ -1,6 +1,5 @@
 local _, UUF = ...
 local oUF = UUF.oUF
-
 local Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
@@ -8,7 +7,8 @@ local Frames = {
     ["pet"] = "Pet",
     ["targettarget"] = "TargetTarget",
 }
-function UUF:PostCreateButton(_, button, Unit, AuraType)
+
+local function PostCreateButton(_, button, Unit, AuraType)
     local General = UUF.DB.global.General
     local BuffCount = UUF.DB.global[Unit].Buffs.Count
     local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
@@ -44,7 +44,7 @@ function UUF:PostCreateButton(_, button, Unit, AuraType)
     end
 end
 
-function UUF:PostUpdateButton(_, button, Unit, AuraType)
+local function PostUpdateButton(_, button, Unit, AuraType)
     local General = UUF.DB.global.General
     local BuffCount = UUF.DB.global[Unit].Buffs.Count
     local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
@@ -274,7 +274,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitBuffs["growth-x"] = Buffs.GrowthX
         self.unitBuffs["growth-y"] = Buffs.GrowthY
         self.unitBuffs.filter = "HELPFUL"
-        self.unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, Unit, "HELPFUL") end
+        self.unitBuffs.PostCreateButton = function(_, button) PostCreateButton(_, button, Unit, "HELPFUL") end
         self.Buffs = self.unitBuffs
     end
 
@@ -289,7 +289,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitDebuffs["growth-x"] = Debuffs.GrowthX
         self.unitDebuffs["growth-y"] = Debuffs.GrowthY
         self.unitDebuffs.filter = "HARMFUL"
-        self.unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, Unit, "HARMFUL") end
+        self.unitDebuffs.PostCreateButton = function(_, button) PostCreateButton(_, button, Unit, "HARMFUL") end
         self.Debuffs = self.unitDebuffs
     end
 
@@ -485,7 +485,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitBuffs["growth-y"] = Buffs.GrowthY
         FrameName.unitBuffs.filter = "HELPFUL"
         FrameName.unitBuffs:Show()
-        FrameName.unitBuffs.PostUpdateButton = function(_, button) UUF:PostUpdateButton(_, button, Unit, "HELPFUL") end
+        FrameName.unitBuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HELPFUL") end
         FrameName.unitBuffs:ForceUpdate()
     else
         if FrameName.unitBuffs then
@@ -505,7 +505,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitDebuffs["growth-y"] = Debuffs.GrowthY
         FrameName.unitDebuffs.filter = "HELPFUL"
         FrameName.unitDebuffs:Show()
-        FrameName.unitDebuffs.PostUpdateButton = function(_, button) UUF:PostUpdateButton(_, button, Unit, "HARMFUL") end
+        FrameName.unitDebuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HARMFUL") end
         FrameName.unitDebuffs:ForceUpdate()
     else
         if FrameName.unitDebuffs then
@@ -624,7 +624,13 @@ function UUF:SetupSlashCommands()
     SLASH_UUF1 = "/uuf"
     SLASH_UUF2 = "/unhalteduf"
     SLASH_UUF3 = "/unhaltedunitframes"
-    SlashCmdList["UUF"] = function() UUF:CreateGUI() end
+    SlashCmdList["UUF"] = function(msg)
+        if msg == "" then
+            UUF:CreateGUI()
+        -- elseif msg == "test" then
+            -- UUF:ToggleTestMode()
+        end
+    end
 end
 
 function UUF:LoadCustomColours()
@@ -651,5 +657,26 @@ function UUF:LoadCustomColours()
 
     for reaction, color in pairs(General.CustomColours.Reaction) do
         oUF.colors.reaction[reaction] = color
+    end
+end
+
+function UUF:HideUUFFrames()
+    for _, Unit in pairs(Frames) do
+        local Frame = _G["UUF_" .. Unit]
+        if Frame then
+            Frame:Disable()
+        else
+            Frame:Enable()
+        end
+    end
+
+    if UUF.BossFrames then
+        for _, BossFrame in ipairs(UUF.BossFrames) do
+            if BossFrame then
+                BossFrame:Disable()
+            else
+                BossFrame:Enable()
+            end
+        end
     end
 end
