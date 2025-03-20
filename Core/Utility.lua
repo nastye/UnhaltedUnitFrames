@@ -59,6 +59,27 @@ function UUF:WrapTextInColor(unitName, unit)
     return unitName
 end
 
+UUF.nameBlacklist = {
+    ["the"] = true,
+    ["of"] = true,
+    ["Tentacle"] = true,
+    ["Apprentice"] = true,
+    ["Denizen"] = true,
+    ["Emissary"] = true,
+    ["Howlis"] = true,
+    ["Terror"] = true,
+    ["Totem"] = true,
+    ["Waycrest"] = true,
+    ["Aspect"] = true
+}
+
+function UUF:ShortenName(name, nameBlacklist)
+    if not name or name == "" then return nil end
+    local words = { strsplit(" ", name) }
+    return nameBlacklist[words[2]] and words[1] or words[#words] or name
+end
+
+
 function UUF:ResetDefaultSettings()
     UUF.DB:ResetDB()
     UUF:UpdateFrames()

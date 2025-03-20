@@ -69,11 +69,22 @@ oUF.Tags.Methods["Name:TargetTarget:Coloured"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Name:LastNameOnly"] = function(unit)
+    local unitName = UnitName(unit)
+    return UUF:ShortenName(unitName, UUF.nameBlacklist)
+end
+
+oUF.Tags.Methods["Name:LastNameOnly:Coloured"] = function(unit)
+    local unitName = UnitName(unit)
+    return UUF:WrapTextInColor(UUF:ShortenName(unitName, UUF.nameBlacklist), unit)
+end
+
 oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-
 oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
 oUF.Tags.Events["Name:TargetTarget:Coloured"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:LastNameOnly"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE"
 
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
@@ -95,6 +106,8 @@ local NameTagsDescription = {
     ["Target's Target"] = {Tag = "[Name:TargetTarget]", Desc = "Displays Target's Target"},
     ["Name with Target's Target (Coloured)"] = {Tag = "[Name:NamewithTargetTarget:Coloured]", Desc = "Displays Name with Target's Target (Reaction / Class Coloured)"},
     ["Target's Target (Coloured)"] = {Tag = "[Name:TargetTarget:Coloured]", Desc = "Displays Target's Target (Reaction / Class Coloured)"},
+    ["Last Name Only"] = {Tag = "[Name:LastNameOnly]", Desc = "Displays Last Name Only"},
+    ["Last Name Only (Coloured)"] = {Tag = "[Name:LastNameOnly:Coloured]", Desc = "Displays Last Name Only (Reaction / Class Coloured)"},
 }
 
 function UUF:FetchNameTagDescriptions()
