@@ -34,6 +34,13 @@ oUF.Tags.Methods["Health:CurHP"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Health:CurAbsorbs"] = function(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
+    if unitAbsorb > 0 then 
+        return UUF:FormatLargeNumber(unitAbsorb)
+    end
+end
+
 oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
@@ -129,12 +136,14 @@ oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = "UNIT_NAME_
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
 
 
 local HealthTagsDescription = {
     ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},
     ["Percent Health with Absorbs"] = {Tag = "[Health:PerHPwithAbsorbs]", Desc = "Displays Percent Health with Absorbs"},
     ["Current Health"] = {Tag = "[Health:CurHP]", Desc = "Displays Current Health"},
+    ["Current Absorbs"] = {Tag = "[Health:CurAbsorbs]", Desc = "Displays Current Absorbs"},
 }
 
 function UUF:FetchHealthTagDescriptions()
