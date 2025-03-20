@@ -160,7 +160,7 @@ function UUF:CreateGUI()
         Font:SetLabel("Font")
         Font:SetList(LSMFonts)
         Font:SetValue(General.Font)
-        Font:SetCallback("OnValueChanged", function(widget, event, value) General.Font = value UUF:UpdateFrames() end)
+        Font:SetCallback("OnValueChanged", function(widget, event, value) General.Font = value UUF:CreateReloadPrompt() end)
         Font:SetRelativeWidth(0.5)
         FontOptionsContainer:AddChild(Font)
         
