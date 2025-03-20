@@ -49,6 +49,9 @@ UUF.Defaults = {
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
             },
+            Health = {
+                Direction = "LR",
+            },
             Buffs = {
                 Enabled             = false,
                 Size                = 38,
@@ -137,6 +140,9 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
+            },
+            Health = {
+                Direction = "LR",
             },
             Buffs = {
                 Enabled             = true,
@@ -228,6 +234,9 @@ UUF.Defaults = {
                 AnchorTo            = "TOPRIGHT",
                 AnchorParent        = "UUF_Target",
             },
+            Health = {
+                Direction = "LR",
+            },
             Buffs = {
                 Enabled             = false,
                 Size                = 42,
@@ -317,6 +326,9 @@ UUF.Defaults = {
                 AnchorFrom          = "BOTTOMRIGHT",
                 AnchorTo            = "TOPRIGHT",
                 AnchorParent        = "UUF_Target",
+            },
+            Health = {
+                Direction = "LR",
             },
             Buffs = {
                 Enabled             = false,
@@ -408,6 +420,9 @@ UUF.Defaults = {
                 AnchorTo            = "BOTTOMLEFT",
                 AnchorParent        = "UUF_Player",
             },
+            Health = {
+                Direction = "LR",
+            },
             Buffs = {
                 Enabled             = false,
                 Size                = 42,
@@ -497,6 +512,9 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
+            },
+            Health = {
+                Direction = "LR",
             },
             Buffs = {
                 Enabled             = true,

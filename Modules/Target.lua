@@ -4,6 +4,7 @@ local oUF = UUF.oUF
 function UUF:CreateTargetFrame()
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global.Target.Frame
+    local Health = UUF.DB.global.Target.Health
     local Buffs = UUF.DB.global.Target.Buffs
     local Debuffs = UUF.DB.global.Target.Debuffs
     local TargetMarker = UUF.DB.global.Target.TargetMarker
@@ -41,6 +42,11 @@ function UUF:CreateTargetFrame()
     unitHealthBar.colorClass = General.ColourByClass
     unitHealthBar.colorDisconnected = General.ColourIfDisconnected
     unitHealthBar.colorTapping = General.ColourIfTapped
+    if Health.Direction == "RL" then
+        unitHealthBar:SetReverseFill(true)
+    elseif Health.Direction == "LR" then
+        unitHealthBar:SetReverseFill(false)
+    end
 
     unitHealthBar:SetFrameLevel(2)
     self.Health = unitHealthBar
@@ -163,6 +169,7 @@ function UUF:UpdateTargetFrame(FrameName)
     if not FrameName then return end
 
     local Frame = UUF.DB.global.Target.Frame
+    local Health = UUF.DB.global.Target.Health
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global.Target.Buffs
     local Debuffs = UUF.DB.global.Target.Debuffs
@@ -202,6 +209,11 @@ function UUF:UpdateTargetFrame(FrameName)
         FrameName.Health.colorReaction = General.ColourByReaction
         FrameName.Health.colorClass = General.ColourByClass
         FrameName.Health.colorDisconnected = General.ColourIfDisconnected
+        if Health.Direction == "RL" then
+            FrameName.Health:SetReverseFill(true)
+        elseif Health.Direction == "LR" then
+            FrameName.Health:SetReverseFill(false)
+        end
         FrameName.Health:ForceUpdate()
     end
 

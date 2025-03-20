@@ -355,6 +355,7 @@ function UUF:CreateGUI()
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
         local Frame = UUF.DB.global[Unit].Frame
+        local Health = UUF.DB.global[Unit].Health
         local Buffs = UUF.DB.global[Unit].Buffs
         local Debuffs = UUF.DB.global[Unit].Debuffs
         local TargetMarker = UUF.DB.global[Unit].TargetMarker
@@ -375,6 +376,17 @@ function UUF:CreateGUI()
                 Enabled:SetFullWidth(true)
                 UUFGUI_Container:AddChild(Enabled)
             end
+
+            local HealthGrowDirection = UUFGUI:Create("Dropdown")
+            HealthGrowDirection:SetLabel("Health Grow Direction")
+            HealthGrowDirection:SetList({
+                ["LR"] = "Left To Right",
+                ["RL"] = "Right To Left",
+            })
+            HealthGrowDirection:SetValue(Health.Direction)
+            HealthGrowDirection:SetCallback("OnValueChanged", function(widget, event, value) Health.Direction = value UUF:UpdateFrames() end)
+            HealthGrowDirection:SetRelativeWidth(1)
+            UUFGUI_Container:AddChild(HealthGrowDirection)
 
             -- Frame Options
             local FrameOptions = UUFGUI:Create("InlineGroup")
