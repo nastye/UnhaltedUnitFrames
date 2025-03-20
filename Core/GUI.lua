@@ -377,17 +377,6 @@ function UUF:CreateGUI()
                 UUFGUI_Container:AddChild(Enabled)
             end
 
-            local HealthGrowDirection = UUFGUI:Create("Dropdown")
-            HealthGrowDirection:SetLabel("Health Grow Direction")
-            HealthGrowDirection:SetList({
-                ["LR"] = "Left To Right",
-                ["RL"] = "Right To Left",
-            })
-            HealthGrowDirection:SetValue(Health.Direction)
-            HealthGrowDirection:SetCallback("OnValueChanged", function(widget, event, value) Health.Direction = value UUF:UpdateFrames() end)
-            HealthGrowDirection:SetRelativeWidth(1)
-            UUFGUI_Container:AddChild(HealthGrowDirection)
-
             -- Frame Options
             local FrameOptions = UUFGUI:Create("InlineGroup")
             FrameOptions:SetTitle("Frame Options")
@@ -450,6 +439,23 @@ function UUF:CreateGUI()
             FrameOptions:AddChild(FrameYPosition)
 
             UUFGUI_Container:AddChild(FrameOptions)
+
+            local HealthOptionsContainer = UUFGUI:Create("InlineGroup")
+            HealthOptionsContainer:SetTitle("Health Options")
+            HealthOptionsContainer:SetLayout("Flow")
+            HealthOptionsContainer:SetFullWidth(true)
+            UUFGUI_Container:AddChild(HealthOptionsContainer)
+
+            local HealthGrowDirection = UUFGUI:Create("Dropdown")
+            HealthGrowDirection:SetLabel("Health Grow Direction")
+            HealthGrowDirection:SetList({
+                ["LR"] = "Left To Right",
+                ["RL"] = "Right To Left",
+            })
+            HealthGrowDirection:SetValue(Health.Direction)
+            HealthGrowDirection:SetCallback("OnValueChanged", function(widget, event, value) Health.Direction = value UUF:UpdateFrames() end)
+            HealthGrowDirection:SetFullWidth(1)
+            HealthOptionsContainer:AddChild(HealthGrowDirection)
         end
 
         local function DrawBuffsContainer(UUFGUI_Container)
