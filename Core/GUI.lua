@@ -167,6 +167,9 @@ function UUF:CreateGUI()
             ["NONE"] = "None",
             ["OUTLINE"] = "Outline",
             ["THICKOUTLINE"] = "Thick Outline",
+            ["MONOCHROME"] = "Monochrome",
+            ["OUTLINE, MONOCHROME"] = "Outline, Monochrome",
+            ["THICKOUTLINE, MONOCHROME"] = "Thick Outline, Monochrome",
         })
         FontFlag:SetValue(General.FontFlag)
         FontFlag:SetCallback("OnValueChanged", function(widget, event, value) General.FontFlag = value UUF:UpdateFrames() end)
