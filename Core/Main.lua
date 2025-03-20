@@ -24,6 +24,16 @@ UUF.Defaults = {
             ColourIfDisconnected    = true,
             ColourIfTapped          = true,
             CustomColours = {
+                Reaction = {
+                    [1] = {255/255, 64/255, 64/255},            -- Hated
+                    [2] = {255/255, 64/255, 64/255},            -- Hostile
+                    [3] = {255/255, 128/255, 64/255},           -- Unfriendly
+                    [4] = {255/255, 255/255, 64/255},           -- Neutral
+                    [5] = {64/255, 255/255, 64/255},            -- Friendly
+                    [6] = {64/255, 255/255, 64/255},            -- Honored
+                    [7] = {64/255, 255/255, 64/255},            -- Revered
+                    [8] = {64/255, 255/255, 64/255},            -- Exalted
+                },
                 Power = {
                     [0] = {0, 0, 1},            -- Mana
                     [1] = {1, 0, 0},            -- Rage
@@ -648,11 +658,16 @@ function UUF:LoadCustomColours()
         [17] = "FURY",
         [18] = "PAIN"
     }
+
     for powerType, color in pairs(General.CustomColours.Power) do
         local powerTypeString = PowerTypesToString[powerType]
         if powerTypeString then
             oUF.colors.power[powerTypeString] = color
         end
+    end
+
+    for reaction, color in pairs(General.CustomColours.Reaction) do
+        oUF.colors.reaction[reaction] = color
     end
 end
 

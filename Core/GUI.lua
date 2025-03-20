@@ -1,8 +1,8 @@
 local _, UUF = ...
 local oUF = UUF.oUF
 local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
-local GUI_WIDTH = 800
-local GUI_HEIGHT = 800
+local GUI_WIDTH = 1200
+local GUI_HEIGHT = 900
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -26,6 +26,17 @@ local PowerNames = {
     [13] = "Insanity",
     [17] = "Fury",
     [18] = "Pain"
+}
+
+local ReactionNames = {
+    [1] = "Hated",
+    [2] = "Hostile",
+    [3] = "Unfriendly",
+    [4] = "Neutral",
+    [5] = "Friendly",
+    [6] = "Honored",
+    [7] = "Revered",
+    [8] = "Exalted",
 }
 
 function UUF:GenerateLSMFonts()
@@ -342,6 +353,23 @@ function UUF:CreateGUI()
             PowerColour:SetHasAlpha(false)
             PowerColour:SetRelativeWidth(0.25)
             PowerColours:AddChild(PowerColour)
+        end
+
+        local ReactionColours = UUFGUI:Create("InlineGroup")
+        ReactionColours:SetTitle("Reaction Colours")
+        ReactionColours:SetLayout("Flow")
+        ReactionColours:SetFullWidth(true)
+        CustomColours:AddChild(ReactionColours)
+
+        for reactionType, reactionColour in pairs(General.CustomColours.Reaction) do
+            local ReactionColour = UUFGUI:Create("ColorPicker")
+            ReactionColour:SetLabel(ReactionNames[reactionType])
+            local R, G, B = unpack(reactionColour)
+            ReactionColour:SetColor(R, G, B)
+            ReactionColour:SetCallback("OnValueChanged", function(widget, _, r, g, b) General.CustomColours.Reaction[reactionType] = {r, g, b} UUF:UpdateFrames() end)
+            ReactionColour:SetHasAlpha(false)
+            ReactionColour:SetRelativeWidth(0.25)
+            ReactionColours:AddChild(ReactionColour)
         end
 
         local ResetToDefault = UUFGUI:Create("Button")
