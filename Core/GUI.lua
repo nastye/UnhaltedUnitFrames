@@ -173,6 +173,37 @@ function UUF:CreateGUI()
         FontFlag:SetRelativeWidth(0.5)
         FontOptionsContainer:AddChild(FontFlag)
 
+        local FontShadowContainer = UUFGUI:Create("InlineGroup")
+        FontShadowContainer:SetTitle("Font Shadow Options")
+        FontShadowContainer:SetLayout("Flow")
+        FontShadowContainer:SetFullWidth(true)
+        FontOptionsContainer:AddChild(FontShadowContainer)
+
+        local FontShadowColourPicker = UUFGUI:Create("ColorPicker")
+        FontShadowColourPicker:SetLabel("Colour")
+        local FSR, FSG, FSB, FSA = unpack(General.FontShadowColour)
+        FontShadowColourPicker:SetColor(FSR, FSG, FSB, FSA)
+        FontShadowColourPicker:SetCallback("OnValueChanged", function(widget, _, r, g, b, a) General.FontShadowColour = {r, g, b, a} UUF:UpdateFrames() end)
+        FontShadowColourPicker:SetHasAlpha(true)
+        FontShadowColourPicker:SetRelativeWidth(0.33)
+        FontShadowContainer:AddChild(FontShadowColourPicker)
+
+        local FontShadowOffsetX = UUFGUI:Create("Slider")
+        FontShadowOffsetX:SetLabel("Shadow Offset X")
+        FontShadowOffsetX:SetValue(General.FontShadowXOffset)
+        FontShadowOffsetX:SetSliderValues(-10, 10, 1)
+        FontShadowOffsetX:SetCallback("OnValueChanged", function(_, _, value) General.FontShadowXOffset = value UUF:UpdateFrames() end)
+        FontShadowOffsetX:SetRelativeWidth(0.33)
+        FontShadowContainer:AddChild(FontShadowOffsetX)
+        
+        local FontShadowOffsetY = UUFGUI:Create("Slider")
+        FontShadowOffsetY:SetLabel("Shadow Offset Y")
+        FontShadowOffsetY:SetValue(General.FontShadowYOffset)
+        FontShadowOffsetY:SetSliderValues(-10, 10, 1)
+        FontShadowOffsetY:SetCallback("OnValueChanged", function(_, _, value) General.FontShadowYOffset = value UUF:UpdateFrames() end)
+        FontShadowOffsetY:SetRelativeWidth(0.33)
+        FontShadowContainer:AddChild(FontShadowOffsetY)
+
         UUFGUI_Container:AddChild(FontOptionsContainer)
 
         -- Texture Options
