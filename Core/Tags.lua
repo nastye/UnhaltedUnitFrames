@@ -69,6 +69,28 @@ oUF.Tags.Methods["Name:TargetTarget:Coloured"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly"] = function(unit)
+    local unitName = UnitName(unit)
+    local unitTarget = UnitName(unit .. "target")
+    local unitLastName = UUF:ShortenName(unitName, UUF.nameBlacklist)
+    if unitTarget and unitTarget ~= "" then
+        return string.format("%s » %s", unitLastName, UUF:ShortenName(unitTarget, UUF.nameBlacklist))
+    else
+        return unitLastName
+    end
+end
+
+oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = function(unit)
+    local unitName = UnitName(unit)
+    local unitTarget = UnitName(unit .. "target")
+    local colouredUnitName = UUF:WrapTextInColor(UUF:ShortenName(unitName, UUF.nameBlacklist), unit)
+    if unitTarget and unitTarget ~= "" then
+        return string.format("%s » %s", colouredUnitName, UUF:WrapTextInColor(UUF:ShortenName(unitTarget, UUF.nameBlacklist), unit .. "target"))
+    else
+        return colouredUnitName
+    end
+end
+
 oUF.Tags.Methods["Name:LastNameOnly"] = function(unit)
     local unitName = UnitName(unit)
     return UUF:ShortenName(unitName, UUF.nameBlacklist)
@@ -101,6 +123,8 @@ oUF.Tags.Events["Name:LastNameOnly"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["Name:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["Name:TargetTarget:LastNameOnly"] = "UNIT_TARGET"
 oUF.Tags.Events["Name:TargetTarget:LastNameOnly:Coloured"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly"] = "UNIT_NAME_UPDATE UNIT_TARGET"
+oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
@@ -126,6 +150,8 @@ local NameTagsDescription = {
     ["Last Name Only (Coloured)"] = {Tag = "[Name:LastNameOnly:Coloured]", Desc = "Displays Last Name Only (Reaction / Class Coloured)"},
     ["Target's Target Last Name Only"] = {Tag = "[Name:TargetTarget:LastNameOnly]", Desc = "Displays Target's Target Last Name Only"},
     ["Target's Target Last Name Only (Coloured)"] = {Tag = "[Name:TargetTarget:LastNameOnly:Coloured]", Desc = "Displays Target's Target Last Name Only (Reaction / Class Coloured)"},
+    ["Name with Target's Target Last Name Only"] = {Tag = "[Name:NamewithTargetTarget:LastNameOnly]", Desc = "Displays Name with Target's Target Last Name Only"},
+    ["Name with Target's Target Last Name Only (Coloured)"] = {Tag = "[Name:NamewithTargetTarget:LastNameOnly:Coloured]", Desc = "Displays Name with Target's Target Last Name Only (Reaction / Class Coloured)"},
 }
 
 function UUF:FetchNameTagDescriptions()
