@@ -1,5 +1,14 @@
 local _, UUF = ...
 local oUF = UUF.oUF
+
+local Frames = {
+    ["player"] = "Player",
+    ["target"] = "Target",
+    ["focus"] = "Focus",
+    ["pet"] = "Pet",
+    ["targettarget"] = "TargetTarget",
+    
+}
 function UUF:PostCreateButton(_, button)
     -- Icon Options
     local auraIcon = button.Icon
@@ -289,7 +298,8 @@ end
 function UUF:UpdateUnitFrame(FrameName)
     if not FrameName then return end
     
-    local Unit = FrameName.unit
+    local Unit = Frames[FrameName.unit]
+    print(Unit)
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = Frame.Portrait
     local Health = UUF.DB.global[Unit].Health
@@ -483,7 +493,7 @@ end
 function UUF:SpawnUnitFrame(Unit)
     local Frame = UUF.DB.global[Unit].Frame
     local Style = "UUF_" .. Unit
-    oUF:RegisterStyle(Style, function() UUF:CreateUnitFrame(Unit) end)
+    oUF:RegisterStyle(Style, function(self) UUF.CreateUnitFrame(self, Unit) end)
     oUF:SetActiveStyle(Style)
     self[Unit .. "Frame"] = oUF:Spawn(Unit, "UUF_" .. Unit)
     self[Unit .. "Frame"]:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
