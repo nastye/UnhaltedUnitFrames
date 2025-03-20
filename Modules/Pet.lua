@@ -15,6 +15,8 @@ function UUF:CreatePetFrame()
     local BottomLeftText = UUF.DB.global.Pet.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Pet.Texts.AdditionalTexts.BottomRight
 
+    if not Frame.Enabled then return end
+
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
         edgeFile = General.BorderTexture,
