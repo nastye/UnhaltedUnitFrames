@@ -383,6 +383,7 @@ function UUF:CreateGUI()
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
         local Frame = UUF.DB.global[Unit].Frame
+        local Portrait = Frame.Portrait
         local Health = UUF.DB.global[Unit].Health
         local Absorbs = Health.Absorbs
         local Buffs = UUF.DB.global[Unit].Buffs
@@ -468,6 +469,60 @@ function UUF:CreateGUI()
             FrameOptions:AddChild(FrameYPosition)
 
             UUFGUI_Container:AddChild(FrameOptions)
+
+            local PortraitOptions = UUFGUI:Create("InlineGroup")
+            PortraitOptions:SetTitle("Portrait Options")
+            PortraitOptions:SetLayout("Flow")
+            PortraitOptions:SetFullWidth(true)
+
+            local PortraitEnabled = UUFGUI:Create("CheckBox")
+            PortraitEnabled:SetLabel("Enable Portrait")
+            PortraitEnabled:SetValue(Portrait.Enabled)
+            PortraitEnabled:SetCallback("OnValueChanged", function(widget, event, value) Portrait.Enabled = value UUF:CreateReloadPrompt() end)
+            PortraitEnabled:SetRelativeWidth(1)
+            PortraitOptions:AddChild(PortraitEnabled)
+
+            local PortraitAnchorFrom = UUFGUI:Create("Dropdown")
+            PortraitAnchorFrom:SetLabel("Anchor From")
+            PortraitAnchorFrom:SetList(AnchorPoints)
+            PortraitAnchorFrom:SetValue(Portrait.AnchorFrom)
+            PortraitAnchorFrom:SetCallback("OnValueChanged", function(widget, event, value) Portrait.AnchorFrom = value UUF:UpdateFrames() end)
+            PortraitAnchorFrom:SetRelativeWidth(0.5)
+            PortraitOptions:AddChild(PortraitAnchorFrom)
+
+            local PortraitAnchorTo = UUFGUI:Create("Dropdown")
+            PortraitAnchorTo:SetLabel("Anchor To")
+            PortraitAnchorTo:SetList(AnchorPoints)
+            PortraitAnchorTo:SetValue(Portrait.AnchorTo)
+            PortraitAnchorTo:SetCallback("OnValueChanged", function(widget, event, value) Portrait.AnchorTo = value UUF:UpdateFrames() end)
+            PortraitAnchorTo:SetRelativeWidth(0.5)
+            PortraitOptions:AddChild(PortraitAnchorTo)
+
+            local PortraitSize = UUFGUI:Create("Slider")
+            PortraitSize:SetLabel("Portrait Size")
+            PortraitSize:SetSliderValues(1, 999, 0.1)
+            PortraitSize:SetValue(Portrait.Size)
+            PortraitSize:SetCallback("OnValueChanged", function(widget, event, value) Portrait.Size = value UUF:UpdateFrames() end)
+            PortraitSize:SetRelativeWidth(0.33)
+            PortraitOptions:AddChild(PortraitSize)
+
+            local PortraitXOffset = UUFGUI:Create("Slider")
+            PortraitXOffset:SetLabel("Portrait X Offset")
+            PortraitXOffset:SetSliderValues(-999, 999, 1)
+            PortraitXOffset:SetValue(Portrait.XOffset)
+            PortraitXOffset:SetCallback("OnValueChanged", function(widget, event, value) Portrait.XOffset = value UUF:UpdateFrames() end)
+            PortraitXOffset:SetRelativeWidth(0.33)
+            PortraitOptions:AddChild(PortraitXOffset)
+
+            local PortraitYOffset = UUFGUI:Create("Slider")
+            PortraitYOffset:SetLabel("Portrait Y Offset")
+            PortraitYOffset:SetSliderValues(-999, 999, 1)
+            PortraitYOffset:SetValue(Portrait.YOffset)
+            PortraitYOffset:SetCallback("OnValueChanged", function(widget, event, value) Portrait.YOffset = value UUF:UpdateFrames() end)
+            PortraitYOffset:SetRelativeWidth(0.33)
+            PortraitOptions:AddChild(PortraitYOffset)
+
+            UUFGUI_Container:AddChild(PortraitOptions)
 
             local HealthOptionsContainer = UUFGUI:Create("InlineGroup")
             HealthOptionsContainer:SetTitle("Health Options")

@@ -4,6 +4,7 @@ local oUF = UUF.oUF
 function UUF:CreateTargetFrame()
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global.Target.Frame
+    local Portrait = Frame.Portrait
     local Health = UUF.DB.global.Target.Health
     local Absorbs = UUF.DB.global.Target.Health.Absorbs
     local Buffs = UUF.DB.global.Target.Buffs
@@ -80,6 +81,21 @@ function UUF:CreateTargetFrame()
 
     self.unitHealthBar:SetFrameLevel(2)
     self.Health = self.unitHealthBar
+
+    if Portrait.Enabled then
+        self.unitPortraitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
+        self.unitPortraitBackdrop:SetSize(Portrait.Size, Portrait.Size)
+        self.unitPortraitBackdrop:SetPoint(Portrait.AnchorFrom, self, Portrait.AnchorTo, Portrait.XOffset, Portrait.YOffset)
+        self.unitPortraitBackdrop:SetBackdrop(BackdropTemplate)
+        self.unitPortraitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+        self.unitPortraitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+        
+        self.unitPortrait = self.unitPortraitBackdrop:CreateTexture(nil, "OVERLAY")
+        self.unitPortrait:SetSize(self.unitPortraitBackdrop:GetHeight() - 2, self.unitPortraitBackdrop:GetHeight() - 2)
+        self.unitPortrait:SetPoint("CENTER", self.unitPortraitBackdrop, "CENTER", 0, 0)
+        self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
+        self.Portrait = self.unitPortrait
+    end
 
     if Buffs.Enabled then
         self.unitBuffs = CreateFrame("Frame", nil, self)
@@ -199,6 +215,7 @@ function UUF:UpdateTargetFrame(FrameName)
     if not FrameName then return end
 
     local Frame = UUF.DB.global.Target.Frame
+    local Portrait = Frame.Portrait
     local Health = UUF.DB.global.Target.Health
     local Absorbs = UUF.DB.global.Target.Health.Absorbs
     local General = UUF.DB.global.General
@@ -264,6 +281,17 @@ function UUF:UpdateTargetFrame(FrameName)
         FrameName.unitAbsorbs:SetStatusBarColor(unpack(Absorbs.Colour))
         FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         FrameName.unitHealthBar:ForceUpdate()
+    end
+
+    if FrameName.unitPortraitBackdrop and FrameName.unitPortrait then
+        FrameName.unitPortraitBackdrop:ClearAllPoints()
+        FrameName.unitPortraitBackdrop:SetSize(Portrait.Size, Portrait.Size)
+        FrameName.unitPortraitBackdrop:SetPoint(Portrait.AnchorFrom, FrameName, Portrait.AnchorTo, Portrait.XOffset, Portrait.YOffset)
+        FrameName.unitPortraitBackdrop:SetBackdrop(BackdropTemplate)
+        FrameName.unitPortraitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+        FrameName.unitPortraitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+        FrameName.unitPortrait:SetSize(FrameName.unitPortraitBackdrop:GetHeight() - 2, FrameName.unitPortraitBackdrop:GetHeight() - 2)
+        FrameName.unitPortrait:SetPoint("CENTER", FrameName.unitPortraitBackdrop, "CENTER", 0, 0)
     end
 
     if Buffs.Enabled then
