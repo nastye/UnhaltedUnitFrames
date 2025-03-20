@@ -356,6 +356,7 @@ function UUF:CreateGUI()
     local function DrawUnitContainer(UUFGUI_Container, Unit)
         local Frame = UUF.DB.global[Unit].Frame
         local Health = UUF.DB.global[Unit].Health
+        local Absorbs = Health.Absorbs
         local Buffs = UUF.DB.global[Unit].Buffs
         local Debuffs = UUF.DB.global[Unit].Debuffs
         local TargetMarker = UUF.DB.global[Unit].TargetMarker
@@ -444,7 +445,6 @@ function UUF:CreateGUI()
             HealthOptionsContainer:SetTitle("Health Options")
             HealthOptionsContainer:SetLayout("Flow")
             HealthOptionsContainer:SetFullWidth(true)
-            UUFGUI_Container:AddChild(HealthOptionsContainer)
 
             local HealthGrowDirection = UUFGUI:Create("Dropdown")
             HealthGrowDirection:SetLabel("Health Grow Direction")
@@ -454,8 +454,32 @@ function UUF:CreateGUI()
             })
             HealthGrowDirection:SetValue(Health.Direction)
             HealthGrowDirection:SetCallback("OnValueChanged", function(widget, event, value) Health.Direction = value UUF:UpdateFrames() end)
-            HealthGrowDirection:SetFullWidth(1)
+            HealthGrowDirection:SetFullWidth(true)
             HealthOptionsContainer:AddChild(HealthGrowDirection)
+
+            local AbsorbsContainer = UUFGUI:Create("InlineGroup")
+            AbsorbsContainer:SetTitle("Absorbs Options")
+            AbsorbsContainer:SetLayout("Flow")
+            AbsorbsContainer:SetFullWidth(true)
+            HealthOptionsContainer:AddChild(AbsorbsContainer)
+
+            local AbsorbsEnabled = UUFGUI:Create("CheckBox")
+            AbsorbsEnabled:SetLabel("Enable Absorbs")
+            AbsorbsEnabled:SetValue(Absorbs.Enabled)
+            AbsorbsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Absorbs.Enabled = value UUF:UpdateFrames() end)
+            AbsorbsEnabled:SetRelativeWidth(0.5)
+            AbsorbsContainer:AddChild(AbsorbsEnabled)
+
+            local AbsorbsColourPicker = UUFGUI:Create("ColorPicker")
+            AbsorbsColourPicker:SetLabel("Colour")
+            local AR, AG, AB, AA = unpack(Absorbs.Colour)
+            AbsorbsColourPicker:SetColor(AR, AG, AB, AA)
+            AbsorbsColourPicker:SetCallback("OnValueChanged", function(widget, _, r, g, b, a) Absorbs.Colour = {r, g, b, a} UUF:UpdateFrames() end)
+            AbsorbsColourPicker:SetHasAlpha(true)
+            AbsorbsColourPicker:SetRelativeWidth(0.5)
+            AbsorbsContainer:AddChild(AbsorbsColourPicker)
+
+            UUFGUI_Container:AddChild(HealthOptionsContainer)
         end
 
         local function DrawBuffsContainer(UUFGUI_Container)

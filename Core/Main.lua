@@ -51,6 +51,11 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = false,
@@ -143,6 +148,11 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = true,
@@ -235,7 +245,11 @@ UUF.Defaults = {
                 AnchorParent        = "UUF_Target",
             },
             Health = {
-                Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = false,
@@ -329,6 +343,11 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = false,
@@ -422,6 +441,11 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = false,
@@ -515,6 +539,11 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                Absorbs = {
+                    Enabled         = true,
+                    Colour          = {255/255, 205/255, 0/255, 1},
+                    ColourByType    = true,
+                }
             },
             Buffs = {
                 Enabled             = true,

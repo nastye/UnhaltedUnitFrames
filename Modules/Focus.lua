@@ -5,6 +5,7 @@ function UUF:CreateFocusFrame()
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global.Focus.Frame
     local Health = UUF.DB.global.Focus.Health
+    local Absorbs = UUF.DB.global.Focus.Health.Absorbs
     local Buffs = UUF.DB.global.Focus.Buffs
     local Debuffs = UUF.DB.global.Focus.Debuffs
     local TargetMarker = UUF.DB.global.Focus.TargetMarker
@@ -15,8 +16,6 @@ function UUF:CreateFocusFrame()
     local TopRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.TopRight
     local BottomLeftText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global.Focus.Texts.AdditionalTexts.BottomRight
-
-    if not Frame.Enabled then return end
 
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
@@ -34,53 +33,82 @@ function UUF:CreateFocusFrame()
     self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBackdrop:SetFrameLevel(1)
 
-    local unitHealthBar = CreateFrame("StatusBar", nil, self)
-    unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
-    unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
-    unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
-    unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
-    unitHealthBar:SetMinMaxValues(0, 100)
-    unitHealthBar.colorReaction = General.ColourByReaction
-    unitHealthBar.colorClass = General.ColourByClass
-    unitHealthBar.colorDisconnected = General.ColourIfDisconnected
-    unitHealthBar.colorTapping = General.ColourIfTapped
+    self.unitHealthBar = CreateFrame("StatusBar", nil, self)
+    self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
+    self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+    self.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
+    self.unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
+    self.unitHealthBar:SetMinMaxValues(0, 100)
+    self.unitHealthBar.colorReaction = General.ColourByReaction
+    self.unitHealthBar.colorClass = General.ColourByClass
+    self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
+    self.unitHealthBar.colorTapping = General.ColourIfTapped
     if Health.Direction == "RL" then
-        unitHealthBar:SetReverseFill(true)
+        self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
-        unitHealthBar:SetReverseFill(false)
+        self.unitHealthBar:SetReverseFill(false)
     end
 
-    unitHealthBar:SetFrameLevel(2)
-    self.Health = unitHealthBar
+    if Absorbs.Enabled then
+        self.unitAbsorbs = CreateFrame("StatusBar", nil, self)
+        self.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
+        local UAR, UAG, UAB, UAA = unpack(Absorbs.Colour)
+        self.unitAbsorbs:SetStatusBarColor(UAR, UAG, UAB, UAA)
+        self.unitAbsorbs:SetMinMaxValues(0, 100)
+        if Health.Direction == "RL" then
+            self.unitAbsorbs:SetReverseFill(true)
+            self.unitAbsorbs:SetPoint("TOPRIGHT", self.unitHealthBar:GetStatusBarTexture(), "TOPLEFT")
+            self.unitAbsorbs:SetPoint("BOTTOMRIGHT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        elseif Health.Direction == "LR" then
+            self.unitAbsorbs:SetReverseFill(false)
+            self.unitAbsorbs:SetPoint("TOPLEFT", self.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
+            self.unitAbsorbs:SetPoint("BOTTOMLEFT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+        end
+        self.unitAbsorbs:SetSize(self:GetWidth() - 2, self:GetHeight() - 2)
+        self.unitAbsorbs:SetFrameLevel(3)
+        self.unitAbsorbs:Hide()
+        self.Absorbs = self.unitAbsorbs
+
+        self.HealthPrediction = {
+            myBar = nil,
+            otherBar = nil,
+            absorbBar = Absorbs.Enabled and self.Absorbs or nil,
+            healAbsorbBar = nil,
+            maxOverflow = 1,
+        }
+    end
+
+    self.unitHealthBar:SetFrameLevel(2)
+    self.Health = self.unitHealthBar
 
     if Buffs.Enabled then
-        local unitBuffs = CreateFrame("Frame", nil, self)
-        unitBuffs:SetSize(self:GetWidth(), Buffs.Size)
-        unitBuffs:SetPoint(Buffs.AnchorFrom, self, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
-        unitBuffs.size = Buffs.Size
-        unitBuffs.spacing = Buffs.Spacing
-        unitBuffs.num = Buffs.Num
-        unitBuffs.initialAnchor = Buffs.AnchorFrom
-        unitBuffs["growth-x"] = Buffs.GrowthX
-        unitBuffs["growth-y"] = Buffs.GrowthY
-        unitBuffs.filter = "HELPFUL"
-        unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
-        self.Buffs = unitBuffs
+        self.unitBuffs = CreateFrame("Frame", nil, self)
+        self.unitBuffs:SetSize(self:GetWidth(), Buffs.Size)
+        self.unitBuffs:SetPoint(Buffs.AnchorFrom, self, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
+        self.unitBuffs.size = Buffs.Size
+        self.unitBuffs.spacing = Buffs.Spacing
+        self.unitBuffs.num = Buffs.Num
+        self.unitBuffs.initialAnchor = Buffs.AnchorFrom
+        self.unitBuffs["growth-x"] = Buffs.GrowthX
+        self.unitBuffs["growth-y"] = Buffs.GrowthY
+        self.unitBuffs.filter = "HELPFUL"
+        self.unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
+        self.Buffs = self.unitBuffs
     end
 
     if Debuffs.Enabled then
-        local unitDebuffs = CreateFrame("Frame", nil, self)
-        unitDebuffs:SetSize(self:GetWidth(), Debuffs.Size)
-        unitDebuffs:SetPoint(Debuffs.AnchorFrom, self, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
-        unitDebuffs.size = Debuffs.Size
-        unitDebuffs.spacing = Debuffs.Spacing
-        unitDebuffs.num = Debuffs.Num
-        unitDebuffs.initialAnchor = Debuffs.AnchorFrom
-        unitDebuffs["growth-x"] = Debuffs.GrowthX
-        unitDebuffs["growth-y"] = Debuffs.GrowthY
-        unitDebuffs.filter = "HARMFUL"
-        unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
-        self.Debuffs = unitDebuffs
+        self.unitDebuffs = CreateFrame("Frame", nil, self)
+        self.unitDebuffs:SetSize(self:GetWidth(), Debuffs.Size)
+        self.unitDebuffs:SetPoint(Debuffs.AnchorFrom, self, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
+        self.unitDebuffs.size = Debuffs.Size
+        self.unitDebuffs.spacing = Debuffs.Spacing
+        self.unitDebuffs.num = Debuffs.Num
+        self.unitDebuffs.initialAnchor = Debuffs.AnchorFrom
+        self.unitDebuffs["growth-x"] = Debuffs.GrowthX
+        self.unitDebuffs["growth-y"] = Debuffs.GrowthY
+        self.unitDebuffs.filter = "HARMFUL"
+        self.unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
+        self.Debuffs = self.unitDebuffs
     end
 
     local unitHighLevelFrame = CreateFrame("Frame", nil, self)
@@ -145,10 +173,10 @@ function UUF:CreateFocusFrame()
     self:Tag(self.unitBottomRightText, BottomRightText.Tag)
 
     if TargetMarker.Enabled then
-        local unitTargetMarker = unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
-        unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
-        unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, unitHighLevelFrame, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
-        self.RaidTargetIndicator = unitTargetMarker
+        self.unitTargetMarker = unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
+        self.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
+        self.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, unitHighLevelFrame, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
+        self.RaidTargetIndicator = self.unitTargetMarker
     end
 
     self:RegisterForClicks("AnyUp")
@@ -172,6 +200,7 @@ function UUF:UpdateFocusFrame(FrameName)
 
     local Frame = UUF.DB.global.Focus.Frame
     local Health = UUF.DB.global.Focus.Health
+    local Absorbs = UUF.DB.global.Focus.Health.Absorbs
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global.Focus.Buffs
     local Debuffs = UUF.DB.global.Focus.Debuffs
@@ -203,57 +232,75 @@ function UUF:UpdateFocusFrame(FrameName)
         FrameName.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     end
 
-    if FrameName.Health then
-        FrameName.Health:SetSize(Frame.Width - 2, Frame.Height - 2)
-        FrameName.Health:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
-        FrameName.Health:SetStatusBarTexture(General.ForegroundTexture)
-        FrameName.Health:SetStatusBarColor(unpack(General.ForegroundColour))
-        FrameName.Health.colorReaction = General.ColourByReaction
-        FrameName.Health.colorClass = General.ColourByClass
-        FrameName.Health.colorDisconnected = General.ColourIfDisconnected
+    if FrameName.unitHealthBar then
+        FrameName.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
+        FrameName.unitHealthBar:ClearAllPoints()
+        FrameName.unitHealthBar:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
+        FrameName.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
+        FrameName.unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
+        FrameName.unitHealthBar.colorReaction = General.ColourByReaction
+        FrameName.unitHealthBar.colorClass = General.ColourByClass
+        FrameName.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
         if Health.Direction == "RL" then
-            FrameName.Health:SetReverseFill(true)
+            FrameName.unitHealthBar:SetReverseFill(true)
         elseif Health.Direction == "LR" then
-            FrameName.Health:SetReverseFill(false)
+            FrameName.unitHealthBar:SetReverseFill(false)
         end
-        FrameName.Health:ForceUpdate()
+        FrameName.unitHealthBar:ForceUpdate()
+    end
+
+    if FrameName.unitAbsorbs then
+        if Health.Direction == "RL" then
+            FrameName.unitAbsorbs:SetReverseFill(true)
+            FrameName.unitAbsorbs:ClearAllPoints()
+            FrameName.unitAbsorbs:SetPoint("TOPRIGHT", FrameName.unitHealthBar:GetStatusBarTexture(), "TOPLEFT")
+            FrameName.unitAbsorbs:SetPoint("BOTTOMRIGHT", FrameName.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        elseif Health.Direction == "LR" then
+            FrameName.unitAbsorbs:SetReverseFill(false)
+            FrameName.unitAbsorbs:ClearAllPoints()
+            FrameName.unitAbsorbs:SetPoint("TOPLEFT", FrameName.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
+            FrameName.unitAbsorbs:SetPoint("BOTTOMLEFT", FrameName.unitHealthBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+        end
+        FrameName.unitAbsorbs:SetStatusBarColor(unpack(Absorbs.Colour))
+        FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
+        FrameName.unitHealthBar:ForceUpdate()
     end
 
     if Buffs.Enabled then
-        FrameName.Buffs:ClearAllPoints()
-        FrameName.Buffs:SetSize(FrameName:GetWidth(), Buffs.Size)
-        FrameName.Buffs:SetPoint(Buffs.AnchorFrom, FrameName, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
-        FrameName.Buffs.size = Buffs.Size
-        FrameName.Buffs.spacing = Buffs.Spacing
-        FrameName.Buffs.num = Buffs.Num
-        FrameName.Buffs.initialAnchor = Buffs.AnchorFrom
-        FrameName.Buffs["growth-x"] = Buffs.GrowthX
-        FrameName.Buffs["growth-y"] = Buffs.GrowthY
-        FrameName.Buffs.filter = "HELPFUL"
-        FrameName.Buffs:Show()
-        FrameName.Buffs:ForceUpdate()
+        FrameName.unitBuffs:ClearAllPoints()
+        FrameName.unitBuffs:SetSize(FrameName:GetWidth(), Buffs.Size)
+        FrameName.unitBuffs:SetPoint(Buffs.AnchorFrom, FrameName, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
+        FrameName.unitBuffs.size = Buffs.Size
+        FrameName.unitBuffs.spacing = Buffs.Spacing
+        FrameName.unitBuffs.num = Buffs.Num
+        FrameName.unitBuffs.initialAnchor = Buffs.AnchorFrom
+        FrameName.unitBuffs["growth-x"] = Buffs.GrowthX
+        FrameName.unitBuffs["growth-y"] = Buffs.GrowthY
+        FrameName.unitBuffs.filter = "HELPFUL"
+        FrameName.unitBuffs:Show()
+        FrameName.unitBuffs:ForceUpdate()
     else
-        if FrameName.Buffs then
-            FrameName.Buffs:Hide()
+        if FrameName.unitBuffs then
+            FrameName.unitBuffs:Hide()
         end
     end
 
     if Debuffs.Enabled then
-        FrameName.Debuffs:ClearAllPoints()
-        FrameName.Debuffs:SetSize(FrameName:GetWidth(), Debuffs.Size)
-        FrameName.Debuffs:SetPoint(Debuffs.AnchorFrom, FrameName, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
-        FrameName.Debuffs.size = Debuffs.Size
-        FrameName.Debuffs.spacing = Debuffs.Spacing
-        FrameName.Debuffs.num = Debuffs.Num
-        FrameName.Debuffs.initialAnchor = Debuffs.AnchorFrom
-        FrameName.Debuffs["growth-x"] = Debuffs.GrowthX
-        FrameName.Debuffs["growth-y"] = Debuffs.GrowthY
-        FrameName.Debuffs.filter = "HELPFUL"
-        FrameName.Debuffs:Show()
-        FrameName.Debuffs:ForceUpdate()
+        FrameName.unitDebuffs:ClearAllPoints()
+        FrameName.unitDebuffs:SetSize(FrameName:GetWidth(), Debuffs.Size)
+        FrameName.unitDebuffs:SetPoint(Debuffs.AnchorFrom, FrameName, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
+        FrameName.unitDebuffs.size = Debuffs.Size
+        FrameName.unitDebuffs.spacing = Debuffs.Spacing
+        FrameName.unitDebuffs.num = Debuffs.Num
+        FrameName.unitDebuffs.initialAnchor = Debuffs.AnchorFrom
+        FrameName.unitDebuffs["growth-x"] = Debuffs.GrowthX
+        FrameName.unitDebuffs["growth-y"] = Debuffs.GrowthY
+        FrameName.unitDebuffs.filter = "HELPFUL"
+        FrameName.unitDebuffs:Show()
+        FrameName.unitDebuffs:ForceUpdate()
     else
-        if FrameName.Debuffs then
-            FrameName.Debuffs:Hide()
+        if FrameName.unitDebuffs then
+            FrameName.unitDebuffs:Hide()
         end
     end
 
@@ -320,10 +367,10 @@ function UUF:UpdateFocusFrame(FrameName)
         FrameName:Tag(FrameName.unitBottomRightText, BottomRightText.Tag)
     end
 
-    if FrameName.RaidTargetIndicator and TargetMarker.Enabled then
-        FrameName.RaidTargetIndicator:ClearAllPoints()
-        FrameName.RaidTargetIndicator:SetSize(TargetMarker.Size, TargetMarker.Size)
-        FrameName.RaidTargetIndicator:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
+    if FrameName.unitTargetMarker and TargetMarker.Enabled then
+        FrameName.unitTargetMarker:ClearAllPoints()
+        FrameName.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
+        FrameName.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
     end
 
     FrameName:UpdateTags()
