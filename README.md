@@ -14,8 +14,6 @@ If you want to test this before the public release. You can **download**, **extr
 
 ## Still To Come:
 - [ ] Test Mode for Customization.
-- [ ] Power Bars.
-- [ ] Cast Bars (Interest Based).
 - [ ] Incoming Heals / Heal Absorbs.
 
 ## Currently Functioning:
