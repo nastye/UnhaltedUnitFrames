@@ -16,7 +16,7 @@ If you want to test this before the public release. You can **download**, **extr
 - [ ] Test Mode for Customization.
 - [ ] Power Bars.
 - [ ] Cast Bars (Interest Based).
-- [ ] Incoming Heals / Absorbs / Heal Absorbs.
+- [ ] Incoming Heals / Heal Absorbs.
 
 ## Currently Functioning:
 - Frames Implemented:
@@ -29,11 +29,15 @@ If you want to test this before the public release. You can **download**, **extr
 - Options Implemented:
     - ✅ Background / Foreground Texture Swapping.
     - ✅ UI Scaling.
-    - ✅ Font & Font Flag Swapping.
-    - ✅ Custom Power Colours.
+    - ✅ Font, Font Flag & Font Shadows.
+    - ✅ Custom Power & Reaction Colours.
     - ✅ Resize / Repositioning.
     - ✅ Customized Anchors.
     - ✅ Buff / Debuff Customizations.
     - ✅ Target Marker Customizations.
+    - ✅ Player Portraits (2D).
+    - ✅ Absorb Bar with Colour Customization.
+    - ✅ Inversed Health Growth.
+    - ✅ Tags, Tags & More Tags.
 # Demonstration Video
 [![Watch the video](https://img.youtube.com/vi/2Cr489hgasA/maxresdefault.jpg)](https://youtu.be/2Cr489hgasA?si=FILunCDH-zj2uUSt)
