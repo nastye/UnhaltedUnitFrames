@@ -4,7 +4,7 @@ local oUF = UUF.oUF
 function UUF:CreateBossFrame()
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global.Boss.Frame
-    local Portrait = Frame.Portrait
+    local Portrait = UUF.DB.global.Boss.Portrait
     local Health = UUF.DB.global.Boss.Health
     local Absorbs = UUF.DB.global.Boss.Health.Absorbs
     local Buffs = UUF.DB.global.Boss.Buffs
@@ -206,8 +206,8 @@ function UUF:UpdateBossFrame(FrameName)
     if not FrameName then return end
 
     local Frame = UUF.DB.global.Boss.Frame
-    local Portrait = Frame.Portrait
     local Health = UUF.DB.global.Boss.Health
+    local Portrait = UUF.DB.global.Boss.Portrait
     local Absorbs = UUF.DB.global.Boss.Health.Absorbs
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global.Boss.Buffs

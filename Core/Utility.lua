@@ -97,7 +97,7 @@ end
 function UUF:CreateUnitFrame(Unit)
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global[Unit].Frame
-    local Portrait = Frame.Portrait
+    local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
     local Absorbs = UUF.DB.global[Unit].Health.Absorbs
     local Buffs = UUF.DB.global[Unit].Buffs
@@ -304,7 +304,7 @@ function UUF:UpdateUnitFrame(FrameName)
     
     local Unit = Frames[FrameName.unit]
     local Frame = UUF.DB.global[Unit].Frame
-    local Portrait = Frame.Portrait
+    local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
     local Absorbs = UUF.DB.global[Unit].Health.Absorbs
     local General = UUF.DB.global.General

@@ -58,14 +58,14 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
-                Portrait = {
-                    Enabled         = false,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "RIGHT",
-                    AnchorTo        = "LEFT",
-                }
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
             },
             Health = {
                 Direction = "LR",
@@ -163,14 +163,14 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
-                Portrait = {
-                    Enabled         = false,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "LEFT",
-                    AnchorTo        = "RIGHT",
-                }
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "LEFT",
+                AnchorTo        = "RIGHT",
             },
             Health = {
                 Direction = "LR",
@@ -269,14 +269,14 @@ UUF.Defaults = {
                 AnchorFrom          = "TOPLEFT",
                 AnchorTo            = "TOPRIGHT",
                 AnchorParent        = "UUF_Target",
-                Portrait = {
-                    Enabled         = false,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "RIGHT",
-                    AnchorTo        = "LEFT",
-                }
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
             },
             Health = {
                 Absorbs = {
@@ -374,14 +374,14 @@ UUF.Defaults = {
                 AnchorFrom          = "BOTTOMRIGHT",
                 AnchorTo            = "TOPRIGHT",
                 AnchorParent        = "UUF_Target",
-                Portrait = {
-                    Enabled         = false,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "RIGHT",
-                    AnchorTo        = "LEFT",
-                }
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
             },
             Health = {
                 Direction = "LR",
@@ -480,14 +480,14 @@ UUF.Defaults = {
                 AnchorFrom          = "TOPLEFT",
                 AnchorTo            = "BOTTOMLEFT",
                 AnchorParent        = "UUF_Player",
-                Portrait = {
-                    Enabled         = false,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "RIGHT",
-                    AnchorTo        = "LEFT",
-                }
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
             },
             Health = {
                 Direction = "LR",
@@ -586,14 +586,14 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
-                Portrait = {
-                    Enabled         = true,
-                    Size            = 42,
-                    XOffset         = -1,
-                    YOffset         = 0,
-                    AnchorFrom      = "RIGHT",
-                    AnchorTo        = "LEFT",
-                }
+            },
+            Portrait = {
+                Enabled         = true,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
             },
             Health = {
                 Direction = "LR",

@@ -383,7 +383,7 @@ function UUF:CreateGUI()
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
         local Frame = UUF.DB.global[Unit].Frame
-        local Portrait = Frame.Portrait
+        local Portrait = UUF.DB.global[Unit].Portrait
         local Health = UUF.DB.global[Unit].Health
         local Absorbs = Health.Absorbs
         local Buffs = UUF.DB.global[Unit].Buffs
