@@ -92,6 +92,13 @@ UUF.Defaults = {
                 YOffset             = 1,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -104,6 +111,13 @@ UUF.Defaults = {
                 YOffset             = 1,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom      = "BOTTOMRIGHT",
+                    AnchorTo        = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = true,
@@ -157,7 +171,7 @@ UUF.Defaults = {
                         YOffset         = 0,
                         Tag             = "",
                     },
-                }  
+                }
             }
         },
         Target = {
@@ -204,6 +218,13 @@ UUF.Defaults = {
                 YOffset             = 1,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -216,6 +237,13 @@ UUF.Defaults = {
                 YOffset             = 1,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = true,
@@ -316,6 +344,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -328,6 +363,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = true,
@@ -429,6 +471,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -441,6 +490,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = true,
@@ -542,6 +598,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -554,6 +617,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "RIGHT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = false,
@@ -655,6 +725,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "LEFT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             Debuffs = {
                 Enabled             = false,
@@ -667,6 +744,13 @@ UUF.Defaults = {
                 YOffset             = 0,
                 GrowthX             = "LEFT",
                 GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                }
             },
             TargetMarker = {
                 Enabled             = true,

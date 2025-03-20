@@ -8,7 +8,10 @@ local Frames = {
     ["pet"] = "Pet",
     ["targettarget"] = "TargetTarget",
 }
-function UUF:PostCreateButton(_, button)
+function UUF:PostCreateButton(_, button, Unit, AuraType)
+    local General = UUF.DB.global.General
+    local BuffCount = UUF.DB.global[Unit].Buffs.Count
+    local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
     -- Icon Options
     local auraIcon = button.Icon
     auraIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
@@ -26,10 +29,55 @@ function UUF:PostCreateButton(_, button)
 
     -- Count Options
     local auraCount = button.Count
-    auraCount:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
-    auraCount:SetPoint("BOTTOMRIGHT", 0, 3)
-    auraCount:SetJustifyH("RIGHT")
-    auraCount:SetTextColor(1, 1, 1, 1)
+    if AuraType == "HELPFUL" then
+        auraCount:ClearAllPoints()
+        auraCount:SetPoint(BuffCount.AnchorFrom, button, BuffCount.AnchorTo, BuffCount.XOffset, BuffCount.YOffset)
+        auraCount:SetFont(General.Font, BuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(1, 1, 1, 1)
+    elseif AuraType == "HARMFUL" then
+        auraCount:ClearAllPoints()
+        auraCount:SetPoint(DebuffCount.AnchorFrom, button, DebuffCount.AnchorTo, DebuffCount.XOffset, DebuffCount.YOffset)
+        auraCount:SetFont(General.Font, DebuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(1, 1, 1, 1)
+    end
+end
+
+function UUF:PostUpdateButton(_, button, Unit, AuraType)
+    local General = UUF.DB.global.General
+    local BuffCount = UUF.DB.global[Unit].Buffs.Count
+    local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
+    -- Icon Options
+    local auraIcon = button.Icon
+    auraIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+
+    -- Border Options
+    local buttonBorder = CreateFrame("Frame", nil, button, "BackdropTemplate")
+    buttonBorder:SetAllPoints()
+    buttonBorder:SetBackdrop({ edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+    buttonBorder:SetBackdropBorderColor(0, 0, 0, 1)
+
+    -- Cooldown Options
+    local auraCooldown = button.Cooldown
+    auraCooldown:SetDrawEdge(false)
+    auraCooldown:SetReverse(true)
+
+    -- Count Options
+    local auraCount = button.Count
+    if AuraType == "HELPFUL" then 
+        auraCount:ClearAllPoints()
+        auraCount:SetPoint(BuffCount.AnchorFrom, button, BuffCount.AnchorTo, BuffCount.XOffset, BuffCount.YOffset)
+        auraCount:SetFont(General.Font, BuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(1, 1, 1, 1)
+    elseif AuraType == "HARMFUL" then
+        auraCount:ClearAllPoints()
+        auraCount:SetPoint(DebuffCount.AnchorFrom, button, DebuffCount.AnchorTo, DebuffCount.XOffset, DebuffCount.YOffset)
+        auraCount:SetFont(General.Font, DebuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(1, 1, 1, 1)
+    end
 end
 
 function UUF:FormatLargeNumber(value)
@@ -199,11 +247,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
         self.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
         self.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        if PowerBar.BackgroundColourStyle == "STATIC" then
-            self.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
-        elseif PowerBar.BackgroundColourStyle == "TYPE" then
-            self.unitPowerBarBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
-        end
+        self.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
         self.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
         self.unitPowerBarBackdrop:SetFrameLevel(4)
 
@@ -230,7 +274,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitBuffs["growth-x"] = Buffs.GrowthX
         self.unitBuffs["growth-y"] = Buffs.GrowthY
         self.unitBuffs.filter = "HELPFUL"
-        self.unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
+        self.unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, Unit, "HELPFUL") end
         self.Buffs = self.unitBuffs
     end
 
@@ -245,7 +289,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitDebuffs["growth-x"] = Debuffs.GrowthX
         self.unitDebuffs["growth-y"] = Debuffs.GrowthY
         self.unitDebuffs.filter = "HARMFUL"
-        self.unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button) end
+        self.unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, Unit, "HARMFUL") end
         self.Debuffs = self.unitDebuffs
     end
 
@@ -414,11 +458,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
         FrameName.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
         FrameName.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        if PowerBar.BackgroundColourStyle == "STATIC" then
-            FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
-        elseif PowerBar.BackgroundColourStyle == "TYPE" then
-            FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
-        end
+        FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
         FrameName.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
         FrameName.unitPowerBarBackdrop:SetFrameLevel(4)
         FrameName.unitPowerBar:ClearAllPoints()
@@ -445,6 +485,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitBuffs["growth-y"] = Buffs.GrowthY
         FrameName.unitBuffs.filter = "HELPFUL"
         FrameName.unitBuffs:Show()
+        FrameName.unitBuffs.PostUpdateButton = function(_, button) UUF:PostUpdateButton(_, button, Unit, "HELPFUL") end
         FrameName.unitBuffs:ForceUpdate()
     else
         if FrameName.unitBuffs then
@@ -464,6 +505,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitDebuffs["growth-y"] = Debuffs.GrowthY
         FrameName.unitDebuffs.filter = "HELPFUL"
         FrameName.unitDebuffs:Show()
+        FrameName.unitDebuffs.PostUpdateButton = function(_, button) UUF:PostUpdateButton(_, button, Unit, "HARMFUL") end
         FrameName.unitDebuffs:ForceUpdate()
     else
         if FrameName.unitDebuffs then
