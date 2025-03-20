@@ -1,5 +1,4 @@
 local _, UUF = ...
-local oUF = UUF.oUF
 local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
 local GUI_WIDTH = 1200
 local GUI_HEIGHT = 900
@@ -386,6 +385,7 @@ function UUF:CreateGUI()
         local Portrait = UUF.DB.global[Unit].Portrait
         local Health = UUF.DB.global[Unit].Health
         local Absorbs = Health.Absorbs
+        local PowerBar = UUF.DB.global[Unit].PowerBar
         local Buffs = UUF.DB.global[Unit].Buffs
         local Debuffs = UUF.DB.global[Unit].Debuffs
         local TargetMarker = UUF.DB.global[Unit].TargetMarker
@@ -563,6 +563,56 @@ function UUF:CreateGUI()
             AbsorbsContainer:AddChild(AbsorbsColourPicker)
 
             UUFGUI_Container:AddChild(HealthOptionsContainer)
+
+            local PowerBarOptionsContainer = UUFGUI:Create("InlineGroup")
+            PowerBarOptionsContainer:SetTitle("Power Bar Options")
+            PowerBarOptionsContainer:SetLayout("Flow")
+            PowerBarOptionsContainer:SetFullWidth(true)
+            UUFGUI_Container:AddChild(PowerBarOptionsContainer)
+
+            local PowerBarEnabled = UUFGUI:Create("CheckBox")
+            PowerBarEnabled:SetLabel("Enable Power Bar")
+            PowerBarEnabled:SetValue(PowerBar.Enabled)
+            PowerBarEnabled:SetCallback("OnValueChanged", function(widget, event, value) PowerBar.Enabled = value UUF:CreateReloadPrompt() end)
+            PowerBarEnabled:SetRelativeWidth(0.5)
+            PowerBarOptionsContainer:AddChild(PowerBarEnabled)
+
+            local PowerBarBackdropColour = UUFGUI:Create("ColorPicker")
+            PowerBarBackdropColour:SetLabel("Colour")
+            local PBBR, PBBG, PBBB, PBBA = unpack(PowerBar.BackgroundColour)
+            PowerBarBackdropColour:SetColor(PBBR, PBBG, PBBB, PBBA)
+            PowerBarBackdropColour:SetCallback("OnValueChanged", function(widget, event, r, g, b, a) PowerBar.BackgroundColour = {r, g, b, a} UUF:UpdateFrames() end)
+            PowerBarBackdropColour:SetHasAlpha(true)
+            PowerBarBackdropColour:SetRelativeWidth(0.5)
+            PowerBarOptionsContainer:AddChild(PowerBarBackdropColour)
+
+            local PowerBarColour = UUFGUI:Create("ColorPicker")
+            PowerBarColour:SetLabel("Bar Colour")
+            local PBR, PBG, PBB, PBA = unpack(PowerBar.Colour)
+            PowerBarColour:SetColor(PBR, PBG, PBB, PBA)
+            PowerBarColour:SetCallback("OnValueChanged", function(widget, event, r, g, b, a) PowerBar.Colour = {r, g, b, a} UUF:UpdateFrames() end)
+            PowerBarColour:SetHasAlpha(true)
+            PowerBarColour:SetRelativeWidth(0.5)
+
+            local PowerBarColourByType = UUFGUI:Create("CheckBox")
+            PowerBarColourByType:SetLabel("Colour By Type")
+            PowerBarColourByType:SetValue(PowerBar.ColourByType)
+            PowerBarColourByType:SetCallback("OnValueChanged", function(widget, event, value) 
+                PowerBar.ColourByType = value
+                UUF:UpdateFrames()
+                PowerBarColour:SetDisabled(value)
+                end)
+            PowerBarColourByType:SetRelativeWidth(0.5)
+
+            local PowerBarHeight = UUFGUI:Create("Slider")
+            PowerBarHeight:SetLabel("Height")
+            PowerBarHeight:SetSliderValues(1, 64, 1)
+            PowerBarHeight:SetValue(PowerBar.Height)
+            PowerBarHeight:SetCallback("OnValueChanged", function(widget, event, value) PowerBar.Height = value UUF:UpdateFrames() end)
+            PowerBarHeight:SetRelativeWidth(1)
+            PowerBarOptionsContainer:AddChild(PowerBarColourByType)
+            PowerBarOptionsContainer:AddChild(PowerBarColour)
+            PowerBarOptionsContainer:AddChild(PowerBarHeight)
         end
 
         local function DrawBuffsContainer(UUFGUI_Container)

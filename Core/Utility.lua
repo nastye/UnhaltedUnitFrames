@@ -7,7 +7,6 @@ local Frames = {
     ["focus"] = "Focus",
     ["pet"] = "Pet",
     ["targettarget"] = "TargetTarget",
-    
 }
 function UUF:PostCreateButton(_, button)
     -- Icon Options
@@ -99,6 +98,7 @@ function UUF:CreateUnitFrame(Unit)
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
+    local PowerBar = UUF.DB.global[Unit].PowerBar
     local Absorbs = UUF.DB.global[Unit].Health.Absorbs
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
@@ -192,6 +192,31 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPortrait:SetPoint("CENTER", self.unitPortraitBackdrop, "CENTER", 0, 0)
         self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
         self.Portrait = self.unitPortrait
+    end
+
+    if PowerBar.Enabled then
+        self.unitPowerBarBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
+        self.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
+        self.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+        self.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
+        if PowerBar.BackgroundColourStyle == "STATIC" then
+            self.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
+        elseif PowerBar.BackgroundColourStyle == "TYPE" then
+            self.unitPowerBarBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+        end
+        self.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+        self.unitPowerBarBackdrop:SetFrameLevel(4)
+
+        self.unitPowerBar = CreateFrame("StatusBar", nil, self.unitPowerBarBackdrop)
+        self.unitPowerBar:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 1)
+        self.unitPowerBar:SetSize(Frame.Width - 2, PowerBar.Height - 2)
+        self.unitPowerBar:SetStatusBarTexture(General.ForegroundTexture)
+        self.unitPowerBar:SetStatusBarColor(unpack(PowerBar.Colour))
+        self.unitPowerBar:SetMinMaxValues(0, 100)
+        self.unitPowerBar.colorPower = PowerBar.ColourByType
+        self.unitPowerBarBackdrop:SetFrameLevel(5)
+        self.unitHealthBar:SetHeight(self:GetHeight() - PowerBar.Height - 1)
+        self.Power = self.unitPowerBar
     end
 
     if Buffs.Enabled then
@@ -301,12 +326,13 @@ end
 
 function UUF:UpdateUnitFrame(FrameName)
     if not FrameName then return end
-    
-    local Unit = Frames[FrameName.unit]
+
+    local Unit = Frames[FrameName.unit] or "Boss"
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
     local Absorbs = UUF.DB.global[Unit].Health.Absorbs
+    local PowerBar = UUF.DB.global[Unit].PowerBar
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
@@ -381,6 +407,30 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPortraitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
         FrameName.unitPortrait:SetSize(FrameName.unitPortraitBackdrop:GetHeight() - 2, FrameName.unitPortraitBackdrop:GetHeight() - 2)
         FrameName.unitPortrait:SetPoint("CENTER", FrameName.unitPortraitBackdrop, "CENTER", 0, 0)
+    end
+
+    if FrameName.unitPowerBar and FrameName.unitPowerBarBackdrop then
+        FrameName.unitPowerBarBackdrop:ClearAllPoints()
+        FrameName.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
+        FrameName.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
+        FrameName.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
+        if PowerBar.BackgroundColourStyle == "STATIC" then
+            FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
+        elseif PowerBar.BackgroundColourStyle == "TYPE" then
+            FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
+        end
+        FrameName.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+        FrameName.unitPowerBarBackdrop:SetFrameLevel(4)
+        FrameName.unitPowerBar:ClearAllPoints()
+        FrameName.unitPowerBar:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 1, 1)
+        FrameName.unitPowerBar:SetSize(Frame.Width - 2, PowerBar.Height - 2)
+        FrameName.unitPowerBar:SetStatusBarTexture(General.ForegroundTexture)
+        FrameName.unitPowerBar:SetStatusBarColor(unpack(PowerBar.Colour))
+        FrameName.unitPowerBar:SetMinMaxValues(0, 100)
+        FrameName.unitPowerBar.colorPower = PowerBar.ColourByType
+        FrameName.unitHealthBar:SetHeight(FrameName:GetHeight() - PowerBar.Height - 1)
+        FrameName.unitPowerBarBackdrop:SetFrameLevel(5)
+        FrameName.unitPowerBar:ForceUpdate()
     end
 
     if Buffs.Enabled then
@@ -494,10 +544,70 @@ function UUF:UpdateUnitFrame(FrameName)
 end
 
 function UUF:SpawnUnitFrame(Unit)
-    local Frame = UUF.DB.global[Unit].Frame
-    local Style = "UUF_" .. Unit
-    oUF:RegisterStyle(Style, function(self) UUF.CreateUnitFrame(self, Unit) end)
-    oUF:SetActiveStyle(Style)
-    self[Unit .. "Frame"] = oUF:Spawn(Unit, "UUF_" .. Unit)
-    self[Unit .. "Frame"]:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    if Unit == "Boss" then
+        local Frame = UUF.DB.global[Unit].Frame
+        local Style = "UUF_" .. Unit
+        oUF:RegisterStyle(Style, function(self) UUF.CreateUnitFrame(self, Unit) end)
+        oUF:SetActiveStyle(Style)
+        UUF.BossFrames = {}
+        local BossContainer, BossSpacing = 0, Frame.Spacing
+        for i = 1, 8 do
+            local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
+            UUF.BossFrames[i] = BossFrame
+            if i == 1 then
+                BossContainer = (BossFrame:GetHeight() + BossSpacing) * MAX_BOSS_FRAMES - BossSpacing
+                BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2))
+            else
+                BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
+            end
+        end
+    else
+        local Frame = UUF.DB.global[Unit].Frame
+        local Style = "UUF_" .. Unit
+        oUF:RegisterStyle(Style, function(self) UUF.CreateUnitFrame(self, Unit) end)
+        oUF:SetActiveStyle(Style)
+        self[Unit .. "Frame"] = oUF:Spawn(Unit, "UUF_" .. Unit)
+        self[Unit .. "Frame"]:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    end
+end
+
+function UUF:UpdateBossFrames()
+    if not UUF.BossFrames then return end
+    for _, BossFrame in ipairs(UUF.BossFrames) do
+        UUF:UpdateUnitFrame(BossFrame)
+    end
+end
+
+function UUF:SetupSlashCommands()
+    SLASH_UUF1 = "/uuf"
+    SLASH_UUF2 = "/unhalteduf"
+    SLASH_UUF3 = "/unhaltedunitframes"
+    SlashCmdList["UUF"] = function() UUF:CreateGUI() end
+end
+
+function UUF:LoadCustomColours()
+    local General = UUF.DB.global.General
+    local PowerTypesToString = {
+        [0] = "MANA",
+        [1] = "RAGE",
+        [2] = "FOCUS",
+        [3] = "ENERGY",
+        [6] = "RUNIC_POWER",
+        [8] = "LUNAR_POWER",
+        [11] = "MAELSTROM",
+        [13] = "INSANITY",
+        [17] = "FURY",
+        [18] = "PAIN"
+    }
+
+    for powerType, color in pairs(General.CustomColours.Power) do
+        local powerTypeString = PowerTypesToString[powerType]
+        if powerTypeString then
+            oUF.colors.power[powerTypeString] = color
+        end
+    end
+
+    for reaction, color in pairs(General.CustomColours.Reaction) do
+        oUF.colors.reaction[reaction] = color
+    end
 end

@@ -1,5 +1,4 @@
 local _, UUF = ...
-local oUF = UUF.oUF
 local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 
 UUF.Defaults = {
@@ -74,6 +73,13 @@ UUF.Defaults = {
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
+            },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
             },
             Buffs = {
                 Enabled             = false,
@@ -180,6 +186,13 @@ UUF.Defaults = {
                     ColourByType    = true,
                 }
             },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
+            },
             Buffs = {
                 Enabled             = true,
                 Size                = 38,
@@ -284,6 +297,13 @@ UUF.Defaults = {
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
+            },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
             },
             Buffs = {
                 Enabled             = false,
@@ -391,6 +411,13 @@ UUF.Defaults = {
                     ColourByType    = true,
                 }
             },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
+            },
             Buffs = {
                 Enabled             = false,
                 Size                = 42,
@@ -496,6 +523,13 @@ UUF.Defaults = {
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
+            },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
             },
             Buffs = {
                 Enabled             = false,
@@ -603,6 +637,13 @@ UUF.Defaults = {
                     ColourByType    = true,
                 }
             },
+            PowerBar = {
+                Enabled                 = true,
+                Height                  = 3,
+                ColourByType            = true,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
+            },
             Buffs = {
                 Enabled             = true,
                 Size                = 42,
@@ -685,40 +726,6 @@ UUF.Defaults = {
     }
 }
 
-function UUF:SetupSlashCommands()
-    SLASH_UUF1 = "/uuf"
-    SLASH_UUF2 = "/unhalteduf"
-    SLASH_UUF3 = "/unhaltedunitframes"
-    SlashCmdList["UUF"] = function() UUF:CreateGUI() end
-end
-
-function UUF:LoadCustomColours()
-    local General = UUF.DB.global.General
-    local PowerTypesToString = {
-        [0] = "MANA",
-        [1] = "RAGE",
-        [2] = "FOCUS",
-        [3] = "ENERGY",
-        [6] = "RUNIC_POWER",
-        [8] = "LUNAR_POWER",
-        [11] = "MAELSTROM",
-        [13] = "INSANITY",
-        [17] = "FURY",
-        [18] = "PAIN"
-    }
-
-    for powerType, color in pairs(General.CustomColours.Power) do
-        local powerTypeString = PowerTypesToString[powerType]
-        if powerTypeString then
-            oUF.colors.power[powerTypeString] = color
-        end
-    end
-
-    for reaction, color in pairs(General.CustomColours.Reaction) do
-        oUF.colors.reaction[reaction] = color
-    end
-end
-
 function UnhaltedUF:OnInitialize()
     UUF.DB = LibStub("AceDB-3.0"):New("UUFDB", UUF.Defaults)
     for k, v in pairs(UUF.Defaults) do
@@ -736,6 +743,6 @@ function UnhaltedUF:OnEnable()
     UUF:SpawnUnitFrame("TargetTarget")
     UUF:SpawnUnitFrame("Focus")
     UUF:SpawnUnitFrame("Pet")
-    UUF:SpawnBossFrame()
+    UUF:SpawnUnitFrame("Boss")
     UUF:SetupSlashCommands()
 end
