@@ -3,5 +3,6 @@
 ## Version: 1.0
 ## Notes: Simple, effecient & aesthetic Unit Frames built on the oUF Framework.
 ## SavedVariables: UUFDB
+## X-Wago-ID: 96do35NO
 
 Init.xml
