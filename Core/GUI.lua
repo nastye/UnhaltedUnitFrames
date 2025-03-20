@@ -466,7 +466,7 @@ function UUF:CreateGUI()
             local AbsorbsEnabled = UUFGUI:Create("CheckBox")
             AbsorbsEnabled:SetLabel("Enable Absorbs")
             AbsorbsEnabled:SetValue(Absorbs.Enabled)
-            AbsorbsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Absorbs.Enabled = value UUF:UpdateFrames() end)
+            AbsorbsEnabled:SetCallback("OnValueChanged", function(widget, event, value) Absorbs.Enabled = value UUF:CreateReloadPrompt() end)
             AbsorbsEnabled:SetRelativeWidth(0.5)
             AbsorbsContainer:AddChild(AbsorbsEnabled)
 

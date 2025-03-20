@@ -246,7 +246,7 @@ UUF.Defaults = {
             },
             Health = {
                 Absorbs = {
-                    Enabled         = true,
+                    Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
@@ -344,7 +344,7 @@ UUF.Defaults = {
             Health = {
                 Direction = "LR",
                 Absorbs = {
-                    Enabled         = true,
+                    Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
@@ -442,7 +442,7 @@ UUF.Defaults = {
             Health = {
                 Direction = "LR",
                 Absorbs = {
-                    Enabled         = true,
+                    Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
                 }
