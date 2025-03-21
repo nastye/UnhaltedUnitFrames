@@ -12,10 +12,6 @@ If you want to test this before the public release. You can **download**, **extr
 - [Ace3](https://www.curseforge.com/wow/addons/ace3)
 - [oUF Framework](https://www.curseforge.com/wow/addons/ouf)
 
-## Still To Come:
-- [ ] Test Mode for Customization.
-- [ ] Incoming Heals / Heal Absorbs.
-
 ## Currently Functioning:
 - Frames Implemented:
     - ✅ Player
@@ -37,5 +33,6 @@ If you want to test this before the public release. You can **download**, **extr
     - ✅ Absorb Bar with Colour Customization.
     - ✅ Inversed Health Growth.
     - ✅ Tags, Tags & More Tags.
+    - ✅ Test Mode for Boss Frames.
 # Demonstration Video
 [![Watch the video](https://img.youtube.com/vi/2Cr489hgasA/maxresdefault.jpg)](https://youtu.be/2Cr489hgasA?si=FILunCDH-zj2uUSt)
