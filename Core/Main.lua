@@ -123,23 +123,23 @@ UUF.Defaults = {
             TargetMarker = {
                 Enabled             = true,
                 Size                = 24,
-                XOffset             = 0,
+                XOffset             = 3,
                 YOffset             = 0,
-                AnchorFrom          = "CENTER",
-                AnchorTo            = "CENTER",
+                AnchorFrom          = "LEFT",
+                AnchorTo            = "TOPLEFT",
             },
             Texts = {
                 Left = {
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "",
                 },
                 Right = {
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
-                    Tag             = "[curhp]",
+                    Tag             = "[Health:CurHPwithPerHP]",
                 },
                 Center = {
                     FontSize        = 12,
@@ -202,7 +202,7 @@ UUF.Defaults = {
                 }
             },
             PowerBar = {
-                Enabled                 = true,
+                Enabled                 = false,
                 Height                  = 3,
                 ColourByType            = true,
                 Colour                  = {0/255, 0/255, 1/255, 1},
@@ -212,7 +212,7 @@ UUF.Defaults = {
                 Enabled             = true,
                 Size                = 38,
                 Spacing             = 1,
-                Num                 = 4,
+                Num                 = 7,
                 AnchorFrom          = "BOTTOMLEFT",
                 AnchorTo            = "TOPLEFT",
                 XOffset             = 0,
@@ -228,7 +228,7 @@ UUF.Defaults = {
                 }
             },
             Debuffs = {
-                Enabled             = true,
+                Enabled             = false,
                 Size                = 38,
                 Spacing             = 1,
                 Num                 = 3,
@@ -249,23 +249,23 @@ UUF.Defaults = {
             TargetMarker = {
                 Enabled             = true,
                 Size                = 24,
-                XOffset             = 0,
+                XOffset             = -3,
                 YOffset             = 0,
-                AnchorFrom          = "CENTER",
-                AnchorTo            = "CENTER",
+                AnchorFrom          = "RIGHT",
+                AnchorTo            = "TOPRIGHT",
             },
             Texts = {
                 Left = {
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "[Name:NamewithTargetTarget:LastNameOnly]",
                 },
                 Right = {
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
-                    Tag             = "[curhp]",
+                    Tag             = "[Health:CurHPwithPerHP]",
                 },
                 Center = {
                     FontSize        = 12,
@@ -294,16 +294,16 @@ UUF.Defaults = {
                     },
                     BottomRight = {
                         FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
+                        XOffset         = -3,
+                        YOffset         = -3,
+                        Tag             = "[powercolor][Power:CurPP]",
                     },
                 }  
             }
         },
         TargetTarget = {
             Frame = {
-                Enabled                 = true,
+                Enabled             = false,
                 Width               = 100,
                 Height              = 42,
                 XPosition           = 1.1,
@@ -375,10 +375,10 @@ UUF.Defaults = {
             TargetMarker = {
                 Enabled             = true,
                 Size                = 24,
-                XOffset             = 0,
+                XOffset             = -3,
                 YOffset             = 0,
-                AnchorFrom          = "CENTER",
-                AnchorTo            = "CENTER",
+                AnchorFrom          = "RIGHT",
+                AnchorTo            = "TOPRIGHT",
             },
             Texts = {
                 Left = {
@@ -397,7 +397,7 @@ UUF.Defaults = {
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "[Name:LastNameOnly]",
                 },
                 AdditionalTexts = {
                     TopLeft = {
@@ -429,7 +429,7 @@ UUF.Defaults = {
         },
         Focus = {
             Frame = {
-                Enabled                 = true,
+                Enabled             = true,
                 Width               = 272,
                 Height              = 36,
                 XPosition           = 0,
@@ -502,23 +502,23 @@ UUF.Defaults = {
             TargetMarker = {
                 Enabled             = true,
                 Size                = 24,
-                XOffset             = 0,
+                XOffset             = -3,
                 YOffset             = 0,
-                AnchorFrom          = "CENTER",
-                AnchorTo            = "CENTER",
+                AnchorFrom          = "RIGHT",
+                AnchorTo            = "TOPRIGHT",
             },
             Texts = {
                 Left = {
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "[Name:LastNameOnly]",
                 },
                 Right = {
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
-                    Tag             = "[perhp]",
+                    Tag             = "[Health:PerHPwithAbsorbs]",
                 },
                 Center = {
                     FontSize        = 12,
@@ -556,7 +556,7 @@ UUF.Defaults = {
         },
         Pet = {
             Frame = {
-                Enabled                 = true,
+                Enabled             = true,
                 Width               = 272,
                 Height              = 10,
                 XPosition           = 0,
@@ -651,7 +651,7 @@ UUF.Defaults = {
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "",
                 },
                 AdditionalTexts = {
                     TopLeft = {
@@ -686,7 +686,7 @@ UUF.Defaults = {
                 Width               = 250,
                 Height              = 42,
                 XPosition           = 750.1,
-                YPosition           = 0,
+                YPosition           = 0.1,
                 Spacing             = 1,
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
@@ -756,23 +756,23 @@ UUF.Defaults = {
             TargetMarker = {
                 Enabled             = true,
                 Size                = 24,
-                XOffset             = 0,
+                XOffset             = -3,
                 YOffset             = 0,
-                AnchorFrom          = "CENTER",
-                AnchorTo            = "CENTER",
+                AnchorFrom          = "RIGHT",
+                AnchorTo            = "TOPRIGHT",
             },
             Texts = {
                 Left = {
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
-                    Tag             = "[name]",
+                    Tag             = "[Name:LastNameOnly]",
                 },
                 Right = {
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
-                    Tag             = "[curhp]",
+                    Tag             = "[Health:CurHPwithPerHP]",
                 },
                 Center = {
                     FontSize        = 12,
@@ -801,9 +801,9 @@ UUF.Defaults = {
                     },
                     BottomRight = {
                         FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
+                        XOffset         = -3,
+                        YOffset         = -3,
+                        Tag             = "[powercolor][Power:CurPP]",
                     },
                 }
             }
