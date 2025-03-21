@@ -3,7 +3,6 @@ local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 
 UUF.Defaults = {
     global = {
-        TestMode = false,
         General = {
             UIScale                 = 0.5333333333333,
             Font                    = "Fonts\\FRIZQT__.TTF",

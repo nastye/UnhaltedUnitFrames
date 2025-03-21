@@ -67,16 +67,12 @@ end
 
 function UUF:UpdateFrames()
     UUF:LoadCustomColours()
-    if UUF.DB.global.TestMode then
-        UUF:UpdateTestModeFrames()
-    else
-        UUF:UpdateUnitFrame(self.PlayerFrame)
-        UUF:UpdateUnitFrame(self.TargetFrame)
-        UUF:UpdateUnitFrame(self.FocusFrame)
-        UUF:UpdateUnitFrame(self.PetFrame)
-        UUF:UpdateUnitFrame(self.TargetTargetFrame)
-        UUF:UpdateBossFrames()
-    end
+    UUF:UpdateUnitFrame(self.PlayerFrame)
+    UUF:UpdateUnitFrame(self.TargetFrame)
+    UUF:UpdateUnitFrame(self.FocusFrame)
+    UUF:UpdateUnitFrame(self.PetFrame)
+    UUF:UpdateUnitFrame(self.TargetTargetFrame)
+    UUF:UpdateBossFrames()
 end
 
 function UUF:CreateReloadPrompt()
@@ -90,7 +86,6 @@ function UUF:CreateReloadPrompt()
         hideOnEscape = true,
         preferredIndex = 3,
     }
-    UUF.DB.global.TestMode = false
     StaticPopup_Show("UUF_RELOAD_PROMPT")
 end
 
@@ -382,20 +377,10 @@ function UUF:CreateGUI()
         local ResetToDefault = UUFGUI:Create("Button")
         ResetToDefault:SetText("Reset Settings")
         ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
-        ResetToDefault:SetRelativeWidth(0.5)
-
-        local TestMode = UUFGUI:Create("Button")
-        TestMode:SetText(UUF.DB.global.TestMode and "Exit Test Mode" or "Enter Test Mode")
-        TestMode:SetCallback("OnClick", function(widget, event, value)
-            UUF.DB.global.TestMode = not UUF.DB.global.TestMode
-            TestMode:SetText(UUF.DB.global.TestMode and "Exit Test Mode" or "Enter Test Mode") -- Update text
-            UUF:TestMode()
-        end)
-        TestMode:SetRelativeWidth(0.5)
+        ResetToDefault:SetRelativeWidth(1)
         
         UUFGUI_Container:AddChild(ColouringOptionsContainer)
         UUFGUI_Container:AddChild(ResetToDefault)
-        UUFGUI_Container:AddChild(TestMode)
     end
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
