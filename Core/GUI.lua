@@ -67,12 +67,16 @@ end
 
 function UUF:UpdateFrames()
     UUF:LoadCustomColours()
-    UUF:UpdateUnitFrame(self.PlayerFrame)
-    UUF:UpdateUnitFrame(self.TargetFrame)
-    UUF:UpdateUnitFrame(self.FocusFrame)
-    UUF:UpdateUnitFrame(self.PetFrame)
-    UUF:UpdateUnitFrame(self.TargetTargetFrame)
-    UUF:UpdateBossFrames()
+    if UUF.DB.global.TestMode then
+        UUF:UpdateTestModeFrames()
+    else
+        UUF:UpdateUnitFrame(self.PlayerFrame)
+        UUF:UpdateUnitFrame(self.TargetFrame)
+        UUF:UpdateUnitFrame(self.FocusFrame)
+        UUF:UpdateUnitFrame(self.PetFrame)
+        UUF:UpdateUnitFrame(self.TargetTargetFrame)
+        UUF:UpdateBossFrames()
+    end
 end
 
 function UUF:CreateReloadPrompt()
@@ -86,6 +90,7 @@ function UUF:CreateReloadPrompt()
         hideOnEscape = true,
         preferredIndex = 3,
     }
+    UUF.DB.global.TestMode = false
     StaticPopup_Show("UUF_RELOAD_PROMPT")
 end
 
@@ -377,10 +382,20 @@ function UUF:CreateGUI()
         local ResetToDefault = UUFGUI:Create("Button")
         ResetToDefault:SetText("Reset Settings")
         ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
-        ResetToDefault:SetRelativeWidth(1)
+        ResetToDefault:SetRelativeWidth(0.5)
+
+        local TestMode = UUFGUI:Create("Button")
+        TestMode:SetText(UUF.DB.global.TestMode and "Exit Test Mode" or "Enter Test Mode")
+        TestMode:SetCallback("OnClick", function(widget, event, value)
+            UUF.DB.global.TestMode = not UUF.DB.global.TestMode
+            TestMode:SetText(UUF.DB.global.TestMode and "Exit Test Mode" or "Enter Test Mode") -- Update text
+            UUF:TestMode()
+        end)
+        TestMode:SetRelativeWidth(0.5)
         
         UUFGUI_Container:AddChild(ColouringOptionsContainer)
         UUFGUI_Container:AddChild(ResetToDefault)
+        UUFGUI_Container:AddChild(TestMode)
     end
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
@@ -1280,35 +1295,35 @@ function UUF:CreateGUI()
             end
         end
 
-        -- local function DrawPowerTagsContainer(UUFGUI_Container)
-        --     -- local PowerTags = UUF:FetchPowerTagDescriptions()
+        local function DrawPowerTagsContainer(UUFGUI_Container)
+            local PowerTags = UUF:FetchPowerTagDescriptions()
 
-        --     -- local PowerTagOptions = UUFGUI:Create("InlineGroup")
-        --     -- PowerTagOptions:SetTitle("Power Tags")
-        --     -- PowerTagOptions:SetLayout("Flow")
-        --     -- PowerTagOptions:SetFullWidth(true)
-        --     -- UUFGUI_Container:AddChild(PowerTagOptions)
+            local PowerTagOptions = UUFGUI:Create("InlineGroup")
+            PowerTagOptions:SetTitle("Power Tags")
+            PowerTagOptions:SetLayout("Flow")
+            PowerTagOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(PowerTagOptions)
 
-        --     -- for Title, TableData in pairs(PowerTags) do
-        --     --     local Tag, Desc = TableData.Tag, TableData.Desc
-        --     --     PowerTagTitle = UUFGUI:Create("Label")
-        --     --     PowerTagTitle:SetText(Title)
-        --     --     PowerTagTitle:SetRelativeWidth(1)
-        --     --     PowerTagOptions:AddChild(PowerTagTitle)
+            for Title, TableData in pairs(PowerTags) do
+                local Tag, Desc = TableData.Tag, TableData.Desc
+                PowerTagTitle = UUFGUI:Create("Label")
+                PowerTagTitle:SetText(Title)
+                PowerTagTitle:SetRelativeWidth(1)
+                PowerTagOptions:AddChild(PowerTagTitle)
 
-        --     --     local PowerTagTag = UUFGUI:Create("EditBox")
-        --     --     PowerTagTag:SetText(Tag)
-        --     --     PowerTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
-        --     --     PowerTagTag:SetRelativeWidth(0.3)
-        --     --     PowerTagOptions:AddChild(PowerTagTag)
+                local PowerTagTag = UUFGUI:Create("EditBox")
+                PowerTagTag:SetText(Tag)
+                PowerTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                PowerTagTag:SetRelativeWidth(0.3)
+                PowerTagOptions:AddChild(PowerTagTag)
 
-        --     --     PowerTagDescription = UUFGUI:Create("EditBox")
-        --     --     PowerTagDescription:SetText(Desc)
-        --     --     PowerTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
-        --     --     PowerTagDescription:SetRelativeWidth(0.7)
-        --     --     PowerTagOptions:AddChild(PowerTagDescription)
-        --     -- end
-        -- end
+                PowerTagDescription = UUFGUI:Create("EditBox")
+                PowerTagDescription:SetText(Desc)
+                PowerTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                PowerTagDescription:SetRelativeWidth(0.7)
+                PowerTagOptions:AddChild(PowerTagDescription)
+            end
+        end
 
         local function DrawNameTagsContainer(UUFGUI_Container)
             local NameTags = UUF:FetchNameTagDescriptions()
@@ -1344,8 +1359,8 @@ function UUF:CreateGUI()
             UUFGUI_Container:ReleaseChildren()
             if Group == "Health" then
                 DrawHealthTagContainer(UUFGUI_Container)
-            -- elseif Group == "Power" then
-            --     DrawPowerTagsContainer(UUFGUI_Container)
+            elseif Group == "Power" then
+                DrawPowerTagsContainer(UUFGUI_Container)
             elseif Group == "Name" then
                 DrawNameTagsContainer(UUFGUI_Container)
             end
@@ -1355,7 +1370,7 @@ function UUF:CreateGUI()
         GUIContainerTabGroup:SetLayout("Flow")
         GUIContainerTabGroup:SetTabs({
             { text = "Health",                              value = "Health"},
-            -- { text = "Power",                               value = "Power" },
+            { text = "Power",                               value = "Power" },
             { text = "Name",                                value = "Name" },
         })
         

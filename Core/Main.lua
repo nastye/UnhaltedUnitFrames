@@ -3,6 +3,7 @@ local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 
 UUF.Defaults = {
     global = {
+        TestMode = false,
         General = {
             UIScale                 = 0.5333333333333,
             Font                    = "Fonts\\FRIZQT__.TTF",
@@ -201,7 +202,7 @@ UUF.Defaults = {
                 }
             },
             PowerBar = {
-                Enabled                 = false,
+                Enabled                 = true,
                 Height                  = 3,
                 ColourByType            = true,
                 Colour                  = {0/255, 0/255, 1/255, 1},
@@ -211,7 +212,7 @@ UUF.Defaults = {
                 Enabled             = true,
                 Size                = 38,
                 Spacing             = 1,
-                Num                 = 7,
+                Num                 = 4,
                 AnchorFrom          = "BOTTOMLEFT",
                 AnchorTo            = "TOPLEFT",
                 XOffset             = 0,
@@ -227,15 +228,15 @@ UUF.Defaults = {
                 }
             },
             Debuffs = {
-                Enabled             = false,
+                Enabled             = true,
                 Size                = 38,
                 Spacing             = 1,
-                Num                 = 7,
-                AnchorFrom          = "BOTTOMLEFT",
-                AnchorTo            = "TOPLEFT",
+                Num                 = 3,
+                AnchorFrom          = "BOTTOMRIGHT",
+                AnchorTo            = "TOPRIGHT",
                 XOffset             = 0,
                 YOffset             = 1,
-                GrowthX             = "RIGHT",
+                GrowthX             = "LEFT",
                 GrowthY             = "UP",
                 Count               = {
                     FontSize        = 12,
