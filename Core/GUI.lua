@@ -457,7 +457,7 @@ function UUF:CreateGUI()
 
             local FrameXPosition = UUFGUI:Create("Slider")
             FrameXPosition:SetLabel("Frame X Position")
-            FrameXPosition:SetSliderValues(-999, 999, 1)
+            FrameXPosition:SetSliderValues(-999, 999, 0.1)
             FrameXPosition:SetValue(Frame.XPosition)
             FrameXPosition:SetCallback("OnValueChanged", function(widget, event, value) Frame.XPosition = value UUF:UpdateFrames() end)
             FrameXPosition:SetRelativeWidth(0.5)
@@ -465,11 +465,23 @@ function UUF:CreateGUI()
 
             local FrameYPosition = UUFGUI:Create("Slider")
             FrameYPosition:SetLabel("Frame Y Position")
-            FrameYPosition:SetSliderValues(-999, 999, 1)
+            FrameYPosition:SetSliderValues(-999, 999, 0.1)
             FrameYPosition:SetValue(Frame.YPosition)
             FrameYPosition:SetCallback("OnValueChanged", function(widget, event, value) Frame.YPosition = value UUF:UpdateFrames() end)
             FrameYPosition:SetRelativeWidth(0.5)
             FrameOptions:AddChild(FrameYPosition)
+
+            if Unit == "Boss" then
+                local FrameSpacing = UUFGUI:Create("Slider")
+                FrameSpacing:SetLabel("Frame Spacing")
+                FrameSpacing:SetSliderValues(-999, 999, 0.1)
+                FrameSpacing:SetValue(Frame.YPosition)
+                FrameSpacing:SetCallback("OnValueChanged", function(widget, event, value) Frame.Spacing = value UUF:UpdateFrames() end)
+                FrameXPosition:SetRelativeWidth(0.33)
+                FrameYPosition:SetRelativeWidth(0.33)
+                FrameSpacing:SetRelativeWidth(0.33)
+                FrameOptions:AddChild(FrameSpacing)
+            end
 
             UUFGUI_Container:AddChild(FrameOptions)
 
@@ -616,6 +628,14 @@ function UUF:CreateGUI()
             PowerBarOptionsContainer:AddChild(PowerBarColourByType)
             PowerBarOptionsContainer:AddChild(PowerBarColour)
             PowerBarOptionsContainer:AddChild(PowerBarHeight)
+
+            if Unit == "Boss" then
+                local DisplayFrames = UUFGUI:Create("Button")
+                DisplayFrames:SetText("Display Frames")
+                DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.TestMode = not UUF.DB.global.TestMode UUF:DisplayBossFrames() end)
+                DisplayFrames:SetRelativeWidth(1)
+                UUFGUI_Container:AddChild(DisplayFrames)
+            end
         end
 
         local function DrawBuffsContainer(UUFGUI_Container)

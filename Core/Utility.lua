@@ -163,9 +163,7 @@ function UUF:CreateUnitFrame(Unit)
     local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
 
-    if Unit == "Focus" or Unit == "TargetTarget" or Unit == "Pet" then
-        if not Frame.Enabled then return end
-    end
+    if Unit == "Focus" or Unit == "TargetTarget" or Unit == "Pet" then if not Frame.Enabled then return end end
 
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
@@ -373,6 +371,7 @@ function UUF:CreateUnitFrame(Unit)
 end
 
 function UUF:UpdateUnitFrame(FrameName)
+    --region
     if not FrameName then return end
 
     local Unit = Frames[FrameName.unit] or "Boss"
@@ -587,6 +586,10 @@ function UUF:UpdateUnitFrame(FrameName)
     end
 
     FrameName:UpdateTags()
+    --endregion
+    if UUF.DB.global.TestMode then
+        UUF:DisplayBossFrames()
+    end
 end
 
 function UUF:SpawnUnitFrame(Unit)
@@ -601,8 +604,8 @@ function UUF:SpawnUnitFrame(Unit)
             local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
             UUF.BossFrames[i] = BossFrame
             if i == 1 then
-                BossContainer = (BossFrame:GetHeight() + BossSpacing) * MAX_BOSS_FRAMES - BossSpacing
-                BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2))
+                BossContainer = (BossFrame:GetHeight() + BossSpacing) * 8 - BossSpacing
+                BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2) + Frame.YPosition) 
             else
                 BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
             end
@@ -621,6 +624,38 @@ function UUF:UpdateBossFrames()
     if not UUF.BossFrames then return end
     for _, BossFrame in ipairs(UUF.BossFrames) do
         UUF:UpdateUnitFrame(BossFrame)
+    end
+    UUF:UpdateBossFramePositions()
+end
+
+function UUF:UpdateBossFramePositions()
+    local Frame = UUF.DB.global.Boss.Frame
+    local BossSpacing = Frame.Spacing
+    local BossContainer = 0
+
+    for i, BossFrame in ipairs(UUF.BossFrames or {}) do
+        BossFrame:ClearAllPoints()
+
+        if i == 1 then
+            BossContainer = (BossFrame:GetHeight() + BossSpacing) * #UUF.BossFrames - BossSpacing
+            BossFrame:SetPoint(
+                Frame.AnchorFrom,
+                Frame.AnchorParent,
+                Frame.AnchorTo,
+                Frame.XPosition,
+                (BossContainer / 2 - BossFrame:GetHeight() / 2) + Frame.YPosition
+            )
+        else
+            BossFrame:SetPoint(
+                "TOPLEFT",
+                _G["UUF_Boss" .. (i - 1)],
+                "BOTTOMLEFT",
+                0,
+                -BossSpacing
+            )
+        end
+
+        BossFrame:Show()
     end
 end
 
@@ -659,5 +694,86 @@ function UUF:LoadCustomColours()
 
     for reaction, color in pairs(General.CustomColours.Reaction) do
         oUF.colors.reaction[reaction] = color
+    end
+end
+
+function UUF:DisplayBossFrames()
+    local General = UUF.DB.global.General
+    local Frame = UUF.DB.global.Boss.Frame
+    local Portrait = UUF.DB.global.Boss.Portrait
+    local Health = UUF.DB.global.Boss.Health
+    local PowerBar = UUF.DB.global.Boss.PowerBar
+    local Absorbs = UUF.DB.global.Boss.Health.Absorbs
+    local Buffs = UUF.DB.global.Boss.Buffs
+    local Debuffs = UUF.DB.global.Boss.Debuffs
+    local TargetMarker = UUF.DB.global.Boss.TargetMarker
+    local LeftText = UUF.DB.global.Boss.Texts.Left
+    local RightText = UUF.DB.global.Boss.Texts.Right
+    local CenterText = UUF.DB.global.Boss.Texts.Center
+    local TopLeftText = UUF.DB.global.Boss.Texts.AdditionalTexts.TopLeft
+    local TopRightText = UUF.DB.global.Boss.Texts.AdditionalTexts.TopRight
+    local BottomLeftText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomLeft
+    local BottomRightText = UUF.DB.global.Boss.Texts.AdditionalTexts.BottomRight
+
+    local BackdropTemplate = {
+        bgFile = General.BackgroundTexture,
+        edgeFile = General.BorderTexture,
+        edgeSize = General.BorderSize,
+        insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
+    }
+
+    if not UUF.BossFrames then return end
+    
+    for _, BossFrame in ipairs(UUF.BossFrames) do
+        if BossFrame.unitHealthBar then
+            local BF = BossFrame.unitHealthBar
+            BF:SetStatusBarColor(1, 1, 0.1)
+            BF:SetMinMaxValues(0, 100)
+            BF:SetValue(math.random(20, 50))
+        end
+
+        if BossFrame.unitAbsorb then
+            local BF = BossFrame.unitAbsorb
+            BF:SetStatusBarColor(Absorbs.Colour)
+            BF:SetMinMaxValues(0, 100)
+            BF:SetValue(math.random(20, 50))
+        end 
+
+        if BossFrame.unitPowerBar then
+            local BF = BossFrame.unitPowerBar
+            BF:SetStatusBarColor(0.8, 0.1, 0.1)
+            BF:SetMinMaxValues(0, 100)
+            BF:SetValue(math.random(20, 50))
+        end
+
+        if BossFrame.unitPortrait then
+            local BF = BossFrame.unitPortrait
+            BF:SetTexture("Interface\\ICONS\\INV_Misc_Head_Dragon_Blue")
+        end
+        
+        if BossFrame.unitLeftText then
+            local BF = BossFrame.unitLeftText
+            BF:SetText("Boss " .. _)
+        end
+
+        if BossFrame.unitRightText then
+            local BF = BossFrame.unitRightText
+            BF:SetText(UUF:FormatLargeNumber(math.random(1e3, 1e6)))
+        end
+
+        if BossFrame.unitTargetMarker then
+            local BF = BossFrame.unitTargetMarker
+            BF:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_8")
+        end
+
+        if not UUF.DB.global.TestMode then
+            BossFrame:SetAttribute("unit", "boss" .. _)
+            RegisterUnitWatch(BossFrame)
+            BossFrame:Hide()
+        else
+            BossFrame:SetAttribute("unit", nil)
+            UnregisterUnitWatch(BossFrame)
+            BossFrame:Show()
+        end
     end
 end
