@@ -5,8 +5,8 @@ oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
-    if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
-    local unitHealthPercent = (unitMaxHealth > 0) and (unitHealth / unitMaxHealth * 100) or 0
+    local effectiveHealth = unitHealth + unitAbsorb
+    local unitHealthPercent = (unitMaxHealth > 0) and (effectiveHealth / unitMaxHealth * 100) or 0
     local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
     if unitStatus then
         return unitStatus
@@ -122,6 +122,11 @@ oUF.Tags.Methods["Name:TargetTarget:LastNameOnly:Coloured"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Power:CurPP"] = function(unit)
+    local unitPower = UnitPower(unit)
+    return UUF:FormatLargeNumber(unitPower)
+end
+
 oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
@@ -138,6 +143,7 @@ oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_AB
 oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
 oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
 
+oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER UNIT_MAXPOWER"
 
 local HealthTagsDescription = {
     ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},
@@ -165,5 +171,14 @@ local NameTagsDescription = {
 
 function UUF:FetchNameTagDescriptions()
     return NameTagsDescription
+end
+
+local PowerTagsDescription = {
+    ["Current Power"] = {Tag = "[Power:CurPP]", Desc = "Displays Current Power"},
+    ["Colour Power"] = {Tag = "[powercolor]", Desc = "Colour Power. Put infront of Power Tag to colour it."},
+}
+
+function UUF:FetchPowerTagDescriptions()
+    return PowerTagsDescription
 end
 
