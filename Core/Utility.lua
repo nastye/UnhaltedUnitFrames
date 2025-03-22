@@ -229,6 +229,27 @@ function UUF:CreateUnitFrame(Unit)
             absorbBar = Absorbs.Enabled and self.Absorbs or nil,
             healAbsorbBar = nil,
             maxOverflow = 1,
+            PostUpdate = function(_, unit, myHeal, otherHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
+                local healthBar = self.unitHealthBar
+                local absorbBar = self.unitAbsorbs
+                local maxHealth = UnitHealthMax(unit) or 0
+                if not absorbBar or maxHealth == 0 or absorb == 0 or not absorb then if absorbBar then absorbBar:Hide() end return end
+                local overflowLimit = maxHealth * self.HealthPrediction.maxOverflow
+                local shownAbsorb = math.min(absorb, overflowLimit)
+                absorbBar:SetMinMaxValues(0, maxHealth)
+                absorbBar:SetValue(shownAbsorb)
+                absorbBar:Show()
+                absorbBar:ClearAllPoints()
+                if Health.Direction == "RL" then
+                    absorbBar:SetReverseFill(true)
+                    absorbBar:SetPoint("TOPRIGHT", healthBar:GetStatusBarTexture(), "TOPLEFT", 0, 0)
+                    absorbBar:SetPoint("BOTTOMRIGHT", healthBar:GetStatusBarTexture(), "BOTTOMLEFT", 0, 0)
+                else
+                    absorbBar:SetReverseFill(false)
+                    absorbBar:SetPoint("TOPLEFT", healthBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
+                    absorbBar:SetPoint("BOTTOMLEFT", healthBar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
+                end
+            end,
         }
     end
 
