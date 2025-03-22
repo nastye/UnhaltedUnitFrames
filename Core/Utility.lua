@@ -371,7 +371,6 @@ function UUF:CreateUnitFrame(Unit)
 end
 
 function UUF:UpdateUnitFrame(FrameName)
-    --region
     if not FrameName then return end
 
     local Unit = Frames[FrameName.unit] or "Boss"
@@ -586,7 +585,6 @@ function UUF:UpdateUnitFrame(FrameName)
     end
 
     FrameName:UpdateTags()
-    --endregion
     if UUF.DB.global.TestMode then
         UUF:DisplayBossFrames()
     end
@@ -609,6 +607,7 @@ function UUF:SpawnUnitFrame(Unit)
             else
                 BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
             end
+            UUF:RegisterRangeFrame(BossFrame, "boss" .. i)
         end
     else
         local Frame = UUF.DB.global[Unit].Frame
@@ -617,6 +616,7 @@ function UUF:SpawnUnitFrame(Unit)
         oUF:SetActiveStyle(Style)
         self[Unit .. "Frame"] = oUF:Spawn(Unit, "UUF_" .. Unit)
         self[Unit .. "Frame"]:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+        UUF:RegisterRangeFrame(self[Unit .. "Frame"], Unit:lower())
     end
 end
 
