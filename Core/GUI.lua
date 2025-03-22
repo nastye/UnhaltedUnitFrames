@@ -1234,6 +1234,37 @@ function UUF:CreateGUI()
             BottomRightTextOptions:AddChild(BottomRightTextTag)
         end
 
+        local function DrawRangeContainer(UUFGUI_Container)
+            local RangeOptions = UUFGUI:Create("InlineGroup")
+            RangeOptions:SetTitle("Range Options")
+            RangeOptions:SetLayout("Flow")
+            RangeOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(RangeOptions)
+
+            local RangeEnabled = UUFGUI:Create("CheckBox")
+            RangeEnabled:SetLabel("Enable Range Indicator")
+            RangeEnabled:SetValue(Range.Enable)
+            RangeEnabled:SetCallback("OnValueChanged", function(widget, event, value) Range.Enable = value UUF:CreateReloadPrompt() end)
+            RangeEnabled:SetFullWidth(true)
+            RangeOptions:AddChild(RangeEnabled)
+
+            local OOR = UUFGUI:Create("Slider")
+            OOR:SetLabel("Out of Range Alpha")
+            OOR:SetSliderValues(0, 1, 0.01)
+            OOR:SetValue(Range.OOR)
+            OOR:SetCallback("OnValueChanged", function(widget, event, value) Range.OOR = value UUF:UpdateFrames() end)
+            OOR:SetRelativeWidth(0.5)
+            RangeOptions:AddChild(OOR)
+
+            local IR = UUFGUI:Create("Slider")
+            IR:SetLabel("In Range Alpha")
+            IR:SetSliderValues(0, 1, 0.01)
+            IR:SetValue(Range.IR)
+            IR:SetCallback("OnValueChanged", function(widget, event, value) Range.IR = value UUF:UpdateFrames() end)
+            IR:SetRelativeWidth(0.5)
+            RangeOptions:AddChild(IR)
+        end
+
         local function SelectedGroup(UUFGUI_Container, Event, Group)
             UUFGUI_Container:ReleaseChildren()
             if Group == "Frame" then
@@ -1248,19 +1279,25 @@ function UUF:CreateGUI()
                 DrawDebuffsContainer(UUFGUI_Container)
             elseif Group == "TargetMarker" then
                 DrawTargetMarkerContainer(UUFGUI_Container)
+            elseif Unit ~= "player" and Group == "Range" then
+                DrawRangeContainer(UUFGUI_Container)
             end
         end
 
         GUIContainerTabGroup = UUFGUI:Create("TabGroup")
         GUIContainerTabGroup:SetLayout("Flow")
-        GUIContainerTabGroup:SetTabs({
-            { text = "Frame",                           value = "Frame"},
-            { text = "Texts",                           value = "Texts" },
-            { text = "Additional Texts",                value = "Additional Texts" },
-            { text = "Buffs",                           value = "Buffs" },
-            { text = "Debuffs",                         value = "Debuffs" },
-            { text = "Target Marker",                   value = "TargetMarker" },
-        })
+        local ContainerTabs = {
+            { text = "Frame",            value = "Frame" },
+            { text = "Texts",            value = "Texts" },
+            { text = "Additional Texts", value = "Additional Texts" },
+            { text = "Buffs",            value = "Buffs" },
+            { text = "Debuffs",          value = "Debuffs" },
+            { text = "Target Marker",    value = "TargetMarker" },
+        }
+        if Unit ~= "Player" then
+            table.insert(ContainerTabs, { text = "Range", value = "Range" })
+        end
+        GUIContainerTabGroup:SetTabs(ContainerTabs)
         
         GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
         GUIContainerTabGroup:SelectTab("Frame")
