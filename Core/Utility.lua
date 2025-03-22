@@ -400,7 +400,7 @@ end
 function UUF:UpdateUnitFrame(FrameName)
     if not FrameName then return end
 
-    local Unit = Frames[FrameName.unit] or "Boss"
+    local Unit = UUF.Frames[FrameName.unit] or "Boss"
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
