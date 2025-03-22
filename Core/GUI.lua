@@ -632,7 +632,7 @@ function UUF:CreateGUI()
             if Unit == "Boss" then
                 local DisplayFrames = UUFGUI:Create("Button")
                 DisplayFrames:SetText("Display Frames")
-                DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.TestMode = not UUF.DB.global.TestMode UUF:DisplayBossFrames() end)
+                DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.TestMode = not UUF.DB.global.TestMode UUF:DisplayBossFrames() UUF:UpdateBossFramePositions() end)
                 DisplayFrames:SetRelativeWidth(1)
                 UUFGUI_Container:AddChild(DisplayFrames)
             end
