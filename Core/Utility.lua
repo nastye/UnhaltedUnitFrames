@@ -193,10 +193,10 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
     self.unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
     self.unitHealthBar:SetMinMaxValues(0, 100)
-    self.unitHealthBar.colorReaction = General.ColourByReaction
-    self.unitHealthBar.colorClass = General.ColourByClass
     self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
     self.unitHealthBar.colorTapping = General.ColourIfTapped
+    self.unitHealthBar.colorClass = General.ColourByClass
+    self.unitHealthBar.colorReaction = General.ColourByClass
     if Health.Direction == "RL" then
         self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
