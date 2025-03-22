@@ -390,6 +390,7 @@ function UUF:UpdateUnitFrame(FrameName)
     local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
     local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
+    local Range = UUF.DB.global[Unit].Range
 
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
@@ -582,6 +583,12 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitTargetMarker:ClearAllPoints()
         FrameName.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
         FrameName.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
+    end
+
+    if Range and Range.Enable then
+        FrameName.__RangeAlphaSettings = Range
+    else
+        FrameName.__RangeAlphaSettings = nil
     end
 
     FrameName:UpdateTags()

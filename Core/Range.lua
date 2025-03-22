@@ -16,7 +16,12 @@ rangeEventFrame:SetScript("OnEvent", function()
 end)
 
 function UUF:RegisterRangeFrame(frame, unit)
-    table.insert(UUF.RangeEvtFrames, { frame = frame, unit = unit })
+    local DBKey = unit:match("^boss") and "Boss" or UUF.Frames[unit]
+    local DB = UUF.DB.global[DBKey]
+    if DB and DB.Range and DB.Range.Enable then
+        frame.__RangeAlphaSettings = DB.Range
+        table.insert(UUF.RangeEvtFrames, { frame = frame, unit = unit })
+    end
 end
 
 -- Range Check
@@ -24,9 +29,7 @@ local LRC = LibStub("LibRangeCheck-3.0")
 
 function GetGroupUnit(unit)
 	if UnitIsUnit(unit, 'player') then return end
-	if strfind(unit, 'party') or strfind(unit, 'raid') then
-		return unit
-	end
+	if strfind(unit, 'party') or strfind(unit, 'raid') then return unit end
 	if UnitInParty(unit) or UnitInRaid(unit) then
 		local isInRaid = IsInRaid()
 		for i = 1, GetNumGroupMembers() do
@@ -56,11 +59,19 @@ local function FriendlyIsInRange(realUnit)
 end
 
 function UUF:UpdateRangeAlpha(frame, unit)
+    if not frame:IsVisible() then return end
+
+    local DB = frame.__RangeAlphaSettings
+    if not DB then return end
+    local inAlpha = DB.IR or 1.0
+    local outAlpha = DB.OOR or 0.5
+
     local frameAlpha
     if UnitCanAttack('player', unit) or UnitIsUnit(unit, 'pet') then
-        frameAlpha = (IsUnitInRange(unit) and 1) or 0.5
+        frameAlpha = (IsUnitInRange(unit) and inAlpha) or outAlpha
     else
-        frameAlpha = (UnitIsConnected(unit) and FriendlyIsInRange(unit) and 1) or 0.5
+        frameAlpha = (UnitIsConnected(unit) and FriendlyIsInRange(unit) and inAlpha) or outAlpha
     end
+
     frame:SetAlpha(frameAlpha)
 end

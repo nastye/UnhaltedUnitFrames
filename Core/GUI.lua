@@ -399,6 +399,7 @@ function UUF:CreateGUI()
         local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
         local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
         local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
+        local Range = UUF.DB.global[Unit].Range
 
         local function DrawFrameContainer(UUFGUI_Container)
             if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" then 

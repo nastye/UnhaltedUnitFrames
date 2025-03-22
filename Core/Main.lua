@@ -299,6 +299,11 @@ UUF.Defaults = {
                         Tag             = "[powercolor][Power:CurPP]",
                     },
                 }  
+            },
+            Range = {
+                Enable = true,
+                OOR = 0.5,
+                IR = 1.0
             }
         },
         TargetTarget = {
@@ -425,6 +430,11 @@ UUF.Defaults = {
                         Tag             = "",
                     },
                 }  
+            },
+            Range = {
+                Enable = false,
+                OOR = 0.5,
+                IR = 1.0
             }
         },
         Focus = {
@@ -552,6 +562,11 @@ UUF.Defaults = {
                         Tag             = "",
                     },
                 }  
+            },
+            Range = {
+                Enable = true,
+                OOR = 0.5,
+                IR = 1.0
             }
         },
         Pet = {
@@ -679,6 +694,11 @@ UUF.Defaults = {
                         Tag             = "",
                     },
                 }                
+            },
+            Range = {
+                Enable = false,
+                OOR = 0.5,
+                IR = 1.0
             }
         },
         Boss = {
@@ -806,6 +826,11 @@ UUF.Defaults = {
                         Tag             = "[powercolor][Power:CurPP]",
                     },
                 }
+            },
+            Range = {
+                Enable = true,
+                OOR = 0.5,
+                IR = 1.0
             }
         }
     }
