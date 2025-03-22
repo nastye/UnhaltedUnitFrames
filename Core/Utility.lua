@@ -659,6 +659,7 @@ function UUF:UpdateBossFrames()
     for _, BossFrame in ipairs(UUF.BossFrames) do
         UUF:UpdateUnitFrame(BossFrame)
     end
+    if UUF.DB.global.TestMode then
     UUF:UpdateBossFramePositions()
 end
 
