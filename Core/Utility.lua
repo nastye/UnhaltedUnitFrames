@@ -1,6 +1,6 @@
 local _, UUF = ...
 local oUF = UUF.oUF
-local Frames = {
+UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
     ["focus"] = "Focus",
@@ -204,7 +204,7 @@ function UUF:CreateUnitFrame(Unit)
     end
 
     if Absorbs.Enabled then
-        self.unitAbsorbs = CreateFrame("StatusBar", nil, self)
+        self.unitAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
         self.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local UAR, UAG, UAB, UAA = unpack(Absorbs.Colour)
         self.unitAbsorbs:SetStatusBarColor(UAR, UAG, UAB, UAA)
@@ -226,7 +226,7 @@ function UUF:CreateUnitFrame(Unit)
         self.HealthPrediction = {
             myBar = nil,
             otherBar = nil,
-            absorbBar = Absorbs.Enabled and self.Absorbs or nil,
+            absorbBar = Absorbs.Enabled and self.unitAbsorbs or nil,
             healAbsorbBar = nil,
             maxOverflow = 1,
             PostUpdate = function(_, unit, myHeal, otherHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
@@ -660,7 +660,8 @@ function UUF:UpdateBossFrames()
         UUF:UpdateUnitFrame(BossFrame)
     end
     if UUF.DB.global.TestMode then
-    UUF:UpdateBossFramePositions()
+        UUF:UpdateBossFramePositions()
+    end
 end
 
 function UUF:UpdateBossFramePositions()
