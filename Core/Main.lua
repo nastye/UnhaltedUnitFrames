@@ -72,10 +72,10 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = true,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
+                    Absorbs = {
+                        Enabled         = true,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
                     },
                 }
             },
@@ -202,11 +202,11 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = true,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
-                }
+                    Absorbs = {
+                        Enabled         = true,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
                 }
             },
             PowerBar = {
@@ -338,11 +338,11 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = false,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
-                }
+                    Absorbs = {
+                        Enabled         = false,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
                 }
             },
             PowerBar = {
@@ -442,7 +442,7 @@ UUF.Defaults = {
                         YOffset         = 0,
                         Tag             = "",
                     },
-                }  
+                }
             },
             Range = {
                 Enable = false,
@@ -474,11 +474,11 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = false,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
-                }
+                    Absorbs = {
+                        Enabled         = false,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
                 }
             },
             PowerBar = {
@@ -610,11 +610,11 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = false,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
-                }
+                    Absorbs = {
+                        Enabled         = false,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
                 }
             },
             PowerBar = {
@@ -746,11 +746,11 @@ UUF.Defaults = {
                 HealthPrediction = {
                     IncomingHeals = {},
                     HealAbsorbs = {},
-                Absorbs = {
-                    Enabled         = true,
-                    Colour          = {255/255, 205/255, 0/255, 1},
-                    ColourByType    = true,
-                }
+                    Absorbs = {
+                        Enabled         = true,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
                 }
             },
             PowerBar = {
