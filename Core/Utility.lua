@@ -187,6 +187,16 @@ function UUF:CreateUnitFrame(Unit)
     self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBackdrop:SetFrameLevel(1)
 
+    self.unitHighlight = CreateFrame("Frame", nil, self, "BackdropTemplate")
+    self.unitHighlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+    self.unitHighlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
+    self.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+    self.unitHighlight:SetBackdropColor(0, 0, 0, 0)
+    self.unitHighlight:SetBackdropBorderColor(1, 1, 1, 1)
+    self.unitHighlight:SetFrameLevel(20)
+    self.unitHighlight:Hide()
+
+
     self.unitHealthBar = CreateFrame("StatusBar", nil, self)
     self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
     self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
@@ -395,6 +405,8 @@ function UUF:CreateUnitFrame(Unit)
     self:SetAttribute("*type2", "togglemenu")
     self:SetScript("OnEnter", UnitFrame_OnEnter)
     self:SetScript("OnLeave", UnitFrame_OnLeave)
+    self:HookScript("OnEnter", function() self.unitHighlight:Show() end)
+    self:HookScript("OnLeave", function() self.unitHighlight:Hide() end)
 end
 
 function UUF:UpdateUnitFrame(FrameName)
