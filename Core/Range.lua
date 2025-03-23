@@ -60,6 +60,7 @@ end
 
 function UUF:UpdateRangeAlpha(frame, unit)
     if not frame:IsVisible() then return end
+    if UUF.DB.global.TestMode then frame:SetAlpha(1.0) return end
 
     local DB = frame.__RangeAlphaSettings
     if not DB then return end
