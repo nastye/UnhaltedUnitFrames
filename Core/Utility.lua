@@ -181,12 +181,12 @@ function UUF:CreateUnitFrame(Unit)
     
     self:SetSize(Frame.Width, Frame.Height)
 
-    self.unitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
-    self.unitBackdrop:SetAllPoints()
-    self.unitBackdrop:SetBackdrop(BackdropTemplate)
-    self.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
-    self.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
-    self.unitBackdrop:SetFrameLevel(1)
+    self.unitBorder = CreateFrame("Frame", nil, self, "BackdropTemplate")
+    self.unitBorder:SetAllPoints()
+    self.unitBorder:SetBackdrop(BackdropTemplate)
+    self.unitBorder:SetBackdropColor(0,0,0,0)
+    self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+    self.unitBorder:SetFrameLevel(1)
 
     self.unitHighlight = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.unitHighlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
@@ -196,7 +196,6 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHighlight:SetBackdropBorderColor(1, 1, 1, 1)
     self.unitHighlight:SetFrameLevel(20)
     self.unitHighlight:Hide()
-
 
     self.unitHealthBar = CreateFrame("StatusBar", nil, self)
     self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
@@ -212,6 +211,17 @@ function UUF:CreateUnitFrame(Unit)
         self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
         self.unitHealthBar:SetReverseFill(false)
+    end
+
+    self.unitHealthBar.Background = self.unitHealthBar:CreateTexture(nil, "BACKGROUND")
+    self.unitHealthBar.Background:SetAllPoints()
+    self.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
+    if General.ColourBackgroundByHealth then
+        self.unitHealthBar.Background.multiplier = 0.25
+        self.unitHealthBar.bg = self.unitHealthBar.Background
+    else
+        self.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
+        self.unitHealthBar.bg = nil
     end
 
     if Absorbs.Enabled then
@@ -287,7 +297,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
         self.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
         self.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        self.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
+        self.unitPowerBarBackdrop:SetBackdropColor(0,0,0,0)
         self.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
         self.unitPowerBarBackdrop:SetFrameLevel(4)
 
@@ -298,8 +308,18 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBar:SetStatusBarColor(unpack(PowerBar.Colour))
         self.unitPowerBar:SetMinMaxValues(0, 100)
         self.unitPowerBar.colorPower = PowerBar.ColourByType
-        self.unitPowerBarBackdrop:SetFrameLevel(5)
         self.unitHealthBar:SetHeight(self:GetHeight() - PowerBar.Height - 1)
+
+        self.unitPowerBar.Background = self.unitPowerBar:CreateTexture(nil, "BACKGROUND")
+        self.unitPowerBar.Background:SetAllPoints()
+        self.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
+        if PowerBar.ColourBackgroundByType then 
+            self.unitPowerBar.Background.multiplier = 0.25
+            self.unitPowerBar.bg = self.unitPowerBar.Background
+        else
+            self.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
+            self.unitPowerBar.bg = nil
+        end
         self.Power = self.unitPowerBar
     end
 
@@ -446,10 +466,8 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
     end
 
-    if FrameName.unitBackdrop then
-        FrameName.unitBackdrop:SetBackdrop(BackdropTemplate)
-        FrameName.unitBackdrop:SetBackdropColor(unpack(General.BackgroundColour))
-        FrameName.unitBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
+    if FrameName.unitBorder then
+        FrameName.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
     end
 
     if FrameName.unitHealthBar then
@@ -468,6 +486,18 @@ function UUF:UpdateUnitFrame(FrameName)
             FrameName.unitHealthBar:SetReverseFill(false)
         end
         FrameName.unitHealthBar:ForceUpdate()
+    end
+
+    if FrameName.unitHealthBar.Background then
+        FrameName.unitHealthBar.Background:SetAllPoints()
+        FrameName.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
+        if General.ColourBackgroundByHealth then
+            FrameName.unitHealthBar.Background.multiplier = 0.25
+            FrameName.unitHealthBar.bg = FrameName.unitHealthBar.Background
+        else
+            FrameName.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
+            FrameName.unitHealthBar.bg = nil
+        end
     end
 
     if FrameName.unitAbsorbs then
@@ -503,7 +533,6 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
         FrameName.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
         FrameName.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        FrameName.unitPowerBarBackdrop:SetBackdropColor(unpack(PowerBar.BackgroundColour))
         FrameName.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
         FrameName.unitPowerBarBackdrop:SetFrameLevel(4)
         FrameName.unitPowerBar:ClearAllPoints()
@@ -515,6 +544,15 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPowerBar.colorPower = PowerBar.ColourByType
         FrameName.unitHealthBar:SetHeight(FrameName:GetHeight() - PowerBar.Height - 1)
         FrameName.unitPowerBarBackdrop:SetFrameLevel(5)
+        FrameName.unitPowerBar.Background:SetAllPoints()
+        FrameName.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
+        if PowerBar.ColourBackgroundByType then 
+            FrameName.unitPowerBar.Background.multiplier = 0.25
+            FrameName.unitPowerBar.bg = FrameName.unitPowerBar.Background
+        else
+            FrameName.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
+            FrameName.unitPowerBar.bg = nil
+        end
         FrameName.unitPowerBar:ForceUpdate()
     end
 
