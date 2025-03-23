@@ -485,10 +485,6 @@ function UUF:UpdateUnitFrame(FrameName)
         elseif Health.Direction == "LR" then
             FrameName.unitHealthBar:SetReverseFill(false)
         end
-        FrameName.unitHealthBar:ForceUpdate()
-    end
-
-    if FrameName.unitHealthBar.Background then
         FrameName.unitHealthBar.Background:SetAllPoints()
         FrameName.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
         if General.ColourBackgroundByHealth then
@@ -498,6 +494,7 @@ function UUF:UpdateUnitFrame(FrameName)
             FrameName.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
             FrameName.unitHealthBar.bg = nil
         end
+        FrameName.unitHealthBar:ForceUpdate()
     end
 
     if FrameName.unitAbsorbs then
