@@ -34,5 +34,7 @@ If you want to test this before the public release. You can **download**, **extr
     - ✅ Inversed Health Growth.
     - ✅ Tags, Tags & More Tags.
     - ✅ Test Mode for Boss Frames.
+    - ✅ Range Check.
+    - ✅ Colour Health / Power Background by Type.
 # Demonstration Video
 [![Watch the video](https://img.youtube.com/vi/2Cr489hgasA/maxresdefault.jpg)](https://youtu.be/2Cr489hgasA?si=FILunCDH-zj2uUSt)
