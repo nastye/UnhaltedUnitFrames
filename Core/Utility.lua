@@ -706,15 +706,7 @@ end
 
 function UUF:UpdateBossFrames()
     if not UUF.BossFrames then return end
-    for _, BossFrame in ipairs(UUF.BossFrames) do
-        UUF:UpdateUnitFrame(BossFrame)
-    end
-    if UUF.DB.global.TestMode then
-        UUF:UpdateBossFramePositions()
-    end
-end
-
-function UUF:UpdateBossFramePositions()
+    for _, BossFrame in ipairs(UUF.BossFrames) do UUF:UpdateUnitFrame(BossFrame) end
     local Frame = UUF.DB.global.Boss.Frame
     local BossSpacing = Frame.Spacing
     local BossContainer = 0
@@ -740,8 +732,6 @@ function UUF:UpdateBossFramePositions()
                 -BossSpacing
             )
         end
-
-        BossFrame:Show()
     end
 end
 
