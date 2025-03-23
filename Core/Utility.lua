@@ -151,7 +151,8 @@ function UUF:CreateUnitFrame(Unit)
     local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
     local PowerBar = UUF.DB.global[Unit].PowerBar
-    local Absorbs = UUF.DB.global[Unit].Health.Absorbs
+    local HealthPrediction = Health.HealthPrediction
+    local Absorbs = HealthPrediction.Absorbs
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
     local TargetMarker = UUF.DB.global[Unit].TargetMarker
@@ -416,7 +417,8 @@ function UUF:UpdateUnitFrame(FrameName)
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
     local Health = UUF.DB.global[Unit].Health
-    local Absorbs = UUF.DB.global[Unit].Health.Absorbs
+    local HealthPrediction = Health.HealthPrediction
+    local Absorbs = HealthPrediction.Absorbs
     local PowerBar = UUF.DB.global[Unit].PowerBar
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global[Unit].Buffs
@@ -751,7 +753,8 @@ function UUF:DisplayBossFrames()
     local Portrait = UUF.DB.global.Boss.Portrait
     local Health = UUF.DB.global.Boss.Health
     local PowerBar = UUF.DB.global.Boss.PowerBar
-    local Absorbs = UUF.DB.global.Boss.Health.Absorbs
+    local HealthPrediction = Health.HealthPrediction
+    local Absorbs = HealthPrediction.Absorbs
     local Buffs = UUF.DB.global.Boss.Buffs
     local Debuffs = UUF.DB.global.Boss.Debuffs
     local TargetMarker = UUF.DB.global.Boss.TargetMarker
@@ -785,6 +788,7 @@ function UUF:DisplayBossFrames()
             BF:SetStatusBarColor(Absorbs.Colour)
             BF:SetMinMaxValues(0, 100)
             BF:SetValue(math.random(20, 50))
+            BF:Show()
         end 
 
         if BossFrame.unitPowerBar then

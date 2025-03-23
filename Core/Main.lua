@@ -69,10 +69,14 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = true,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                    },
                 }
             },
             PowerBar = {
@@ -195,10 +199,14 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = true,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                }
                 }
             },
             PowerBar = {
@@ -326,10 +334,15 @@ UUF.Defaults = {
                 AnchorTo        = "LEFT",
             },
             Health = {
+                Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                }
                 }
             },
             PowerBar = {
@@ -458,10 +471,14 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                }
                 }
             },
             PowerBar = {
@@ -590,10 +607,14 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = false,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                }
                 }
             },
             PowerBar = {
@@ -722,10 +743,14 @@ UUF.Defaults = {
             },
             Health = {
                 Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {},
                 Absorbs = {
                     Enabled         = true,
                     Colour          = {255/255, 205/255, 0/255, 1},
                     ColourByType    = true,
+                }
                 }
             },
             PowerBar = {

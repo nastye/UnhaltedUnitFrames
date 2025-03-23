@@ -387,7 +387,8 @@ function UUF:CreateGUI()
         local Frame = UUF.DB.global[Unit].Frame
         local Portrait = UUF.DB.global[Unit].Portrait
         local Health = UUF.DB.global[Unit].Health
-        local Absorbs = Health.Absorbs
+        local HealthPrediction = Health.HealthPrediction
+        local Absorbs = HealthPrediction.Absorbs
         local PowerBar = UUF.DB.global[Unit].PowerBar
         local Buffs = UUF.DB.global[Unit].Buffs
         local Debuffs = UUF.DB.global[Unit].Debuffs
@@ -557,7 +558,7 @@ function UUF:CreateGUI()
             HealthOptionsContainer:AddChild(HealthGrowDirection)
 
             local AbsorbsContainer = UUFGUI:Create("InlineGroup")
-            AbsorbsContainer:SetTitle("Absorbs Options")
+            AbsorbsContainer:SetTitle("Health Prediction Options")
             AbsorbsContainer:SetLayout("Flow")
             AbsorbsContainer:SetFullWidth(true)
             HealthOptionsContainer:AddChild(AbsorbsContainer)
