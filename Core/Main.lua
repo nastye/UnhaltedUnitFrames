@@ -105,7 +105,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -124,7 +125,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom      = "BOTTOMRIGHT",
                     AnchorTo        = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -236,7 +238,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -255,7 +258,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -373,7 +377,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -392,7 +397,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -510,7 +516,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -529,7 +536,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -647,7 +655,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -666,7 +675,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true
             },
             TargetMarker = {
                 Enabled             = false,
@@ -784,7 +794,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = false,
             },
             Debuffs = {
                 Enabled             = false,
@@ -803,7 +814,8 @@ UUF.Defaults = {
                     YOffset         = 3,
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
-                }
+                },
+                OnlyShowPlayer     = true
             },
             TargetMarker = {
                 Enabled             = true,

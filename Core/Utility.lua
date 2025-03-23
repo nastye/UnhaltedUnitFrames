@@ -331,6 +331,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitBuffs.spacing = Buffs.Spacing
         self.unitBuffs.num = Buffs.Num
         self.unitBuffs.initialAnchor = Buffs.AnchorFrom
+        self.unitBuffs.onlyShowPlayer = Buffs.OnlyShowPlayer
         self.unitBuffs["growth-x"] = Buffs.GrowthX
         self.unitBuffs["growth-y"] = Buffs.GrowthY
         self.unitBuffs.filter = "HELPFUL"
@@ -346,6 +347,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitDebuffs.spacing = Debuffs.Spacing
         self.unitDebuffs.num = Debuffs.Num
         self.unitDebuffs.initialAnchor = Debuffs.AnchorFrom
+        self.unitDebuffs.onlyShowPlayer = Debuffs.OnlyShowPlayer
         self.unitDebuffs["growth-x"] = Debuffs.GrowthX
         self.unitDebuffs["growth-y"] = Debuffs.GrowthY
         self.unitDebuffs.filter = "HARMFUL"
@@ -561,6 +563,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitBuffs.spacing = Buffs.Spacing
         FrameName.unitBuffs.num = Buffs.Num
         FrameName.unitBuffs.initialAnchor = Buffs.AnchorFrom
+        FrameName.unitBuffs.onlyShowPlayer = Buffs.OnlyShowPlayer
         FrameName.unitBuffs["growth-x"] = Buffs.GrowthX
         FrameName.unitBuffs["growth-y"] = Buffs.GrowthY
         FrameName.unitBuffs.filter = "HELPFUL"
@@ -581,9 +584,10 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitDebuffs.spacing = Debuffs.Spacing
         FrameName.unitDebuffs.num = Debuffs.Num
         FrameName.unitDebuffs.initialAnchor = Debuffs.AnchorFrom
+        FrameName.unitDebuffs.onlyShowPlayer = Debuffs.OnlyShowPlayer
         FrameName.unitDebuffs["growth-x"] = Debuffs.GrowthX
         FrameName.unitDebuffs["growth-y"] = Debuffs.GrowthY
-        FrameName.unitDebuffs.filter = "HELPFUL"
+        FrameName.unitDebuffs.filter = "HARMFUL"
         FrameName.unitDebuffs:Show()
         FrameName.unitDebuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HARMFUL") end
         FrameName.unitDebuffs:ForceUpdate()
