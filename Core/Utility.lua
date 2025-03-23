@@ -202,12 +202,12 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
     self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
     self.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
-    self.unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
-    self.unitHealthBar:SetMinMaxValues(0, 100)
-    self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
-    self.unitHealthBar.colorTapping = General.ColourIfTapped
     self.unitHealthBar.colorClass = General.ColourByClass
     self.unitHealthBar.colorReaction = General.ColourByClass
+    self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
+    self.unitHealthBar.colorTapping = General.ColourIfTapped
+    self.unitHealthBar.colorHealth = true
+    self.unitHealthBar:SetMinMaxValues(0, 100)
     if Health.Direction == "RL" then
         self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
@@ -457,10 +457,11 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar:ClearAllPoints()
         FrameName.unitHealthBar:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
         FrameName.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
-        FrameName.unitHealthBar:SetStatusBarColor(unpack(General.ForegroundColour))
-        FrameName.unitHealthBar.colorReaction = General.ColourByReaction
         FrameName.unitHealthBar.colorClass = General.ColourByClass
+        FrameName.unitHealthBar.colorReaction = General.ColourByClass
         FrameName.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
+        FrameName.unitHealthBar.colorTapping = General.ColourIfTapped
+        FrameName.unitHealthBar.colorHealth = true
         if Health.Direction == "RL" then
             FrameName.unitHealthBar:SetReverseFill(true)
         elseif Health.Direction == "LR" then
@@ -745,6 +746,8 @@ function UUF:LoadCustomColours()
     for reaction, color in pairs(General.CustomColours.Reaction) do
         oUF.colors.reaction[reaction] = color
     end
+
+    oUF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
 end
 
 function UUF:DisplayBossFrames()
