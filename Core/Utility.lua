@@ -250,7 +250,7 @@ function UUF:CreateUnitFrame(Unit)
             absorbBar = Absorbs.Enabled and self.unitAbsorbs or nil,
             healAbsorbBar = nil,
             maxOverflow = 1,
-            PostUpdate = function(_, unit, myHeal, otherHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
+            PostUpdate = function(_, unit, _, _, absorb, _, _, _)
                 local healthBar = self.unitHealthBar
                 local absorbBar = self.unitAbsorbs
                 local maxHealth = UnitHealthMax(unit) or 0
