@@ -1,7 +1,7 @@
 local _, UUF = ...
 local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
-local GUI_WIDTH = 1200
-local GUI_HEIGHT = 1200
+local GUI_WIDTH = 1000
+local GUI_HEIGHT = 1030
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -125,10 +125,16 @@ function UUF:CreateGUI()
     UUFGUI_Container:SetLayout("Fill")
     UUFGUI_Container:SetWidth(GUI_WIDTH)
     UUFGUI_Container:SetHeight(GUI_HEIGHT)
-    UUFGUI_Container:EnableResize(false)
+    UUFGUI_Container:EnableResize(true)
     UUFGUI_Container:SetCallback("OnClose", function(widget) UUFGUI:Release(widget) end)
 
     local function DrawGeneralContainer(UUFGUI_Container)
+        local ScrollableContainer = UUFGUI:Create("ScrollFrame")
+        ScrollableContainer:SetLayout("Flow")
+        ScrollableContainer:SetFullWidth(true)
+        ScrollableContainer:SetFullHeight(true)
+        UUFGUI_Container:AddChild(ScrollableContainer)
+
         local General = UUF.DB.global.General
         local UIScaleContainer = UUFGUI:Create("InlineGroup")
         UIScaleContainer:SetTitle("UI Scale")
@@ -161,7 +167,7 @@ function UUF:CreateGUI()
         ApplyUIScale:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(ApplyUIScale)
         
-        UUFGUI_Container:AddChild(UIScaleContainer)
+        ScrollableContainer:AddChild(UIScaleContainer)
 
         -- Font Options
         local FontOptionsContainer = UUFGUI:Create("InlineGroup")
@@ -223,7 +229,7 @@ function UUF:CreateGUI()
         FontShadowOffsetY:SetRelativeWidth(0.33)
         FontShadowContainer:AddChild(FontShadowOffsetY)
 
-        UUFGUI_Container:AddChild(FontOptionsContainer)
+        ScrollableContainer:AddChild(FontOptionsContainer)
 
         -- Texture Options
         local TextureOptionsContainer = UUFGUI:Create("InlineGroup")
@@ -271,7 +277,7 @@ function UUF:CreateGUI()
         -- BorderInset:SetRelativeWidth(0.5)
         -- TextureOptionsContainer:AddChild(BorderInset)
         
-        UUFGUI_Container:AddChild(TextureOptionsContainer)
+        ScrollableContainer:AddChild(TextureOptionsContainer)
 
         -- Colouring Options
         local ColouringOptionsContainer = UUFGUI:Create("InlineGroup")
@@ -404,11 +410,17 @@ function UUF:CreateGUI()
         ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
         ResetToDefault:SetRelativeWidth(1)
         
-        UUFGUI_Container:AddChild(ColouringOptionsContainer)
-        UUFGUI_Container:AddChild(ResetToDefault)
+        ScrollableContainer:AddChild(ColouringOptionsContainer)
+        ScrollableContainer:AddChild(ResetToDefault)
     end
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
+        local ScrollableContainer = UUFGUI:Create("ScrollFrame")
+        ScrollableContainer:SetLayout("Flow")
+        ScrollableContainer:SetFullWidth(true)
+        ScrollableContainer:SetFullHeight(true)
+        UUFGUI_Container:AddChild(ScrollableContainer)
+
         local Frame = UUF.DB.global[Unit].Frame
         local Portrait = UUF.DB.global[Unit].Portrait
         local Health = UUF.DB.global[Unit].Health
@@ -1350,7 +1362,7 @@ function UUF:CreateGUI()
         GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
         GUIContainerTabGroup:SelectTab("Frame")
         GUIContainerTabGroup:SetFullWidth(true)
-        UUFGUI_Container:AddChild(GUIContainerTabGroup)
+        ScrollableContainer:AddChild(GUIContainerTabGroup)
     end
 
     local function DrawTagsContainer(UUFGUI_Container)
