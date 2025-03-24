@@ -1366,6 +1366,11 @@ function UUF:CreateGUI()
     end
 
     local function DrawTagsContainer(UUFGUI_Container)
+        local ScrollableContainer = UUFGUI:Create("ScrollFrame")
+        ScrollableContainer:SetLayout("Flow")
+        ScrollableContainer:SetFullWidth(true)
+        ScrollableContainer:SetFullHeight(true)
+        UUFGUI_Container:AddChild(ScrollableContainer)
 
         local function DrawHealthTagContainer(UUFGUI_Container)
             local HealthTags = UUF:FetchHealthTagDescriptions()
@@ -1479,7 +1484,7 @@ function UUF:CreateGUI()
         GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
         GUIContainerTabGroup:SelectTab("Health")
         GUIContainerTabGroup:SetFullWidth(true)
-        UUFGUI_Container:AddChild(GUIContainerTabGroup)
+        ScrollableContainer:AddChild(GUIContainerTabGroup)
     end
 
     function SelectedGroup(UUFGUI_Container, Event, Group)
