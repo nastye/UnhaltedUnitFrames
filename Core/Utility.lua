@@ -217,7 +217,7 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBar.Background:SetAllPoints()
     self.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
     if General.ColourBackgroundByHealth then
-        self.unitHealthBar.Background.multiplier = 0.25
+        self.unitHealthBar.Background.multiplier = General.BackgroundMultiplier
         self.unitHealthBar.bg = self.unitHealthBar.Background
     else
         self.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
@@ -314,7 +314,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBar.Background:SetAllPoints()
         self.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
         if PowerBar.ColourBackgroundByType then 
-            self.unitPowerBar.Background.multiplier = 0.25
+            self.unitPowerBar.Background.multiplier = PowerBar.BackgroundMultiplier
             self.unitPowerBar.bg = self.unitPowerBar.Background
         else
             self.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
@@ -490,7 +490,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar.Background:SetAllPoints()
         FrameName.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
         if General.ColourBackgroundByHealth then
-            FrameName.unitHealthBar.Background.multiplier = 0.25
+            FrameName.unitHealthBar.Background.multiplier = General.BackgroundMultiplier
             FrameName.unitHealthBar.bg = FrameName.unitHealthBar.Background
         else
             FrameName.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
@@ -546,7 +546,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPowerBar.Background:SetAllPoints()
         FrameName.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
         if PowerBar.ColourBackgroundByType then 
-            FrameName.unitPowerBar.Background.multiplier = 0.25
+            FrameName.unitPowerBar.Background.multiplier = PowerBar.BackgroundMultiplier
             FrameName.unitPowerBar.bg = FrameName.unitPowerBar.Background
         else
             FrameName.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
