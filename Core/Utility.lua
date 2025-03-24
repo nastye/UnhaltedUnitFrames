@@ -673,9 +673,7 @@ function UUF:UpdateUnitFrame(FrameName)
     end
 
     FrameName:UpdateTags()
-    if UUF.DB.global.TestMode then
-        UUF:DisplayBossFrames()
-    end
+    if UUF.DB.global.TestMode then UUF:DisplayBossFrames() end
 end
 
 function UUF:SpawnUnitFrame(Unit)
