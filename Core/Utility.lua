@@ -251,6 +251,7 @@ function UUF:CreateUnitFrame(Unit)
             healAbsorbBar = nil,
             maxOverflow = 1,
             PostUpdate = function(_, unit, _, _, absorb, _, _, _)
+                if not unit then return end
                 local healthBar = self.unitHealthBar
                 local absorbBar = self.unitAbsorbs
                 local maxHealth = UnitHealthMax(unit) or 0
