@@ -153,6 +153,7 @@ function UUF:CreateUnitFrame(Unit)
     local PowerBar = UUF.DB.global[Unit].PowerBar
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
+    local HealAbsorbs = HealthPrediction.HealAbsorbs
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
     local TargetMarker = UUF.DB.global[Unit].TargetMarker
@@ -236,38 +237,51 @@ function UUF:CreateUnitFrame(Unit)
         self.unitAbsorbs:SetSize(self:GetWidth() - 2, self:GetHeight() - 2)
         self.unitAbsorbs:SetFrameLevel(3)
         self.unitAbsorbs:Hide()
-        self.Absorbs = self.unitAbsorbs
-
-        self.HealthPrediction = {
-            myBar = nil,
-            otherBar = nil,
-            absorbBar = Absorbs.Enabled and self.unitAbsorbs or nil,
-            healAbsorbBar = nil,
-            maxOverflow = 1,
-            PostUpdate = function(_, unit, _, _, absorb, _, _, _)
-                if not unit then return end
-                local healthBar = self.unitHealthBar
-                local absorbBar = self.unitAbsorbs
-                local maxHealth = UnitHealthMax(unit) or 0
-                if not absorbBar or maxHealth == 0 or absorb == 0 or not absorb then if absorbBar then absorbBar:Hide() end return end
-                local overflowLimit = maxHealth * self.HealthPrediction.maxOverflow
-                local shownAbsorb = math.min(absorb, overflowLimit)
-                absorbBar:SetMinMaxValues(0, maxHealth)
-                absorbBar:SetValue(shownAbsorb)
-                absorbBar:Show()
-                absorbBar:ClearAllPoints()
-                if Health.Direction == "RL" then
-                    absorbBar:SetReverseFill(true)
-                    absorbBar:SetPoint("TOPRIGHT", healthBar:GetStatusBarTexture(), "TOPLEFT", 0, 0)
-                    absorbBar:SetPoint("BOTTOMRIGHT", healthBar:GetStatusBarTexture(), "BOTTOMLEFT", 0, 0)
-                else
-                    absorbBar:SetReverseFill(false)
-                    absorbBar:SetPoint("TOPLEFT", healthBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
-                    absorbBar:SetPoint("BOTTOMLEFT", healthBar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-                end
-            end,
-        }
     end
+
+    if HealAbsorbs.Enabled then
+        self.unitHealAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
+        self.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
+        local UHAR, UHAG, UHAB, UHAA = unpack(HealAbsorbs.Colour)
+        self.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
+        self.unitHealAbsorbs:SetMinMaxValues(0, 100)
+        self.unitHealAbsorbs:SetReverseFill(true)
+        self.unitHealAbsorbs:SetPoint("TOPRIGHT", self.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
+        self.unitHealAbsorbs:SetPoint("BOTTOMLEFT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        self.unitHealAbsorbs:SetSize(self:GetWidth() - 2, self:GetHeight() - 2)
+        self.unitHealAbsorbs:SetFrameLevel(4)
+        self.unitHealAbsorbs:Hide()
+    end
+
+    self.HealthPrediction = {
+        myBar = nil,
+        otherBar = nil,
+        absorbBar = Absorbs.Enabled and self.unitAbsorbs or nil,
+        healAbsorbBar = self.unitHealAbsorbs,
+        maxOverflow = 1,
+        PostUpdate = function(_, unit, _, _, absorb, _, _, _)
+            if not unit then return end
+            local healthBar = self.unitHealthBar
+            local absorbBar = self.unitAbsorbs
+            local maxHealth = UnitHealthMax(unit) or 0
+            if not absorbBar or maxHealth == 0 or absorb == 0 or not absorb then if absorbBar then absorbBar:Hide() end return end
+            local overflowLimit = maxHealth * self.HealthPrediction.maxOverflow
+            local shownAbsorb = math.min(absorb, overflowLimit)
+            absorbBar:SetMinMaxValues(0, maxHealth)
+            absorbBar:SetValue(shownAbsorb)
+            absorbBar:Show()
+            absorbBar:ClearAllPoints()
+            if Health.Direction == "RL" then
+                absorbBar:SetReverseFill(true)
+                absorbBar:SetPoint("TOPRIGHT", healthBar:GetStatusBarTexture(), "TOPLEFT", 0, 0)
+                absorbBar:SetPoint("BOTTOMRIGHT", healthBar:GetStatusBarTexture(), "BOTTOMLEFT", 0, 0)
+            else
+                absorbBar:SetReverseFill(false)
+                absorbBar:SetPoint("TOPLEFT", healthBar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
+                absorbBar:SetPoint("BOTTOMLEFT", healthBar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
+            end
+        end,
+    }
 
     self.unitHealthBar:SetFrameLevel(2)
     self.Health = self.unitHealthBar
@@ -436,6 +450,7 @@ function UUF:UpdateUnitFrame(FrameName)
     local Health = UUF.DB.global[Unit].Health
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
+    local HealAbsorbs = HealthPrediction.HealAbsorbs
     local PowerBar = UUF.DB.global[Unit].PowerBar
     local General = UUF.DB.global.General
     local Buffs = UUF.DB.global[Unit].Buffs
@@ -508,6 +523,23 @@ function UUF:UpdateUnitFrame(FrameName)
         end
         FrameName.unitAbsorbs:SetStatusBarColor(unpack(Absorbs.Colour))
         FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
+        FrameName.unitHealthBar:ForceUpdate()
+    end
+
+    if FrameName.unitHealAbsorbs then
+        if Health.Direction == "RL" then
+            FrameName.unitHealAbsorbs:SetReverseFill(true)
+            FrameName.unitHealAbsorbs:ClearAllPoints()
+            FrameName.unitHealAbsorbs:SetPoint("TOPRIGHT", FrameName.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
+            FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", FrameName.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        elseif Health.Direction == "LR" then
+            FrameName.unitHealAbsorbs:SetReverseFill(false)
+            FrameName.unitHealAbsorbs:ClearAllPoints()
+            FrameName.unitHealAbsorbs:SetPoint("TOPLEFT", FrameName.unitHealthBar:GetStatusBarTexture(), "TOPLEFT")
+            FrameName.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", FrameName.unitHealthBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+        end
+        FrameName.unitHealAbsorbs:SetStatusBarColor(unpack(HealAbsorbs.Colour))
+        FrameName.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         FrameName.unitHealthBar:ForceUpdate()
     end
 
