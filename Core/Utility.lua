@@ -716,15 +716,23 @@ function UUF:SpawnUnitFrame(Unit)
         oUF:RegisterStyle(Style, function(self) UUF.CreateUnitFrame(self, Unit) end)
         oUF:SetActiveStyle(Style)
         UUF.BossFrames = {}
-        local BossContainer, BossSpacing = 0, Frame.Spacing
+        local BossSpacing = Frame.Spacing
+        local BossContainer
         for i = 1, 8 do
             local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
             UUF.BossFrames[i] = BossFrame
             if i == 1 then
                 BossContainer = (BossFrame:GetHeight() + BossSpacing) * 8 - BossSpacing
-                BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, (BossContainer / 2 - BossFrame:GetHeight() / 2) + Frame.YPosition) 
+                local offsetY = (BossContainer / 2 - BossFrame:GetHeight() / 2)
+                if Frame.GrowthY ~= "DOWN" then
+                    offsetY = -offsetY
+                end
+                BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, offsetY + Frame.YPosition)
             else
-                BossFrame:SetPoint("TOPLEFT", _G["UUF_Boss" .. (i - 1)], "BOTTOMLEFT", 0, -BossSpacing)
+                local anchor = Frame.GrowthY == "DOWN" and "TOPLEFT" or "BOTTOMLEFT"
+                local relativeAnchor = Frame.GrowthY == "DOWN" and "BOTTOMLEFT" or "TOPLEFT"
+                local offsetY = Frame.GrowthY == "DOWN" and -BossSpacing or BossSpacing
+                BossFrame:SetPoint(anchor, _G["UUF_Boss" .. (i - 1)], relativeAnchor, 0, offsetY)
             end
             UUF:RegisterRangeFrame(BossFrame, "boss" .. i)
         end
@@ -745,26 +753,33 @@ function UUF:UpdateBossFrames()
     local Frame = UUF.DB.global.Boss.Frame
     local BossSpacing = Frame.Spacing
     local BossContainer = 0
+    local growDown = Frame.GrowthY == "DOWN"
 
-    for i, BossFrame in ipairs(UUF.BossFrames or {}) do
+    for i, BossFrame in ipairs(UUF.BossFrames) do
         BossFrame:ClearAllPoints()
-
         if i == 1 then
             BossContainer = (BossFrame:GetHeight() + BossSpacing) * #UUF.BossFrames - BossSpacing
+            local offsetY = (BossContainer / 2 - BossFrame:GetHeight() / 2)
+            if not growDown then
+                offsetY = -offsetY
+            end
             BossFrame:SetPoint(
                 Frame.AnchorFrom,
                 Frame.AnchorParent,
                 Frame.AnchorTo,
                 Frame.XPosition,
-                (BossContainer / 2 - BossFrame:GetHeight() / 2) + Frame.YPosition
+                offsetY + Frame.YPosition
             )
         else
+            local anchor = growDown and "TOPLEFT" or "BOTTOMLEFT"
+            local relativeAnchor = growDown and "BOTTOMLEFT" or "TOPLEFT"
+            local offsetY = growDown and -BossSpacing or BossSpacing
             BossFrame:SetPoint(
-                "TOPLEFT",
+                anchor,
                 _G["UUF_Boss" .. (i - 1)],
-                "BOTTOMLEFT",
+                relativeAnchor,
                 0,
-                -BossSpacing
+                offsetY
             )
         end
     end

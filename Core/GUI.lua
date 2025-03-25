@@ -525,10 +525,21 @@ function UUF:CreateGUI()
                 FrameSpacing:SetSliderValues(-999, 999, 0.1)
                 FrameSpacing:SetValue(Frame.Spacing)
                 FrameSpacing:SetCallback("OnMouseUp", function(widget, event, value) Frame.Spacing = value UUF:UpdateFrames() end)
-                FrameXPosition:SetRelativeWidth(0.33)
-                FrameYPosition:SetRelativeWidth(0.33)
-                FrameSpacing:SetRelativeWidth(0.33)
+                FrameXPosition:SetRelativeWidth(0.25)
+                FrameYPosition:SetRelativeWidth(0.25)
+                FrameSpacing:SetRelativeWidth(0.25)
                 FrameOptions:AddChild(FrameSpacing)
+
+                local GrowthDirection = UUFGUI:Create("Dropdown")
+                GrowthDirection:SetLabel("Growth Direction")
+                GrowthDirection:SetList({
+                    ["DOWN"] = "Down",
+                    ["UP"] = "Up",
+                })
+                GrowthDirection:SetValue(Frame.GrowthY)
+                GrowthDirection:SetCallback("OnValueChanged", function(widget, event, value) Frame.GrowthY = value UUF:UpdateFrames() end)
+                GrowthDirection:SetRelativeWidth(0.25)
+                FrameOptions:AddChild(GrowthDirection)
             end
 
             UUFGUI_Container:AddChild(FrameOptions)

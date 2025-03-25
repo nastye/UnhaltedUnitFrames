@@ -769,6 +769,7 @@ UUF.Defaults = {
                 AnchorFrom          = "CENTER",
                 AnchorTo            = "CENTER",
                 AnchorParent        = "UIParent",
+                GrowthY             = "DOWN",
             },
             Portrait = {
                 Enabled         = true,
