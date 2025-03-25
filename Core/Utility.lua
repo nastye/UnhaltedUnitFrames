@@ -245,9 +245,15 @@ function UUF:CreateUnitFrame(Unit)
         local UHAR, UHAG, UHAB, UHAA = unpack(HealAbsorbs.Colour)
         self.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
         self.unitHealAbsorbs:SetMinMaxValues(0, 100)
-        self.unitHealAbsorbs:SetReverseFill(true)
-        self.unitHealAbsorbs:SetPoint("TOPRIGHT", self.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
-        self.unitHealAbsorbs:SetPoint("BOTTOMLEFT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        if Health.Direction == "RL" then
+            self.unitHealAbsorbs:SetReverseFill(true)
+            self.unitHealAbsorbs:SetPoint("TOPRIGHT", self.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
+            self.unitHealAbsorbs:SetPoint("BOTTOMLEFT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
+        elseif Health.Direction == "LR" then
+            self.unitHealAbsorbs:SetReverseFill(false)
+            self.unitHealAbsorbs:SetPoint("TOPLEFT", self.unitHealthBar:GetStatusBarTexture(), "TOPLEFT")
+            self.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+        end
         self.unitHealAbsorbs:SetSize(self:GetWidth() - 2, self:GetHeight() - 2)
         self.unitHealAbsorbs:SetFrameLevel(4)
         self.unitHealAbsorbs:Hide()
