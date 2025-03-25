@@ -434,6 +434,7 @@ function UUF:CreateGUI()
         local Health = UUF.DB.global[Unit].Health
         local HealthPrediction = Health.HealthPrediction
         local Absorbs = HealthPrediction.Absorbs
+        local HealAbsorbs = HealthPrediction.HealAbsorbs
         local PowerBar = UUF.DB.global[Unit].PowerBar
         local Buffs = UUF.DB.global[Unit].Buffs
         local Debuffs = UUF.DB.global[Unit].Debuffs
@@ -623,6 +624,28 @@ function UUF:CreateGUI()
             AbsorbsColourPicker:SetHasAlpha(true)
             AbsorbsColourPicker:SetRelativeWidth(0.5)
             AbsorbsContainer:AddChild(AbsorbsColourPicker)
+
+            local HealAbsorbsContainer = UUFGUI:Create("InlineGroup")
+            HealAbsorbsContainer:SetTitle("Heal Absorbs")
+            HealAbsorbsContainer:SetLayout("Flow")
+            HealAbsorbsContainer:SetFullWidth(true)
+            HealthOptionsContainer:AddChild(HealAbsorbsContainer)
+
+            local HealAbsorbsEnabled = UUFGUI:Create("CheckBox")
+            HealAbsorbsEnabled:SetLabel("Enable Heal Absorbs")
+            HealAbsorbsEnabled:SetValue(HealAbsorbs.Enabled)
+            HealAbsorbsEnabled:SetCallback("OnValueChanged", function(widget, event, value) HealAbsorbs.Enabled = value UUF:UpdateFrames() end)
+            HealAbsorbsEnabled:SetRelativeWidth(0.5)
+            HealAbsorbsContainer:AddChild(HealAbsorbsEnabled)
+
+            local HealAbsorbsColourPicker = UUFGUI:Create("ColorPicker")
+            HealAbsorbsColourPicker:SetLabel("Colour")
+            local HAR, HAG, HAB, HAA = unpack(HealAbsorbs.Colour)
+            HealAbsorbsColourPicker:SetColor(HAR, HAG, HAB, HAA)
+            HealAbsorbsColourPicker:SetCallback("OnValueChanged", function(widget, _, r, g, b, a) HealAbsorbs.Colour = {r, g, b, a} UUF:UpdateFrames() end)
+            HealAbsorbsColourPicker:SetHasAlpha(true)
+            HealAbsorbsColourPicker:SetRelativeWidth(0.5)
+            HealAbsorbsContainer:AddChild(HealAbsorbsColourPicker)
 
             UUFGUI_Container:AddChild(HealthOptionsContainer)
 
