@@ -182,3 +182,15 @@ function UUF:FetchPowerTagDescriptions()
     return PowerTagsDescription
 end
 
+local MiscTagsDescription = {
+    ["Classification"] = {Tag = "[classification]", Desc = "Returns the current classification (Elite, Rare, Rare Elite) of the unit."},
+    ["Short Classification"] = {Tag = "[shortclassification]", Desc = "Returns the current classification (Elite, Rare, Rare Elite) of the unit, shortened."},
+    ["Group"] = {Tag = "[group]", Desc = "Returns the current group number of the unit."},
+    ["Level"] = {Tag = "[level]", Desc = "Returns the current level of the unit."},
+    ["Status"] = {Tag = "[status]", Desc = "Return the current status (Dead, Offline) of the unit."}
+}
+
+function UUF:FetchMiscTagDescriptions()
+    return MiscTagsDescription
+end
+

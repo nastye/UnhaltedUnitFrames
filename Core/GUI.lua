@@ -1497,6 +1497,36 @@ function UUF:CreateGUI()
             end
         end
 
+        local function DrawMiscTagsContainer(UUFGUI_Container)
+            local MiscTags = UUF:FetchMiscTagDescriptions()
+
+            local MiscTagOptions = UUFGUI:Create("InlineGroup")
+            MiscTagOptions:SetTitle("Misc Tags")
+            MiscTagOptions:SetLayout("Flow")
+            MiscTagOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(MiscTagOptions)
+
+            for Title, TableData in pairs(MiscTags) do
+                local Tag, Desc = TableData.Tag, TableData.Desc
+                MiscTagTitle = UUFGUI:Create("Heading")
+                MiscTagTitle:SetText(Title)
+                MiscTagTitle:SetRelativeWidth(1)
+                MiscTagOptions:AddChild(MiscTagTitle)
+
+                local MiscTagTag = UUFGUI:Create("EditBox")
+                MiscTagTag:SetText(Tag)
+                MiscTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                MiscTagTag:SetRelativeWidth(0.3)
+                MiscTagOptions:AddChild(MiscTagTag)
+
+                MiscTagDescription = UUFGUI:Create("EditBox")
+                MiscTagDescription:SetText(Desc)
+                MiscTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                MiscTagDescription:SetRelativeWidth(0.7)
+                MiscTagOptions:AddChild(MiscTagDescription)
+            end
+        end
+
         local function SelectedGroup(UUFGUI_Container, Event, Group)
             UUFGUI_Container:ReleaseChildren()
             if Group == "Health" then
@@ -1505,6 +1535,8 @@ function UUF:CreateGUI()
                 DrawPowerTagsContainer(UUFGUI_Container)
             elseif Group == "Name" then
                 DrawNameTagsContainer(UUFGUI_Container)
+            elseif Group == "Misc" then
+                DrawMiscTagsContainer(UUFGUI_Container)
             end
         end
 
@@ -1514,6 +1546,7 @@ function UUF:CreateGUI()
             { text = "Health",                              value = "Health"},
             { text = "Power",                               value = "Power" },
             { text = "Name",                                value = "Name" },
+            { text = "Misc",                                value = "Misc" },
         })
         
         GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
