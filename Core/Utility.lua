@@ -164,14 +164,8 @@ function UUF:CreateUnitFrame(Unit)
     local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
 
-    if Unit == "Focus" then
-        if not Frame.Enabled then return end
-    elseif Unit == "TargetTarget" then
-        if not Frame.Enabled then return end
-    elseif Unit == "Pet" then
-        if not Frame.Enabled then return end
-    end
-
+    if (Unit == "Focus" or Unit == "TargetTarget" or Unit == "Pet") and not Frame.Enabled then return end
+    
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
         edgeFile = General.BorderTexture,
