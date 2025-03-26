@@ -245,14 +245,18 @@ function UUF:CreateUnitFrame(Unit)
         local UHAR, UHAG, UHAB, UHAA = unpack(HealAbsorbs.Colour)
         self.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
         self.unitHealAbsorbs:SetMinMaxValues(0, 100)
-        if Health.Direction == "RL" then
-            self.unitHealAbsorbs:SetReverseFill(true)
-            self.unitHealAbsorbs:SetPoint("TOPRIGHT", self.unitHealthBar:GetStatusBarTexture(), "TOPRIGHT")
-            self.unitHealAbsorbs:SetPoint("BOTTOMLEFT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMLEFT")
-        elseif Health.Direction == "LR" then
-            self.unitHealAbsorbs:SetReverseFill(false)
-            self.unitHealAbsorbs:SetPoint("TOPLEFT", self.unitHealthBar:GetStatusBarTexture(), "TOPLEFT")
-            self.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", self.unitHealthBar:GetStatusBarTexture(), "BOTTOMRIGHT")
+        local HealthBarTexture = self.unitHealthBar:GetStatusBarTexture()
+        if HealthBarTexture then
+            self.unitHealAbsorbs:ClearAllPoints()
+            if Health.Direction == "RL" then
+                self.unitHealAbsorbs:SetReverseFill(false)
+                self.unitHealAbsorbs:SetPoint("TOPLEFT", HealthBarTexture, "TOPLEFT")
+                self.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", HealthBarTexture, "BOTTOMRIGHT")
+            else
+                self.unitHealAbsorbs:SetReverseFill(true)
+                self.unitHealAbsorbs:SetPoint("TOPRIGHT", HealthBarTexture, "TOPRIGHT")
+                self.unitHealAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMLEFT")
+            end
         end
         self.unitHealAbsorbs:SetSize(self:GetWidth() - 2, self:GetHeight() - 2)
         self.unitHealAbsorbs:SetFrameLevel(4)
@@ -525,14 +529,15 @@ function UUF:UpdateUnitFrame(FrameName)
     if FrameName.unitHealAbsorbs then
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
-            FrameName.unitHealAbsorbs:SetReverseFill(Health.Direction == "RL")
             FrameName.unitHealAbsorbs:ClearAllPoints()
             if Health.Direction == "RL" then
-                FrameName.unitHealAbsorbs:SetPoint("TOPRIGHT", HealthBarTexture, "TOPRIGHT")
-                FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMLEFT")
-            else
+                FrameName.unitHealAbsorbs:SetReverseFill(false)
                 FrameName.unitHealAbsorbs:SetPoint("TOPLEFT", HealthBarTexture, "TOPLEFT")
                 FrameName.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", HealthBarTexture, "BOTTOMRIGHT")
+            else
+                FrameName.unitHealAbsorbs:SetReverseFill(true)
+                FrameName.unitHealAbsorbs:SetPoint("TOPRIGHT", HealthBarTexture, "TOPRIGHT")
+                FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMLEFT")
             end
         end
         FrameName.unitHealAbsorbs:SetStatusBarColor(unpack(HealAbsorbs.Colour))
