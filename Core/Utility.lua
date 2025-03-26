@@ -164,6 +164,7 @@ function UUF:CreateUnitFrame(Unit)
     local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
     local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
+    local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
 
     if (Unit == "Focus" or Unit == "TargetTarget" or Unit == "Pet") and not Frame.Enabled then return end
     
@@ -183,14 +184,25 @@ function UUF:CreateUnitFrame(Unit)
     self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBorder:SetFrameLevel(1)
 
-    self.unitHighlight = CreateFrame("Frame", nil, self, "BackdropTemplate")
-    self.unitHighlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
-    self.unitHighlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
-    self.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
-    self.unitHighlight:SetBackdropColor(0, 0, 0, 0)
-    self.unitHighlight:SetBackdropBorderColor(1, 1, 1, 1)
-    self.unitHighlight:SetFrameLevel(20)
-    self.unitHighlight:Hide()
+    if MouseoverHighlight.Enabled then
+        self.unitHighlight = CreateFrame("Frame", nil, self, "BackdropTemplate")
+        self.unitHighlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+        self.unitHighlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
+        local MHR, MHG, MHB, MHA = unpack(MouseoverHighlight.Colour)
+        if MouseoverHighlight.Style == "BORDER" then
+            self.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+            self.unitHighlight:SetBackdropColor(0, 0, 0, 0)
+            self.unitHighlight:SetBackdropBorderColor(MHR, MHG, MHB, MHA)
+            self.unitHighlight:SetFrameLevel(20)
+            self.unitHighlight:Hide()
+        elseif MouseoverHighlight.Style == "HIGHLIGHT" then
+            self.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+            self.unitHighlight:SetBackdropColor(MHR, MHG, MHB, MHA)
+            self.unitHighlight:SetBackdropBorderColor(0, 0, 0, 0)
+            self.unitHighlight:SetFrameLevel(20)
+            self.unitHighlight:Hide()
+        end
+    end
 
     self.unitHealthBar = CreateFrame("StatusBar", nil, self)
     self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
@@ -464,6 +476,7 @@ function UUF:UpdateUnitFrame(FrameName)
     local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
     local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
     local Range = UUF.DB.global[Unit].Range
+    local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
 
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
@@ -480,6 +493,23 @@ function UUF:UpdateUnitFrame(FrameName)
 
     if FrameName.unitBorder then
         FrameName.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+    end
+
+    if MouseoverHighlight.Enabled and FrameName.unitHighlight then
+        local MHR, MHG, MHB, MHA = unpack(MouseoverHighlight.Colour)
+        if MouseoverHighlight.Style == "BORDER" then
+            FrameName.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+            FrameName.unitHighlight:SetBackdropColor(0, 0, 0, 0)
+            FrameName.unitHighlight:SetBackdropBorderColor(MHR, MHG, MHB, MHA)
+            FrameName.unitHighlight:SetFrameLevel(20)
+            FrameName.unitHighlight:Hide()
+        elseif MouseoverHighlight.Style == "HIGHLIGHT" then
+            FrameName.unitHighlight:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+            FrameName.unitHighlight:SetBackdropColor(MHR, MHG, MHB, MHA)
+            FrameName.unitHighlight:SetBackdropBorderColor(0, 0, 0, 0)
+            FrameName.unitHighlight:SetFrameLevel(20)
+            FrameName.unitHighlight:Hide()
+        end
     end
 
     if FrameName.unitHealthBar then

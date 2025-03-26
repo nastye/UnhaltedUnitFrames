@@ -1,7 +1,7 @@
 local _, UUF = ...
 local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
-local GUI_WIDTH = 1000
-local GUI_HEIGHT = 1050
+local GUI_WIDTH = 920
+local GUI_HEIGHT = 1080
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -372,6 +372,40 @@ function UUF:CreateGUI()
         BorderColour:SetHasAlpha(true)
         BorderColour:SetRelativeWidth(0.33)
         BorderColourOptions:AddChild(BorderColour)
+
+        local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
+        local MouseoverHighlightOptions = UUFGUI:Create("InlineGroup")
+        MouseoverHighlightOptions:SetTitle("Mouseover Highlight Options")
+        MouseoverHighlightOptions:SetLayout("Flow")
+        MouseoverHighlightOptions:SetFullWidth(true)
+        ScrollableContainer:AddChild(MouseoverHighlightOptions)
+
+        local MouseoverHighlightEnabled = UUFGUI:Create("CheckBox")
+        MouseoverHighlightEnabled:SetLabel("Enable Mouseover Highlight")
+        MouseoverHighlightEnabled:SetValue(MouseoverHighlight.Enabled)
+        MouseoverHighlightEnabled:SetCallback("OnValueChanged", function(widget, event, value) MouseoverHighlight.Enabled = value UUF:CreateReloadPrompt() end)
+        MouseoverHighlightEnabled:SetRelativeWidth(0.33)
+        MouseoverHighlightOptions:AddChild(MouseoverHighlightEnabled)
+
+        local MouseoverHighlightColor = UUFGUI:Create("ColorPicker")
+        MouseoverHighlightColor:SetLabel("Color")
+        local MHR, MHG, MHB, MHA = unpack(MouseoverHighlight.Colour)
+        MouseoverHighlightColor:SetColor(MHR, MHG, MHB, MHA)
+        MouseoverHighlightColor:SetCallback("OnValueChanged", function(widget, event, r, g, b, a) MouseoverHighlight.Colour = {r, g, b, a} UUF:UpdateFrames() end)
+        MouseoverHighlightColor:SetHasAlpha(true)
+        MouseoverHighlightColor:SetRelativeWidth(0.33)
+        MouseoverHighlightOptions:AddChild(MouseoverHighlightColor)
+
+        local MouseoverStyle = UUFGUI:Create("Dropdown")
+        MouseoverStyle:SetLabel("Style")
+        MouseoverStyle:SetList({
+            ["BORDER"] = "Border",
+            ["HIGHLIGHT"] = "Highlight",
+        })
+        MouseoverStyle:SetValue(MouseoverHighlight.Style)
+        MouseoverStyle:SetCallback("OnValueChanged", function(widget, event, value) MouseoverHighlight.Style = value UUF:UpdateFrames() end)
+        MouseoverStyle:SetRelativeWidth(0.33)
+        MouseoverHighlightOptions:AddChild(MouseoverStyle)
 
         local CustomColours = UUFGUI:Create("InlineGroup")
         CustomColours:SetTitle("Custom Colours")

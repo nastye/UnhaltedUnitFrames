@@ -48,8 +48,12 @@ UUF.Defaults = {
                     [17] = {0.79, 0.26, 0.99},  -- Fury
                     [18] = {1, 0.61, 0}         -- Pain
                 }
+            },
+            MouseoverHighlight = {
+                Enabled = true,
+                Style = "BORDER",
+                Colour = {1, 1, 1, 1},
             }
-            
         },
         Player = {
             Frame = {
