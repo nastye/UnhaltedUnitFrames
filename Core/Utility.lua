@@ -523,16 +523,16 @@ function UUF:UpdateUnitFrame(FrameName)
     end
     
     if FrameName.unitHealAbsorbs then
-        local texture = FrameName.unitHealthBar:GetStatusBarTexture()
-        if texture then
+        local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
+        if HealthBarTexture then
             FrameName.unitHealAbsorbs:SetReverseFill(Health.Direction == "RL")
             FrameName.unitHealAbsorbs:ClearAllPoints()
             if Health.Direction == "RL" then
-                FrameName.unitHealAbsorbs:SetPoint("TOPRIGHT", texture, "TOPRIGHT")
-                FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", texture, "BOTTOMLEFT")
+                FrameName.unitHealAbsorbs:SetPoint("TOPRIGHT", HealthBarTexture, "TOPRIGHT")
+                FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMLEFT")
             else
-                FrameName.unitHealAbsorbs:SetPoint("TOPLEFT", texture, "TOPLEFT")
-                FrameName.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", texture, "BOTTOMRIGHT")
+                FrameName.unitHealAbsorbs:SetPoint("TOPLEFT", HealthBarTexture, "TOPLEFT")
+                FrameName.unitHealAbsorbs:SetPoint("BOTTOMRIGHT", HealthBarTexture, "BOTTOMRIGHT")
             end
         end
         FrameName.unitHealAbsorbs:SetStatusBarColor(unpack(HealAbsorbs.Colour))
