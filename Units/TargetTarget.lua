@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 
 function UUF:CreateTargetTargetFrame()
     local General = UUF.DB.global.General
@@ -310,8 +310,8 @@ end
 function UUF:SpawnTargetTargetFrame()
     if not UUF.DB.global.TargetTarget.Frame.Enabled then return end
     local Frame = UUF.DB.global.TargetTarget.Frame
-    oUF:RegisterStyle("UUF_TargetTarget", UUF.CreateTargetTargetFrame)
-    oUF:SetActiveStyle("UUF_TargetTarget")
-    self.TargetTargetFrame = oUF:Spawn("targettarget", "UUF_TargetTarget")
+    UF:RegisterStyle("UUF_TargetTarget", UUF.CreateTargetTargetFrame)
+    UF:SetActiveStyle("UUF_TargetTarget")
+    self.TargetTargetFrame = UF:Spawn("targettarget", "UUF_TargetTarget")
     self.TargetTargetFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
 end

@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
@@ -481,15 +481,15 @@ function UUF:LoadCustomColours()
     for powerType, color in pairs(General.CustomColours.Power) do
         local powerTypeString = PowerTypesToString[powerType]
         if powerTypeString then
-            oUF.colors.power[powerTypeString] = color
+            UF.colors.power[powerTypeString] = color
         end
     end
 
     for reaction, color in pairs(General.CustomColours.Reaction) do
-        oUF.colors.reaction[reaction] = color
+        UF.colors.reaction[reaction] = color
     end
 
-    oUF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
+    UF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
 end
 
 function UUF:DisplayBossFrames()

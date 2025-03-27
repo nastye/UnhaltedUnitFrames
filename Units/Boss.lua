@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 
 function UUF:CreateBossFrame()
     local General = UUF.DB.global.General
@@ -309,13 +309,13 @@ end
 
 function UUF:SpawnBossFrames()
     local Frame = UUF.DB.global.Boss.Frame
-    oUF:RegisterStyle("UUF_Boss", UUF.CreateBossFrame)
-    oUF:SetActiveStyle("UUF_Boss")
+    UF:RegisterStyle("UUF_Boss", UUF.CreateBossFrame)
+    UF:SetActiveStyle("UUF_Boss")
     UUF.BossFrames = {}
     local BossSpacing = Frame.Spacing
     local BossContainer
     for i = 1, 8 do
-        local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
+        local BossFrame = UF:Spawn("boss" .. i, "UUF_Boss" .. i)
         UUF.BossFrames[i] = BossFrame
         if i == 1 then
             BossContainer = (BossFrame:GetHeight() + BossSpacing) * 8 - BossSpacing

@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 
 function UUF:CreateFocusFrame()
     local General = UUF.DB.global.General
@@ -310,8 +310,8 @@ end
 function UUF:SpawnFocusFrame()
     if not UUF.DB.global.Focus.Frame.Enabled then return end
     local Frame = UUF.DB.global.Focus.Frame
-    oUF:RegisterStyle("UUF_Focus", UUF.CreateFocusFrame)
-    oUF:SetActiveStyle("UUF_Focus")
-    self.FocusFrame = oUF:Spawn("focus", "UUF_Focus")
+    UF:RegisterStyle("UUF_Focus", UUF.CreateFocusFrame)
+    UF:SetActiveStyle("UUF_Focus")
+    self.FocusFrame = UF:Spawn("focus", "UUF_Focus")
     self.FocusFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
 end

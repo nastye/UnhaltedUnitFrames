@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 
 function UUF:CreatePetFrame()
     local General = UUF.DB.global.General
@@ -310,8 +310,8 @@ end
 function UUF:SpawnPetFrame()
     if not UUF.DB.global.Pet.Frame.Enabled then return end
     local Frame = UUF.DB.global.Pet.Frame
-    oUF:RegisterStyle("UUF_Pet", UUF.CreatePetFrame)
-    oUF:SetActiveStyle("UUF_Pet")
-    self.PetFrame = oUF:Spawn("pet", "UUF_Pet")
+    UF:RegisterStyle("UUF_Pet", UUF.CreatePetFrame)
+    UF:SetActiveStyle("UUF_Pet")
+    self.PetFrame = UF:Spawn("pet", "UUF_Pet")
     self.PetFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
 end

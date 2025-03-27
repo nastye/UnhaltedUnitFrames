@@ -1,5 +1,5 @@
 local _, UUF = ...
-local oUF = UUF.oUF
+local UF = UUF.oUF
 
 function UUF:CreatePlayerFrame()
     local General = UUF.DB.global.General
@@ -309,8 +309,8 @@ end
 
 function UUF:SpawnPlayerFrame()
     local Frame = UUF.DB.global.Player.Frame
-    oUF:RegisterStyle("UUF_Player", UUF.CreatePlayerFrame)
-    oUF:SetActiveStyle("UUF_Player")
-    self.PlayerFrame = oUF:Spawn("player", "UUF_Player")
+    UF:RegisterStyle("UUF_Player", UUF.CreatePlayerFrame)
+    UF:SetActiveStyle("UUF_Player")
+    self.PlayerFrame = UF:Spawn("player", "UUF_Player")
     self.PlayerFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
 end
