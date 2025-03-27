@@ -525,7 +525,7 @@ function UUF:CreateGUI()
             FrameWidth:SetLabel("Frame Width")
             FrameWidth:SetSliderValues(1, 999, 0.1)
             FrameWidth:SetValue(Frame.Width)
-            FrameWidth:SetCallback("OnValueChanged", function(widget, event, value) Frame.Width = value UUF:UpdateFrames() end)
+            FrameWidth:SetCallback("OnMouseUp", function(widget, event, value) Frame.Width = value UUF:UpdateFrames() end)
             FrameWidth:SetRelativeWidth(0.5)
             FrameOptions:AddChild(FrameWidth)
 
