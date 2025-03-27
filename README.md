@@ -1,4 +1,4 @@
-# Unhalted Unit Frames
+# Unhalted Unit Frames ![alt text](Media/Logo.tga)
 
 ## About
 Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Player**, **Target**, **Focus**, **Pet**, **Target of Target** and **Boss Frames**.
