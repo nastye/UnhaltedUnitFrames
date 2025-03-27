@@ -109,7 +109,7 @@ function UUF:WrapTextInColor(unitName, unit)
     else
         local reaction = UnitReaction(unit, "player")
         if reaction then
-            local r, g, b = unpack(oUF.colors.reaction[reaction])
+            local r, g, b = unpack(UF.colors.reaction[reaction])
             unitColor = { r = r, g = g, b = b }
         end
     end
@@ -138,7 +138,6 @@ function UUF:ShortenName(name, nameBlacklist)
     local words = { strsplit(" ", name) }
     return nameBlacklist[words[2]] and words[1] or words[#words] or name
 end
-
 
 function UUF:ResetDefaultSettings()
     UUF.DB:ResetDB()
