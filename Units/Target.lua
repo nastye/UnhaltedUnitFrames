@@ -7,4 +7,5 @@ function UUF:SpawnTargetFrame()
     UUF_oUF:SetActiveStyle("UUF_Target")
     self.TargetFrame = UUF_oUF:Spawn("target", "UUF_Target")
     self.TargetFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    UUF:RegisterRangeFrame(self.TargetFrame, "target")
 end

@@ -8,4 +8,5 @@ function UUF:SpawnFocusFrame()
     UUF_oUF:SetActiveStyle("UUF_Focus")
     self.FocusFrame = UUF_oUF:Spawn("focus", "UUF_Focus")
     self.FocusFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    UUF:RegisterRangeFrame(self.FocusFrame, "focus")
 end

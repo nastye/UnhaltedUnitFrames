@@ -8,4 +8,5 @@ function UUF:SpawnPetFrame()
     UUF_oUF:SetActiveStyle("UUF_Pet")
     self.PetFrame = UUF_oUF:Spawn("pet", "UUF_Pet")
     self.PetFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    UUF:RegisterRangeFrame(self.PetFrame, "pet")
 end
