@@ -309,7 +309,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPortrait = self.unitPortraitBackdrop:CreateTexture(nil, "OVERLAY")
         self.unitPortrait:SetSize(self.unitPortraitBackdrop:GetHeight() - 2, self.unitPortraitBackdrop:GetHeight() - 2)
         self.unitPortrait:SetPoint("CENTER", self.unitPortraitBackdrop, "CENTER", 0, 0)
-        self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
+        self.unitPortrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
         self.Portrait = self.unitPortrait
     end
 
@@ -858,6 +858,7 @@ function UUF:DisplayBossFrames()
     local PowerBar = UUF.DB.global.Boss.PowerBar
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
+    local HealAbsorbs = HealthPrediction.HealAbsorbs
     local Buffs = UUF.DB.global.Boss.Buffs
     local Debuffs = UUF.DB.global.Boss.Debuffs
     local TargetMarker = UUF.DB.global.Boss.TargetMarker
@@ -881,29 +882,63 @@ function UUF:DisplayBossFrames()
     for _, BossFrame in ipairs(UUF.BossFrames) do
         if BossFrame.unitHealthBar then
             local BF = BossFrame.unitHealthBar
-            BF:SetStatusBarColor(1, 1, 0.1)
+            local PlayerClassColour = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+            BF:SetStatusBarColor(PlayerClassColour.r, PlayerClassColour.g, PlayerClassColour.b)
             BF:SetMinMaxValues(0, 100)
             BF:SetValue(math.random(20, 50))
+            if BossFrame.unitHealthBar.Background then
+                BF.Background:SetAllPoints()
+                BF.Background:SetTexture(General.BackgroundTexture)
+                if General.ColourBackgroundByHealth then
+                    BF.Background:SetVertexColor(PlayerClassColour.r * General.BackgroundMultiplier, PlayerClassColour.g * General.BackgroundMultiplier, PlayerClassColour.b * General.BackgroundMultiplier)
+                else
+                    BF.Background:SetVertexColor(unpack(General.BackgroundColour))
+                end
+            end
         end
 
-        if BossFrame.unitAbsorb then
-            local BF = BossFrame.unitAbsorb
-            BF:SetStatusBarColor(Absorbs.Colour)
+        if BossFrame.unitAbsorbs then
+            local BF = BossFrame.unitAbsorbs
+            BF:SetStatusBarColor(unpack(Absorbs.Colour))
             BF:SetMinMaxValues(0, 100)
             BF:SetValue(math.random(20, 50))
             BF:Show()
-        end 
+        end
+
+        if BossFrame.unitHealAbsorbs then
+            local BF = BossFrame.unitHealAbsorbs
+            BF:SetStatusBarColor(unpack(HealAbsorbs.Colour))
+            BF:SetMinMaxValues(0, 100)
+            BF:SetValue(math.random(20, 50))
+            BF:Show()
+        end
 
         if BossFrame.unitPowerBar then
             local BF = BossFrame.unitPowerBar
-            BF:SetStatusBarColor(0.8, 0.1, 0.1)
+            BF:SetStatusBarColor(unpack(General.CustomColours.Power[0]))
             BF:SetMinMaxValues(0, 100)
             BF:SetValue(math.random(20, 50))
+            if BF.Background then
+                BF.Background:SetAllPoints()
+                BF.Background:SetTexture(General.BackgroundTexture)
+                if PowerBar.ColourBackgroundByType then
+                    local PBGR, PBGG, PBGB = unpack(General.CustomColours.Power[0])
+                    BF.Background:SetVertexColor(PBGR * PowerBar.BackgroundMultiplier, PBGG * PowerBar.BackgroundMultiplier, PBGB * PowerBar.BackgroundMultiplier)
+                else
+                    BF.Background:SetVertexColor(unpack(PowerBar.BackgroundColour)) 
+                end
+            end
         end
 
         if BossFrame.unitPortrait then
             local BF = BossFrame.unitPortrait
-            BF:SetTexture("Interface\\ICONS\\INV_Misc_Head_Dragon_Blue")
+            local PortraitOptions = {
+                [1] = "achievement_character_human_female",
+                [2] = "achievement_character_human_male",
+                [3] = "achievement_character_dwarf_male",
+                [4] = "achievement_character_dwarf_female"
+            }
+            BF:SetTexture("Interface\\ICONS\\" .. PortraitOptions[math.random(1, #PortraitOptions)])
         end
         
         if BossFrame.unitLeftText then
