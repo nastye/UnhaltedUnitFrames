@@ -39,7 +39,7 @@ The entire project is solo developed.
 - Toggleable Buff / Debuffs with Custom Anchor / Offset / Spacing / Sizing.
 - Toggleable Target Marker Indicator with Custom Sizing / Anchor / Positioning.
 
-### Tags.
+### Tags
 - Easy to understand & utilize all tags. A tab has been provided in the GUI to help users identify what tags are available without overwhelming them with selections.
 - Noteable Tags:
     - `[Health:CurHPwithPerHP]`: Displays Current Health with Percent Health (Absorbs Included)
