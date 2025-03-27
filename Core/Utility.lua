@@ -212,6 +212,7 @@ function UUF:CreateUnitFrame(Unit)
 
     if Absorbs.Enabled then
         self.unitAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
+        self.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = self.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
             self.unitAbsorbs:ClearAllPoints()
@@ -234,6 +235,7 @@ function UUF:CreateUnitFrame(Unit)
 
     if HealAbsorbs.Enabled then
         self.unitHealAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
+        self.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = self.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
             self.unitHealAbsorbs:ClearAllPoints()
@@ -530,7 +532,8 @@ function UUF:UpdateUnitFrame(FrameName)
                 FrameName.unitAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMRIGHT")
             end
         end
-        FrameName.unitAbsorbs:SetStatusBarColor(unpack(Absorbs.Colour))
+        local UHAR, UHAG, UHAB, UHAA = unpack(Absorbs.Colour)
+        FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
     end
     
     if FrameName.unitHealAbsorbs then
@@ -548,7 +551,8 @@ function UUF:UpdateUnitFrame(FrameName)
                 FrameName.unitHealAbsorbs:SetPoint("BOTTOMLEFT", HealthBarTexture, "BOTTOMLEFT")
             end
         end
-        FrameName.unitHealAbsorbs:SetStatusBarColor(unpack(HealAbsorbs.Colour))
+        local UHAR, UHAG, UHAB, UHAA = unpack(HealAbsorbs.Colour)
+        FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
     end
 
     if FrameName.unitPortraitBackdrop and FrameName.unitPortrait then
