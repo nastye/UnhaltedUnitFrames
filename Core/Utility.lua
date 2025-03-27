@@ -517,6 +517,7 @@ function UUF:UpdateUnitFrame(FrameName)
     end
 
     if FrameName.unitAbsorbs then
+        FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
             FrameName.unitAbsorbs:SetReverseFill(Health.Direction == "RL")
@@ -533,6 +534,7 @@ function UUF:UpdateUnitFrame(FrameName)
     end
     
     if FrameName.unitHealAbsorbs then
+        FrameName.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
             FrameName.unitHealAbsorbs:ClearAllPoints()
