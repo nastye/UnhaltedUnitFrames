@@ -286,7 +286,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPortrait = self.unitPortraitBackdrop:CreateTexture(nil, "OVERLAY")
         self.unitPortrait:SetSize(self.unitPortraitBackdrop:GetHeight() - 2, self.unitPortraitBackdrop:GetHeight() - 2)
         self.unitPortrait:SetPoint("CENTER", self.unitPortraitBackdrop, "CENTER", 0, 0)
-        self.unitPortrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
         self.Portrait = self.unitPortrait
     end
 
