@@ -88,7 +88,7 @@ function UUF:WrapTextInColor(unitName, unit)
     else
         local reaction = UnitReaction(unit, "player")
         if reaction then
-            local r, g, b = unpack(UF.colors.reaction[reaction])
+            local r, g, b = unpack(UUF_oUF.colors.reaction[reaction])
             unitColor = { r = r, g = g, b = b }
         end
     end
