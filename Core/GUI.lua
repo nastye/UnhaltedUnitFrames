@@ -9,6 +9,7 @@ LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]])
 local LSMFonts = {}
 local LSMTextures = {}
 local LSMBorders = {}
+local GUIActive = false
 local Supporters = {
     [1] = {Supporter = "", Comment = ""},
 }
@@ -116,6 +117,8 @@ local GrowthY = {
 }
 
 function UUF:CreateGUI()
+    if GUIActive then return end
+    GUIActive = true
     UUF:GenerateLSMFonts()
     UUF:GenerateLSMTextures()
     -- UUF:GenerateLSMBorders()
@@ -126,7 +129,7 @@ function UUF:CreateGUI()
     UUFGUI_Container:SetWidth(GUI_WIDTH)
     UUFGUI_Container:SetHeight(GUI_HEIGHT)
     UUFGUI_Container:EnableResize(true)
-    UUFGUI_Container:SetCallback("OnClose", function(widget) UUFGUI:Release(widget) end)
+    UUFGUI_Container:SetCallback("OnClose", function(widget) UUFGUI:Release(widget) GUIActive = false  end)
 
     local function DrawGeneralContainer(UUFGUI_Container)
         local ScrollableContainer = UUFGUI:Create("ScrollFrame")
