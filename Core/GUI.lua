@@ -1600,6 +1600,62 @@ function UUF:CreateGUI()
         ScrollableContainer:AddChild(GUIContainerTabGroup)
     end
 
+    local function DrawImportExportContainer(UUFGUI_Container)
+        local ScrollableContainer = UUFGUI:Create("ScrollFrame")
+        ScrollableContainer:SetLayout("Flow")
+        ScrollableContainer:SetFullWidth(true)
+        ScrollableContainer:SetFullHeight(true)
+        UUFGUI_Container:AddChild(ScrollableContainer)
+
+        local SharingOptionsContainer = UUFGUI:Create("InlineGroup")
+        SharingOptionsContainer:SetTitle("Sharing Options")
+        SharingOptionsContainer:SetLayout("Flow")
+        SharingOptionsContainer:SetFullWidth(true)
+        ScrollableContainer:AddChild(SharingOptionsContainer)
+
+        local ImportOptionsContainer = UUFGUI:Create("InlineGroup")
+        ImportOptionsContainer:SetTitle("Import Options")
+        ImportOptionsContainer:SetLayout("Flow")
+        ImportOptionsContainer:SetFullWidth(true)
+        SharingOptionsContainer:AddChild(ImportOptionsContainer)
+
+        local ImportEditBox = UUFGUI:Create("MultiLineEditBox")
+        ImportEditBox:SetLabel("Import String")
+        ImportEditBox:SetNumLines(5)
+        ImportEditBox:SetFullWidth(true)
+        ImportEditBox:DisableButton(true)
+        ImportOptionsContainer:AddChild(ImportEditBox)
+
+        local ImportButton = UUFGUI:Create("Button")
+        ImportButton:SetText("Import")
+        ImportButton:SetCallback("OnClick", function() 
+            UUF:ImportSavedVariables(ImportEditBox:GetText()) 
+            UUF:CreateReloadPrompt()
+            ImportEditBox:SetText("")
+        end)
+        ImportButton:SetRelativeWidth(1)
+        ImportOptionsContainer:AddChild(ImportButton)   
+
+        local ExportOptionsContainer = UUFGUI:Create("InlineGroup")
+        ExportOptionsContainer:SetTitle("Export Options")
+        ExportOptionsContainer:SetLayout("Flow")
+        ExportOptionsContainer:SetFullWidth(true)
+        SharingOptionsContainer:AddChild(ExportOptionsContainer)
+
+        local ExportEditBox = UUFGUI:Create("MultiLineEditBox")
+        ExportEditBox:SetLabel("Export String")
+        ExportEditBox:SetFullWidth(true)
+        ExportEditBox:SetNumLines(5)
+        ExportEditBox:DisableButton(true)
+        ExportOptionsContainer:AddChild(ExportEditBox)
+
+        local ExportButton = UUFGUI:Create("Button")
+        ExportButton:SetText("Export")
+        ExportButton:SetCallback("OnClick", function() ExportEditBox:SetText(UUF:ExportSavedVariables()) ExportEditBox:HighlightText() ExportEditBox:SetFocus() end)
+        ExportButton:SetRelativeWidth(1)
+        ExportOptionsContainer:AddChild(ExportButton)
+    end
+
     function SelectedGroup(UUFGUI_Container, Event, Group)
         UUFGUI_Container:ReleaseChildren()
         if Group == "General" then
@@ -1618,6 +1674,8 @@ function UUF:CreateGUI()
             DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Tags" then
             DrawTagsContainer(UUFGUI_Container)
+        elseif Group == "ImportExport" then
+            DrawImportExportContainer(UUFGUI_Container)
         end
     end
 
@@ -1632,6 +1690,7 @@ function UUF:CreateGUI()
         { text = "Focus",                           value = "Focus" },
         { text = "Pet",                             value = "Pet" },
         { text = "Tags",                            value = "Tags" },
+        { text = "Import/Export",                   value = "ImportExport" },
     })
     GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
     GUIContainerTabGroup:SelectTab("General")

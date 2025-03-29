@@ -3,5 +3,6 @@
   <Script file="Range.lua"/>
   <Script file="Utility.lua"/>
   <Script file="Tags.lua"/>
+  <Script file="Share.lua"/>
   <Script file="GUI.lua"/>
 </Ui>
