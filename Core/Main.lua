@@ -135,7 +135,7 @@ UUF.Defaults = {
                     AnchorFrom      = "BOTTOMRIGHT",
                     AnchorTo        = "BOTTOMRIGHT",
                 },
-                OnlyShowPlayer     = true,
+                OnlyShowPlayer     = false,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -415,7 +415,7 @@ UUF.Defaults = {
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
                 },
-                OnlyShowPlayer     = true,
+                OnlyShowPlayer     = false,
             },
             TargetMarker = {
                 Enabled             = true,
@@ -701,7 +701,7 @@ UUF.Defaults = {
                     AnchorFrom     = "BOTTOMRIGHT",
                     AnchorTo       = "BOTTOMRIGHT",
                 },
-                OnlyShowPlayer     = true
+                OnlyShowPlayer     = false,
             },
             TargetMarker = {
                 Enabled             = false,
