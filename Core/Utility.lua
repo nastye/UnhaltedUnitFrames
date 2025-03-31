@@ -1,5 +1,6 @@
 local _, UUF = ...
 local UUF_oUF = UUF.oUF
+UUFG = UUFG or {}
 UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
@@ -883,6 +884,15 @@ function UUF:DisplayBossFrames()
             BossFrame:SetAttribute("unit", nil)
             UnregisterUnitWatch(BossFrame)
             BossFrame:Show()
+        end
+    end
+end
+
+-- This can be called globally by other AddOns that require a refresh of all tags.
+function UUFG:UpdateAllTags()
+    for FrameName, Frame in pairs(_G) do
+        if FrameName:match("^UUF_") and Frame.UpdateTags then
+            Frame:UpdateTags()
         end
     end
 end

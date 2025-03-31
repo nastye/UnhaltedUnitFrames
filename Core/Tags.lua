@@ -143,12 +143,7 @@ UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
     end
 end
 
-if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") and NSAPI then
-    UUF_oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
-    
+if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") and NSAPI then    
 	UUF_oUF.Tags.Methods['NSNickName'] = function(unit)
 		local name = UnitName(unit)
 		return name and NSAPI and NSAPI:GetName(name) or name
@@ -171,6 +166,11 @@ if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") and NSAPI then
 		name = name and NSAPI and NSAPI:GetName(name) or name
 		return string.sub(name, 1, 10)
 	end
+
+    UUF_oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
 end
 
 UUF_oUF.Tags.Methods["Power:CurPP"] = function(unit)
