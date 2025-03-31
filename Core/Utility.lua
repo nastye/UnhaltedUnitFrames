@@ -36,13 +36,13 @@ function UUF:PostCreateButton(_, button, Unit, AuraType)
         auraCount:SetPoint(BuffCount.AnchorFrom, button, BuffCount.AnchorTo, BuffCount.XOffset, BuffCount.YOffset)
         auraCount:SetFont(General.Font, BuffCount.FontSize, "OUTLINE")
         auraCount:SetJustifyH("CENTER")
-        auraCount:SetTextColor(1, 1, 1, 1)
+        auraCount:SetTextColor(BuffCount.Colour[1], BuffCount.Colour[2], BuffCount.Colour[3], BuffCount.Colour[4])
     elseif AuraType == "HARMFUL" then
         auraCount:ClearAllPoints()
         auraCount:SetPoint(DebuffCount.AnchorFrom, button, DebuffCount.AnchorTo, DebuffCount.XOffset, DebuffCount.YOffset)
         auraCount:SetFont(General.Font, DebuffCount.FontSize, "OUTLINE")
         auraCount:SetJustifyH("CENTER")
-        auraCount:SetTextColor(1, 1, 1, 1)
+        auraCount:SetTextColor(DebuffCount.Colour[1], DebuffCount.Colour[2], DebuffCount.Colour[3], DebuffCount.Colour[4])
     end
 end
 
@@ -56,10 +56,14 @@ local function PostUpdateButton(_, button, Unit, AuraType)
         auraCount:ClearAllPoints()
         auraCount:SetPoint(BuffCount.AnchorFrom, button, BuffCount.AnchorTo, BuffCount.XOffset, BuffCount.YOffset)
         auraCount:SetFont(General.Font, BuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(BuffCount.Colour[1], BuffCount.Colour[2], BuffCount.Colour[3], BuffCount.Colour[4])
     elseif AuraType == "HARMFUL" then
         auraCount:ClearAllPoints()
         auraCount:SetPoint(DebuffCount.AnchorFrom, button, DebuffCount.AnchorTo, DebuffCount.XOffset, DebuffCount.YOffset)
         auraCount:SetFont(General.Font, DebuffCount.FontSize, "OUTLINE")
+        auraCount:SetJustifyH("CENTER")
+        auraCount:SetTextColor(DebuffCount.Colour[1], DebuffCount.Colour[2], DebuffCount.Colour[3], DebuffCount.Colour[4])
     end
 end
 
