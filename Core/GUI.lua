@@ -1545,6 +1545,36 @@ function UUF:CreateGUI()
             end
         end
 
+        local function NSMediaTagsContainer(UUFGUI_Container)
+            local NSMediaTags = UUF:FetchNSMediaTagDescriptions()
+
+            local NSMediaTagOptions = UUFGUI:Create("InlineGroup")
+            NSMediaTagOptions:SetTitle("Northern Sky Media Tags")
+            NSMediaTagOptions:SetLayout("Flow")
+            NSMediaTagOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(NSMediaTagOptions)
+
+            for Title, TableData in pairs(NSMediaTags) do
+                local Tag, Desc = TableData.Tag, TableData.Desc
+                NSMediaTagTitle = UUFGUI:Create("Heading")
+                NSMediaTagTitle:SetText(Title)
+                NSMediaTagTitle:SetRelativeWidth(1)
+                NSMediaTagOptions:AddChild(NSMediaTagTitle)
+
+                local NSMediaTagTag = UUFGUI:Create("EditBox")
+                NSMediaTagTag:SetText(Tag)
+                NSMediaTagTag:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                NSMediaTagTag:SetRelativeWidth(0.3)
+                NSMediaTagOptions:AddChild(NSMediaTagTag)
+
+                NSMediaTagDescription = UUFGUI:Create("EditBox")
+                NSMediaTagDescription:SetText(Desc)
+                NSMediaTagDescription:SetCallback("OnEnterPressed", function(widget, event, value) return end)
+                NSMediaTagDescription:SetRelativeWidth(0.7)
+                NSMediaTagOptions:AddChild(NSMediaTagDescription)
+            end
+        end
+
         local function DrawMiscTagsContainer(UUFGUI_Container)
             local MiscTags = UUF:FetchMiscTagDescriptions()
 
@@ -1583,6 +1613,8 @@ function UUF:CreateGUI()
                 DrawPowerTagsContainer(UUFGUI_Container)
             elseif Group == "Name" then
                 DrawNameTagsContainer(UUFGUI_Container)
+            elseif Group == "NSM" and C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then
+                NSMediaTagsContainer(UUFGUI_Container)
             elseif Group == "Misc" then
                 DrawMiscTagsContainer(UUFGUI_Container)
             end
@@ -1590,12 +1622,22 @@ function UUF:CreateGUI()
 
         GUIContainerTabGroup = UUFGUI:Create("TabGroup")
         GUIContainerTabGroup:SetLayout("Flow")
-        GUIContainerTabGroup:SetTabs({
-            { text = "Health",                              value = "Health"},
-            { text = "Power",                               value = "Power" },
-            { text = "Name",                                value = "Name" },
-            { text = "Misc",                                value = "Misc" },
-        })
+        if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then
+            GUIContainerTabGroup:SetTabs({
+                { text = "Health",                              value = "Health"},
+                { text = "Power",                               value = "Power" },
+                { text = "Name",                                value = "Name" },
+                { text = "Misc",                                value = "Misc" },
+                { text = "Northern Sky Media",                  value = "NSM" },
+            })
+        else
+            GUIContainerTabGroup:SetTabs({
+                { text = "Health",                              value = "Health"},
+                { text = "Power",                               value = "Power" },
+                { text = "Name",                                value = "Name" },
+                { text = "Misc",                                value = "Misc" },
+            })
+        end
         
         GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
         GUIContainerTabGroup:SelectTab("Health")

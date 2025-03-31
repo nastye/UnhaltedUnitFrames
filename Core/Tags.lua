@@ -143,6 +143,36 @@ UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
     end
 end
 
+if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") and NSAPI then
+    UUF_oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
+	UUF_oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
+    
+	UUF_oUF.Tags.Methods['NSNickName'] = function(unit)
+		local name = UnitName(unit)
+		return name and NSAPI and NSAPI:GetName(name) or name
+	end
+
+	UUF_oUF.Tags.Methods['NSNickName:veryshort'] = function(unit)
+		local name = UnitName(unit)
+		name = name and NSAPI and NSAPI:GetName(name) or name
+		return string.sub(name, 1, 5)
+	end
+
+	UUF_oUF.Tags.Methods['NSNickName:short'] = function(unit)
+		local name = UnitName(unit)
+		name = name and NSAPI and NSAPI:GetName(name) or name
+		return string.sub(name, 1, 8)
+	end
+
+	UUF_oUF.Tags.Methods['NSNickName:medium'] = function(unit)
+		local name = UnitName(unit)
+		name = name and NSAPI and NSAPI:GetName(name) or name
+		return string.sub(name, 1, 10)
+	end
+end
+
 UUF_oUF.Tags.Methods["Power:CurPP"] = function(unit)
     local unitPower = UnitPower(unit)
     return UUF:FormatLargeNumber(unitPower)
@@ -221,3 +251,13 @@ function UUF:FetchMiscTagDescriptions()
     return MiscTagsDescription
 end
 
+local NSMediaTags = {
+    ["NSNickName"] = {Tag = "[NSNickName]", Desc = "Returns the nickname of the unit."},
+    ["NSNickName:veryshort"] = {Tag = "[NSNickName:veryshort]", Desc = "Returns the nickname of the unit, very short (5 Characters)."},
+    ["NSNickName:short"] = {Tag = "[NSNickName:short]", Desc = "Returns the nickname of the unit, short (8 Characters)."},
+    ["NSNickName:medium"] = {Tag = "[NSNickName:medium]", Desc = "Returns the nickname of the unit, medium (10 Characters)."},
+}
+
+function UUF:FetchNSMediaTagDescriptions()
+    return NSMediaTags
+end
