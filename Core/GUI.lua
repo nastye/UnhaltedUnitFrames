@@ -1,11 +1,11 @@
 local _, UUF = ...
-local UUFGUI = LibStub:GetLibrary("AceGUI-3.0")
+local UUFGUI = LibStub("AceGUI-3.0")
 local GUI_WIDTH = 920
 local GUI_HEIGHT = 1080
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
-local LSM = LibStub("LibSharedMedia-3.0")
-LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]])
+local LSM = LibStub:GetLibrary("LibSharedMedia-3.0") or LibStub("LibSharedMedia-3.0")
+if LSM then LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]]) end
 local LSMFonts = {}
 local LSMTextures = {}
 local LSMBorders = {}
