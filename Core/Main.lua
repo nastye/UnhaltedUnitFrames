@@ -147,50 +147,33 @@ UUF.Defaults = {
                 AnchorTo            = "TOPLEFT",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "[Health:CurHPwithPerHP]",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                }
             }
         },
         Target = {
@@ -284,50 +267,33 @@ UUF.Defaults = {
                 AnchorTo            = "TOPRIGHT",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "[Name:NamewithTargetTarget:LastNameOnly]",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "[Health:CurHPwithPerHP]",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = -3,
-                        YOffset         = -3,
-                        Tag             = "[powercolor][Power:CurPP]",
-                    },
-                }  
             },
             Range = {
                 Enable = true,
@@ -427,50 +393,33 @@ UUF.Defaults = {
                 AnchorTo            = "TOPRIGHT",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "[Name:LastNameOnly]",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                }
             },
             Range = {
                 Enable = false,
@@ -570,50 +519,33 @@ UUF.Defaults = {
                 AnchorTo            = "TOPRIGHT",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "[Name:LastNameOnly]",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "[Health:PerHPwithAbsorbs]",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                }  
             },
             Range = {
                 Enable = true,
@@ -713,50 +645,33 @@ UUF.Defaults = {
                 AnchorTo            = "CENTER",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                }                
             },
             Range = {
                 Enable = false,
@@ -857,50 +772,33 @@ UUF.Defaults = {
                 AnchorTo            = "TOPRIGHT",
             },
             Texts = {
-                Left = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 3,
                     YOffset         = 0,
                     Tag             = "[Name:LastNameOnly]",
                 },
-                Right = {
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = -3,
                     YOffset         = 0,
                     Tag             = "[Health:CurHPwithPerHP]",
                 },
-                Center = {
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
                     FontSize        = 12,
                     XOffset         = 0,
                     YOffset         = 0,
                     Tag             = "",
                 },
-                AdditionalTexts = {
-                    TopLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    TopRight = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomLeft = {
-                        FontSize        = 12,
-                        XOffset         = 0,
-                        YOffset         = 0,
-                        Tag             = "",
-                    },
-                    BottomRight = {
-                        FontSize        = 12,
-                        XOffset         = -3,
-                        YOffset         = -3,
-                        Tag             = "[powercolor][Power:CurPP]",
-                    },
-                }
             },
             Range = {
                 Enable = true,

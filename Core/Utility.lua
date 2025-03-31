@@ -135,13 +135,9 @@ function UUF:CreateUnitFrame(Unit)
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
     local TargetMarker = UUF.DB.global[Unit].TargetMarker
-    local LeftText = UUF.DB.global[Unit].Texts.Left
-    local RightText = UUF.DB.global[Unit].Texts.Right
-    local CenterText = UUF.DB.global[Unit].Texts.Center
-    local TopLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopLeft
-    local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
-    local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
-    local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
+    local FirstText = UUF.DB.global[Unit].Texts.First
+    local SecondText = UUF.DB.global[Unit].Texts.Second
+    local ThirdText = UUF.DB.global[Unit].Texts.Third
     local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
     
     local BackdropTemplate = {
@@ -360,61 +356,32 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHighLevelFrame:SetPoint("CENTER", 0, 0)
     self.unitHighLevelFrame:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 20)
 
-    self.unitLeftText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitLeftText:SetFont(General.Font, LeftText.FontSize, General.FontFlag)
-    self.unitLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitLeftText:SetPoint("LEFT", self.unitHighLevelFrame, "LEFT", LeftText.XOffset, LeftText.YOffset)
-    self.unitLeftText:SetJustifyH("LEFT")
-    self:Tag(self.unitLeftText, LeftText.Tag)
+    self.unitFirstText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
+    self.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+    self.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+    self.unitFirstText:SetPoint(FirstText.AnchorFrom, self.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
+    self.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
+    self.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo))
+    self:Tag(self.unitFirstText, FirstText.Tag)
     
-    self.unitRightText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitRightText:SetFont(General.Font, RightText.FontSize, General.FontFlag)
-    self.unitRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitRightText:SetPoint("RIGHT", self.unitHighLevelFrame, "RIGHT", RightText.XOffset, RightText.YOffset)
-    self.unitRightText:SetJustifyH("RIGHT")
-    self:Tag(self.unitRightText, RightText.Tag)
+    self.unitSecondText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
+    self.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+    self.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+    self.unitSecondText:SetPoint(SecondText.AnchorFrom, self.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
+    self.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
+    self.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo))
+    self:Tag(self.unitSecondText, SecondText.Tag)
     
-    self.unitCenterText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitCenterText:SetFont(General.Font, CenterText.FontSize, General.FontFlag)
-    self.unitCenterText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitCenterText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitCenterText:SetPoint("CENTER", self.unitHighLevelFrame, "CENTER", CenterText.XOffset, CenterText.YOffset)
-    self.unitCenterText:SetJustifyH("CENTER")
-    self:Tag(self.unitCenterText, CenterText.Tag)
-
-    self.unitTopLeftText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitTopLeftText:SetFont(General.Font, TopLeftText.FontSize, General.FontFlag)
-    self.unitTopLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitTopLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitTopLeftText:SetPoint("TOPLEFT", self.unitHighLevelFrame, "TOPLEFT", TopLeftText.XOffset, TopLeftText.YOffset)
-    self.unitTopLeftText:SetJustifyH("LEFT")
-    self:Tag(self.unitTopLeftText, TopLeftText.Tag)
-
-    self.unitTopRightText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitTopRightText:SetFont(General.Font, TopRightText.FontSize, General.FontFlag)
-    self.unitTopRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitTopRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitTopRightText:SetPoint("TOPRIGHT", self.unitHighLevelFrame, "TOPRIGHT", TopRightText.XOffset, TopRightText.YOffset)
-    self.unitTopRightText:SetJustifyH("RIGHT")
-    self:Tag(self.unitTopRightText, TopRightText.Tag)
-
-    self.unitBottomLeftText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitBottomLeftText:SetFont(General.Font, BottomLeftText.FontSize, General.FontFlag)
-    self.unitBottomLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitBottomLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitBottomLeftText:SetPoint("BOTTOMLEFT", self.unitHighLevelFrame, "BOTTOMLEFT", BottomLeftText.XOffset, BottomLeftText.YOffset)
-    self.unitBottomLeftText:SetJustifyH("LEFT")
-    self:Tag(self.unitBottomLeftText, BottomLeftText.Tag)
-
-    self.unitBottomRightText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitBottomRightText:SetFont(General.Font, BottomRightText.FontSize, General.FontFlag)
-    self.unitBottomRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitBottomRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitBottomRightText:SetPoint("BOTTOMRIGHT", self.unitHighLevelFrame, "BOTTOMRIGHT", BottomRightText.XOffset, BottomRightText.YOffset)
-    self.unitBottomRightText:SetJustifyH("RIGHT")
-    self:Tag(self.unitBottomRightText, BottomRightText.Tag)
+    self.unitThirdText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+    self.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
+    self.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+    self.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+    self.unitThirdText:SetPoint(ThirdText.AnchorFrom, self.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
+    self.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
+    self.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo))
+    self:Tag(self.unitThirdText, ThirdText.Tag)
 
     if TargetMarker.Enabled then
         self.unitTargetMarker = self.unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
@@ -447,13 +414,9 @@ function UUF:UpdateUnitFrame(FrameName)
     local Buffs = UUF.DB.global[Unit].Buffs
     local Debuffs = UUF.DB.global[Unit].Debuffs
     local TargetMarker = UUF.DB.global[Unit].TargetMarker
-    local LeftText = UUF.DB.global[Unit].Texts.Left
-    local RightText = UUF.DB.global[Unit].Texts.Right
-    local CenterText = UUF.DB.global[Unit].Texts.Center
-    local TopLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopLeft
-    local TopRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.TopRight
-    local BottomLeftText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomLeft
-    local BottomRightText = UUF.DB.global[Unit].Texts.AdditionalTexts.BottomRight
+    local FirstText = UUF.DB.global[Unit].Texts.First
+    local SecondText = UUF.DB.global[Unit].Texts.Second
+    local ThirdText = UUF.DB.global[Unit].Texts.Third
     local Range = UUF.DB.global[Unit].Range
     local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
 
@@ -636,67 +599,37 @@ function UUF:UpdateUnitFrame(FrameName)
         end
     end
 
-    if FrameName.unitLeftText then
-        FrameName.unitLeftText:ClearAllPoints()
-        FrameName.unitLeftText:SetFont(General.Font, LeftText.FontSize, General.FontFlag)
-        FrameName.unitLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitLeftText:SetPoint("LEFT", FrameName, "LEFT", LeftText.XOffset, LeftText.YOffset)
-        FrameName:Tag(FrameName.unitLeftText, LeftText.Tag)
+    if FrameName.unitFirstText then
+        FrameName.unitFirstText:ClearAllPoints()
+        FrameName.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
+        FrameName.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+        FrameName.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+        FrameName.unitFirstText:SetPoint(FirstText.AnchorFrom, FrameName.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
+        FrameName.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
+        FrameName.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo))
+        FrameName:Tag(FrameName.unitFirstText, FirstText.Tag)
     end
 
-    if FrameName.unitRightText then
-        FrameName.unitRightText:ClearAllPoints()
-        FrameName.unitRightText:SetFont(General.Font, RightText.FontSize, General.FontFlag)
-        FrameName.unitRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitRightText:SetPoint("RIGHT", FrameName, "RIGHT", RightText.XOffset, RightText.YOffset)
-        FrameName:Tag(FrameName.unitRightText, RightText.Tag)
+    if FrameName.unitSecondText then
+        FrameName.unitSecondText:ClearAllPoints()
+        FrameName.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
+        FrameName.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+        FrameName.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+        FrameName.unitSecondText:SetPoint(SecondText.AnchorFrom, FrameName.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
+        FrameName.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
+        FrameName.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo))
+        FrameName:Tag(FrameName.unitSecondText, SecondText.Tag)
     end
 
-    if FrameName.unitCenterText then
-        FrameName.unitCenterText:ClearAllPoints()
-        FrameName.unitCenterText:SetFont(General.Font, CenterText.FontSize, General.FontFlag)
-        FrameName.unitCenterText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitCenterText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitCenterText:SetPoint("CENTER", FrameName, "CENTER", CenterText.XOffset, CenterText.YOffset)
-        FrameName:Tag(FrameName.unitCenterText, CenterText.Tag)
-    end
-
-    if FrameName.unitTopLeftText then
-        FrameName.unitTopLeftText:ClearAllPoints()
-        FrameName.unitTopLeftText:SetFont(General.Font, TopLeftText.FontSize, General.FontFlag)
-        FrameName.unitTopLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitTopLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitTopLeftText:SetPoint("TOPLEFT", FrameName, "TOPLEFT", TopLeftText.XOffset, TopLeftText.YOffset)
-        FrameName:Tag(FrameName.unitTopLeftText, TopLeftText.Tag)
-    end
-
-    if FrameName.unitTopRightText then
-        FrameName.unitTopRightText:ClearAllPoints()
-        FrameName.unitTopRightText:SetFont(General.Font, TopRightText.FontSize, General.FontFlag)
-        FrameName.unitTopRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitTopRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitTopRightText:SetPoint("TOPRIGHT", FrameName, "TOPRIGHT", TopRightText.XOffset, TopRightText.YOffset)
-        FrameName:Tag(FrameName.unitTopRightText, TopRightText.Tag)
-    end
-
-    if FrameName.unitBottomLeftText then
-        FrameName.unitBottomLeftText:ClearAllPoints()
-        FrameName.unitBottomLeftText:SetFont(General.Font, BottomLeftText.FontSize, General.FontFlag)
-        FrameName.unitBottomLeftText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitBottomLeftText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitBottomLeftText:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", BottomLeftText.XOffset, BottomLeftText.YOffset)
-        FrameName:Tag(FrameName.unitBottomLeftText, BottomLeftText.Tag)
-    end
-
-    if FrameName.unitBottomRightText then
-        FrameName.unitBottomRightText:ClearAllPoints()
-        FrameName.unitBottomRightText:SetFont(General.Font, BottomRightText.FontSize, General.FontFlag)
-        FrameName.unitBottomRightText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitBottomRightText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitBottomRightText:SetPoint("BOTTOMRIGHT", FrameName, "BOTTOMRIGHT", BottomRightText.XOffset, BottomRightText.YOffset)
-        FrameName:Tag(FrameName.unitBottomRightText, BottomRightText.Tag)
+    if FrameName.unitThirdText then
+        FrameName.unitThirdText:ClearAllPoints()
+        FrameName.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
+        FrameName.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+        FrameName.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+        FrameName.unitThirdText:SetPoint(ThirdText.AnchorFrom, FrameName.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
+        FrameName.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
+        FrameName.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo))
+        FrameName:Tag(FrameName.unitThirdText, ThirdText.Tag)
     end
 
     if FrameName.unitTargetMarker and TargetMarker.Enabled then
@@ -748,6 +681,8 @@ function UUF:SetupSlashCommands()
     SlashCmdList["UUF"] = function(msg)
         if msg == "" then
             UUF:CreateGUI()
+        elseif msg == "reset" then
+            UUF:ResetDefaultSettings()
         end
     end
 end
@@ -860,13 +795,13 @@ function UUF:DisplayBossFrames()
             BF:SetTexture("Interface\\ICONS\\" .. PortraitOptions[math.random(1, #PortraitOptions)])
         end
         
-        if BossFrame.unitLeftText then
-            local BF = BossFrame.unitLeftText
+        if BossFrame.unitFirstText then
+            local BF = BossFrame.unitFirstText
             BF:SetText("Boss " .. _)
         end
 
-        if BossFrame.unitRightText then
-            local BF = BossFrame.unitRightText
+        if BossFrame.unitSecondText then
+            local BF = BossFrame.unitSecondText
             BF:SetText(UUF:FormatLargeNumber(math.random(1e3, 1e6)))
         end
 
@@ -885,6 +820,12 @@ function UUF:DisplayBossFrames()
             BossFrame:Show()
         end
     end
+end
+
+function UUF:GetFontJustification(AnchorTo)
+    if AnchorTo == "TOPLEFT" or AnchorTo == "BOTTOMLEFT" or AnchorTo == "LEFT" then return "LEFT" end
+    if AnchorTo == "TOPRIGHT" or AnchorTo == "BOTTOMRIGHT" or AnchorTo == "RIGHT" then return "RIGHT" end
+    if AnchorTo == "TOP" or AnchorTo == "BOTTOM" or AnchorTo == "CENTER" then return "CENTER" end
 end
 
 -- This can be called globally by other AddOns that require a refresh of all tags.
