@@ -122,6 +122,27 @@ UUF_oUF.Tags.Methods["Name:TargetTarget:LastNameOnly:Coloured"] = function(unit)
     end
 end
 
+UUF_oUF.Tags.Methods["Name:VeryShort"] = function(unit)
+    local name = UnitName(unit)
+    if name then 
+        return string.sub(name, 1, 5)
+    end
+end
+
+UUF_oUF.Tags.Methods["Name:Short"] = function(unit)
+    local name = UnitName(unit)
+    if name then 
+        return string.sub(name, 1, 8)
+    end
+end
+
+UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
+    local name = UnitName(unit)
+    if name then 
+        return string.sub(name, 1, 10)
+    end
+end
+
 UUF_oUF.Tags.Methods["Power:CurPP"] = function(unit)
     local unitPower = UnitPower(unit)
     return UUF:FormatLargeNumber(unitPower)
