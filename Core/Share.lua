@@ -15,3 +15,17 @@ function UUF:ImportSavedVariables(EncodedInfo)
     local InformationDecoded, InformationTable = Serialize:Deserialize(DecompressedInfo)
     if InformationDecoded then UUFDB.global = InformationTable end
 end
+
+function UUFG:ExportSavedVariables()
+    local SerializedInfo = Serialize:Serialize(UUFDB.global)
+    local CompressedInfo = Compress:CompressDeflate(SerializedInfo)
+    local EncodedInfo = Compress:EncodeForPrint(CompressedInfo)
+    return EncodedInfo
+end
+
+function UUFG:ImportSavedVariables(EncodedInfo)
+    local DecodedInfo = Compress:DecodeForPrint(EncodedInfo)
+    local DecompressedInfo = Compress:DecompressDeflate(DecodedInfo)
+    local InformationDecoded, InformationTable = Serialize:Deserialize(DecompressedInfo)
+    if InformationDecoded then UUFDB.global = InformationTable end
+end

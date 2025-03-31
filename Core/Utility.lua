@@ -1,6 +1,5 @@
 local _, UUF = ...
 local UUF_oUF = UUF.oUF
-UUFG = UUFG or {}
 UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",

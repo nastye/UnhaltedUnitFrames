@@ -1,5 +1,6 @@
 local _, UUF = ...
 local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
+UUFG = UUFG or {}
 
 UUF.Defaults = {
     global = {
