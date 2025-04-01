@@ -4,6 +4,7 @@ UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
     ["focus"] = "Focus",
+    ["focustarget"] = "FocusTarget",
     ["pet"] = "Pet",
     ["targettarget"] = "TargetTarget",
 }
@@ -576,7 +577,6 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitBuffs:Show()
         FrameName.unitBuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HELPFUL") end
         FrameName.unitBuffs:ForceUpdate()
-        FrameName.reanchorIfVisibleChanged = true
     else
         if FrameName.unitBuffs then
             FrameName.unitBuffs:Hide()
@@ -598,11 +598,17 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitDebuffs:Show()
         FrameName.unitDebuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HARMFUL") end
         FrameName.unitDebuffs:ForceUpdate()
-        FrameName.reanchorIfVisibleChanged = true
     else
         if FrameName.unitDebuffs then
             FrameName.unitDebuffs:Hide()
         end
+    end
+
+    if FrameName.unitHighLevelFrame then
+        FrameName.unitHighLevelFrame:ClearAllPoints()
+        FrameName.unitHighLevelFrame:SetSize(Frame.Width, Frame.Height)
+        FrameName.unitHighLevelFrame:SetPoint("CENTER", 0, 0)
+        FrameName.unitHighLevelFrame:SetFrameLevel(FrameName.unitHealthBar:GetFrameLevel() + 20)
     end
 
     if FrameName.unitFirstText then

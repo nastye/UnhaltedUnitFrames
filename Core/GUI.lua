@@ -71,6 +71,7 @@ function UUF:UpdateFrames()
     UUF:UpdateUnitFrame(self.PlayerFrame)
     UUF:UpdateUnitFrame(self.TargetFrame)
     UUF:UpdateUnitFrame(self.FocusFrame)
+    UUF:UpdateUnitFrame(self.FocusTargetFrame)
     UUF:UpdateUnitFrame(self.PetFrame)
     UUF:UpdateUnitFrame(self.TargetTargetFrame)
     UUF:UpdateBossFrames()
@@ -482,7 +483,7 @@ function UUF:CreateGUI()
         local Range = UUF.DB.global[Unit].Range
 
         local function DrawFrameContainer(UUFGUI_Container)
-            if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" then 
+            if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" or Unit == "FocusTarget" then
                 local Enabled = UUFGUI:Create("CheckBox")
                 Enabled:SetLabel("Enable Frame")
                 Enabled:SetValue(Frame.Enabled)
@@ -1644,6 +1645,8 @@ function UUF:CreateGUI()
             DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Focus" then
             DrawUnitContainer(UUFGUI_Container, Group)
+        elseif Group == "FocusTarget" then
+            DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Pet" then
             DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Boss" then
@@ -1664,6 +1667,7 @@ function UUF:CreateGUI()
         { text = "Boss",                            value = "Boss" },
         { text = "Target of Target",                value = "TargetTarget" },
         { text = "Focus",                           value = "Focus" },
+        { text = "Focus Target",                    value = "FocusTarget" },
         { text = "Pet",                             value = "Pet" },
         { text = "Tags",                            value = "Tags" },
         { text = "Import/Export",                   value = "ImportExport" },

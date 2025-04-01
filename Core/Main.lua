@@ -561,6 +561,134 @@ UUF.Defaults = {
                 IR = 1.0
             }
         },
+        FocusTarget = {
+            Frame = {
+                Enabled             = false,
+                Width               = 272,
+                Height              = 36,
+                XPosition           = 0,
+                YPosition           = 1.1,
+                AnchorFrom          = "BOTTOMLEFT",
+                AnchorTo            = "TOPLEFT",
+                AnchorParent        = "UUF_Focus",
+            },
+            Portrait = {
+                Enabled         = false,
+                Size            = 42,
+                XOffset         = -1,
+                YOffset         = 0,
+                AnchorFrom      = "RIGHT",
+                AnchorTo        = "LEFT",
+            },
+            Health = {
+                Direction = "LR",
+                HealthPrediction = {
+                    IncomingHeals = {},
+                    HealAbsorbs = {
+                        Enabled = false,
+                        Colour = {128/255, 64/255, 255/255, 1},
+                    },
+                    Absorbs = {
+                        Enabled         = false,
+                        Colour          = {255/255, 205/255, 0/255, 1},
+                        ColourByType    = true,
+                    }
+                }
+            },
+            PowerBar = {
+                Enabled                 = false,
+                Height                  = 3,
+                ColourByType            = true,
+                ColourBackgroundByType = false,
+                BackgroundMultiplier   = 0.25,
+                Colour                  = {0/255, 0/255, 1/255, 1},
+                BackgroundColour        = {26 / 255, 26 / 255, 26 / 255, 1},
+            },
+            Buffs = {
+                Enabled             = false,
+                Size                = 42,
+                Spacing             = 1,
+                Num                 = 1,
+                AnchorFrom          = "LEFT",
+                AnchorTo            = "RIGHT",
+                XOffset             = 1,
+                YOffset             = 0,
+                GrowthX             = "RIGHT",
+                GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                    Colour        = {1, 1, 1, 1},
+                },
+                OnlyShowPlayer     = false,
+            },
+            Debuffs = {
+                Enabled             = false,
+                Size                = 38,
+                Spacing             = 1,
+                Num                 = 1,
+                AnchorFrom          = "LEFT",
+                AnchorTo            = "RIGHT",
+                XOffset             = 0,
+                YOffset             = 0,
+                GrowthX             = "RIGHT",
+                GrowthY             = "UP",
+                Count               = {
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 3,
+                    AnchorFrom     = "BOTTOMRIGHT",
+                    AnchorTo       = "BOTTOMRIGHT",
+                    Colour        = {1, 1, 1, 1},
+                },
+                OnlyShowPlayer     = true,
+            },
+            TargetMarker = {
+                Enabled             = true,
+                Size                = 24,
+                XOffset             = -3,
+                YOffset             = 0,
+                AnchorFrom          = "RIGHT",
+                AnchorTo            = "TOPRIGHT",
+            },
+            Texts = {
+                First = {
+                    AnchorTo        = "LEFT",
+                    AnchorFrom      = "LEFT",
+                    Colour         = {1, 1, 1, 1},
+                    FontSize        = 12,
+                    XOffset         = 3,
+                    YOffset         = 0,
+                    Tag             = "[Name:LastNameOnly]",
+                },
+                Second = {
+                    AnchorTo        = "RIGHT",
+                    AnchorFrom      = "RIGHT",
+                    Colour         = {1, 1, 1, 1},
+                    FontSize        = 12,
+                    XOffset         = -3,
+                    YOffset         = 0,
+                    Tag             = "[Health:PerHPwithAbsorbs]",
+                },
+                Third = {
+                    AnchorTo        = "CENTER",
+                    AnchorFrom      = "CENTER",
+                    Colour         = {1, 1, 1, 1},
+                    FontSize        = 12,
+                    XOffset         = 0,
+                    YOffset         = 0,
+                    Tag             = "",
+                },
+            },
+            Range = {
+                Enable = true,
+                OOR = 0.5,
+                IR = 1.0
+            }
+        },
         Pet = {
             Frame = {
                 Enabled             = true,
@@ -837,6 +965,7 @@ function UnhaltedUF:OnEnable()
     UUF:SpawnTargetFrame()
     UUF:SpawnTargetTargetFrame()
     UUF:SpawnFocusFrame()
+    UUF:SpawnFocusTargetFrame()
     UUF:SpawnPetFrame()
     UUF:SpawnBossFrames()
     UUF:SetupSlashCommands()
