@@ -143,7 +143,7 @@ UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
     end
 end
 
-if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") and NSAPI then    
+if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then    
 	UUF_oUF.Tags.Methods['NSNickName'] = function(unit)
 		local name = UnitName(unit)
 		return name and NSAPI and NSAPI:GetName(name) or name
