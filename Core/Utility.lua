@@ -576,6 +576,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitBuffs:Show()
         FrameName.unitBuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HELPFUL") end
         FrameName.unitBuffs:ForceUpdate()
+        FrameName.reanchorIfVisibleChanged = true
     else
         if FrameName.unitBuffs then
             FrameName.unitBuffs:Hide()
@@ -597,6 +598,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitDebuffs:Show()
         FrameName.unitDebuffs.PostUpdateButton = function(_, button) PostUpdateButton(_, button, Unit, "HARMFUL") end
         FrameName.unitDebuffs:ForceUpdate()
+        FrameName.reanchorIfVisibleChanged = true
     else
         if FrameName.unitDebuffs then
             FrameName.unitDebuffs:Hide()
