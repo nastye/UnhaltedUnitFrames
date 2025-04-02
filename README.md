@@ -4,7 +4,7 @@
 
 
 ## About
-Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Player**, **Target**, **Focus**, **Pet**, **Target of Target** and **Boss Frames**.
+Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Player**, **Target**, **Focus**, **Focus Target**, **Pet**, **Target of Target** and **Boss Frames**.
 
 The entire project is solo developed. 
 
@@ -18,6 +18,7 @@ The entire project is solo developed.
 - Target.
 - Target of Target.
 - Focus.
+- Focus Target.
 - Pet.
 - Boss.
 
@@ -38,8 +39,8 @@ The entire project is solo developed.
 - Toggleable 2D Portraits with Sizing / Positioning.
 - Toggleable Absorb / Heal Absorb Bars with Colour Options.
 - Toggleable Power Bar with Custom Height / Colour Options.
-- Multiple Text Areas with Custom Font Sizes / Tags.
-- Toggleable Buff / Debuffs with Custom Anchor / Offset / Spacing / Sizing.
+- Multiple Text Areas with Custom Font Sizes / Tags / Anchors.
+- Toggleable Buff / Debuffs with Custom Anchor / Offset / Spacing / Sizing & Custom Count Anchor / Size / Colour.
 - Toggleable Target Marker Indicator with Custom Sizing / Anchor / Positioning.
 
 ### Tags
