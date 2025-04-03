@@ -297,34 +297,37 @@ function UUF:CreateUnitFrame(Unit)
     end
 
     if PowerBar.Enabled then
-        self.unitPowerBarBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
-        self.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
-        self.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
-        self.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        self.unitPowerBarBackdrop:SetBackdropColor(0,0,0,0)
-        self.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
-        self.unitPowerBarBackdrop:SetFrameLevel(4)
-
-        self.unitPowerBar = CreateFrame("StatusBar", nil, self.unitPowerBarBackdrop)
-        self.unitPowerBar:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 1, 1)
-        self.unitPowerBar:SetSize(Frame.Width - 2, PowerBar.Height - 2)
+        self.unitPowerBar = CreateFrame("StatusBar", nil, self)
+        self.unitPowerBar:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+        self.unitPowerBar:SetSize(Frame.Width, PowerBar.Height)
         self.unitPowerBar:SetStatusBarTexture(General.ForegroundTexture)
         self.unitPowerBar:SetStatusBarColor(unpack(PowerBar.Colour))
         self.unitPowerBar:SetMinMaxValues(0, 100)
+        self.unitPowerBar:SetAlpha(PowerBar.Colour[4])
         self.unitPowerBar.colorPower = PowerBar.ColourByType
         self.unitHealthBar:SetHeight(self:GetHeight() - PowerBar.Height - 1)
+        self.unitHealthBarBackground:SetHeight(self:GetHeight() - PowerBar.Height - 1)
 
-        self.unitPowerBar.Background = self.unitPowerBar:CreateTexture(nil, "BACKGROUND")
-        self.unitPowerBar.Background:SetAllPoints()
-        self.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
+        self.unitPowerBarBackground = self.unitPowerBar:CreateTexture(nil, "BACKGROUND")
+        self.unitPowerBarBackground:SetAllPoints()
+        self.unitPowerBarBackground:SetTexture(General.BackgroundTexture)
+        self.unitPowerBarBackground:SetAlpha(PowerBar.BackgroundColour[4])
         if PowerBar.ColourBackgroundByType then 
-            self.unitPowerBar.Background.multiplier = PowerBar.BackgroundMultiplier
-            self.unitPowerBar.bg = self.unitPowerBar.Background
+            self.unitPowerBarBackground.multiplier = PowerBar.BackgroundMultiplier
+            self.unitPowerBar.bg = self.unitPowerBarBackground
         else
-            self.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
+            self.unitPowerBarBackground:SetVertexColor(unpack(PowerBar.BackgroundColour))
             self.unitPowerBar.bg = nil
         end
         self.Power = self.unitPowerBar
+
+        self.unitPowerBarBorder = CreateFrame("Frame", nil, self.unitPowerBar, "BackdropTemplate")
+        self.unitPowerBarBorder:SetSize(Frame.Width, PowerBar.Height)
+        self.unitPowerBarBorder:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+        self.unitPowerBarBorder:SetBackdrop(BackdropTemplate)
+        self.unitPowerBarBorder:SetBackdropColor(0,0,0,0)
+        self.unitPowerBarBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+        self.unitPowerBarBorder:SetFrameLevel(4)
     end
 
     if Buffs.Enabled then
@@ -538,31 +541,35 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPortrait:SetPoint("CENTER", FrameName.unitPortraitBackdrop, "CENTER", 0, 0)
     end
 
-    if FrameName.unitPowerBar and FrameName.unitPowerBarBackdrop then
-        FrameName.unitPowerBarBackdrop:ClearAllPoints()
-        FrameName.unitPowerBarBackdrop:SetSize(Frame.Width, PowerBar.Height)
-        FrameName.unitPowerBarBackdrop:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
-        FrameName.unitPowerBarBackdrop:SetBackdrop(BackdropTemplate)
-        FrameName.unitPowerBarBackdrop:SetBackdropBorderColor(unpack(General.BorderColour))
-        FrameName.unitPowerBarBackdrop:SetFrameLevel(4)
-        FrameName.unitPowerBar:ClearAllPoints()
-        FrameName.unitPowerBar:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 1, 1)
-        FrameName.unitPowerBar:SetSize(Frame.Width - 2, PowerBar.Height - 2)
+    if FrameName.unitPowerBar then
+        -- Power Bar
+        FrameName.unitPowerBar:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
+        FrameName.unitPowerBar:SetSize(Frame.Width, PowerBar.Height)
         FrameName.unitPowerBar:SetStatusBarTexture(General.ForegroundTexture)
         FrameName.unitPowerBar:SetStatusBarColor(unpack(PowerBar.Colour))
         FrameName.unitPowerBar:SetMinMaxValues(0, 100)
         FrameName.unitPowerBar.colorPower = PowerBar.ColourByType
         FrameName.unitHealthBar:SetHeight(FrameName:GetHeight() - PowerBar.Height - 1)
-        FrameName.unitPowerBarBackdrop:SetFrameLevel(5)
-        FrameName.unitPowerBar.Background:SetAllPoints()
-        FrameName.unitPowerBar.Background:SetTexture(General.BackgroundTexture)
+        FrameName.unitHealthBarBackground:SetHeight(FrameName:GetHeight() - PowerBar.Height - 1)
+        FrameName.unitPowerBar:SetAlpha(PowerBar.Colour[4])
+        -- Power Bar Background
+        FrameName.unitPowerBarBackground:ClearAllPoints()
+        FrameName.unitPowerBarBackground:SetAllPoints()
+        FrameName.unitPowerBarBackground:SetTexture(General.BackgroundTexture)
+        FrameName.unitPowerBarBackground:SetAlpha(PowerBar.BackgroundColour[4])
         if PowerBar.ColourBackgroundByType then 
-            FrameName.unitPowerBar.Background.multiplier = PowerBar.BackgroundMultiplier
-            FrameName.unitPowerBar.bg = FrameName.unitPowerBar.Background
+            FrameName.unitPowerBarBackground.multiplier = PowerBar.BackgroundMultiplier
+            FrameName.unitPowerBar.bg = FrameName.unitPowerBarBackground
         else
-            FrameName.unitPowerBar.Background:SetVertexColor(unpack(PowerBar.BackgroundColour))
+            FrameName.unitPowerBarBackground:SetVertexColor(unpack(PowerBar.BackgroundColour))
             FrameName.unitPowerBar.bg = nil
         end
+        FrameName.unitPowerBarBorder:SetSize(Frame.Width, PowerBar.Height)
+        FrameName.unitPowerBarBorder:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
+        FrameName.unitPowerBarBorder:SetBackdrop(BackdropTemplate)
+        FrameName.unitPowerBarBorder:SetBackdropColor(0,0,0,0)
+        FrameName.unitPowerBarBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+        FrameName.unitPowerBarBorder:SetFrameLevel(4)
         FrameName.unitPowerBar:ForceUpdate()
     end
 
