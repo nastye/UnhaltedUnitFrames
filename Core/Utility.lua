@@ -171,20 +171,23 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBar.colorTapping = General.ColourIfTapped
     self.unitHealthBar.colorHealth = true
     self.unitHealthBar:SetMinMaxValues(0, 100)
+    self.unitHealthBar:SetAlpha(General.ForegroundColour[4])
     if Health.Direction == "RL" then
         self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
         self.unitHealthBar:SetReverseFill(false)
     end
 
-    self.unitHealthBar.Background = self.unitHealthBar:CreateTexture(nil, "BACKGROUND")
-    self.unitHealthBar.Background:SetAllPoints()
-    self.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
+    self.unitHealthBarBackground = self:CreateTexture(nil, "BACKGROUND")
+    self.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
+    self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+    self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
+    self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
     if General.ColourBackgroundByHealth then
-        self.unitHealthBar.Background.multiplier = General.BackgroundMultiplier
-        self.unitHealthBar.bg = self.unitHealthBar.Background
+        self.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
+        self.unitHealthBar.bg = self.unitHealthBarBackground
     else
-        self.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
+        self.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
         self.unitHealthBar.bg = nil
     end
 
@@ -469,18 +472,19 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
         FrameName.unitHealthBar.colorTapping = General.ColourIfTapped
         FrameName.unitHealthBar.colorHealth = true
+        FrameName.unitHealthBar:SetAlpha(General.ForegroundColour[4])
         if Health.Direction == "RL" then
             FrameName.unitHealthBar:SetReverseFill(true)
         elseif Health.Direction == "LR" then
             FrameName.unitHealthBar:SetReverseFill(false)
         end
-        FrameName.unitHealthBar.Background:SetAllPoints()
-        FrameName.unitHealthBar.Background:SetTexture(General.BackgroundTexture)
+        FrameName.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
+        FrameName.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
         if General.ColourBackgroundByHealth then
-            FrameName.unitHealthBar.Background.multiplier = General.BackgroundMultiplier
-            FrameName.unitHealthBar.bg = FrameName.unitHealthBar.Background
+            FrameName.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
+            FrameName.unitHealthBar.bg = FrameName.unitHealthBarBackground
         else
-            FrameName.unitHealthBar.Background:SetVertexColor(unpack(General.BackgroundColour))
+            FrameName.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
             FrameName.unitHealthBar.bg = nil
         end
         FrameName.unitHealthBar:ForceUpdate()
