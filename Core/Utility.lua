@@ -68,6 +68,38 @@ local function PostUpdateButton(_, button, Unit, AuraType)
     end
 end
 
+local function ColourBackgroundByUnitStatus(self)
+    local General = UUF.DB.global.General
+    local CustomColour = General.CustomColours
+    local unit = self.unit
+    if not unit then return end
+    if not UnitExists(unit) then return end
+    if UnitIsDead(unit) then
+        if General.ColourBackgroundByReaction then
+            if General.ColourBackgroundIfDead then
+                self.unitHealthBarBackground:SetVertexColor(CustomColour.Status[1][1], CustomColour.Status[1][2], CustomColour.Status[1][3], General.BackgroundColour[4])
+            else
+                self.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
+                self.unitHealthBar.bg = self.unitHealthBarBackground
+            end
+        elseif General.ColourBackgroundIfDead then
+            self.unitHealthBarBackground:SetVertexColor(CustomColour.Status[1][1], CustomColour.Status[1][2], CustomColour.Status[1][3], General.BackgroundColour[4])
+            self.unitHealthBar.bg = nil
+        else
+            self.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
+            self.unitHealthBar.bg = nil
+        end
+    elseif not UnitIsDead(unit) then
+        if General.ColourBackgroundByReaction then
+            self.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
+            self.unitHealthBar.bg = self.unitHealthBarBackground
+        else
+            self.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
+            self.unitHealthBar.bg = nil
+        end
+    end
+end
+
 function UUF:FormatLargeNumber(value)
     if value < 999 then
         return value
@@ -172,6 +204,7 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBar.colorHealth = true
     self.unitHealthBar:SetMinMaxValues(0, 100)
     self.unitHealthBar:SetAlpha(General.ForegroundColour[4])
+    self.unitHealthBar.PostUpdate = function() ColourBackgroundByUnitStatus(self) end
     if Health.Direction == "RL" then
         self.unitHealthBar:SetReverseFill(true)
     elseif Health.Direction == "LR" then
@@ -183,13 +216,6 @@ function UUF:CreateUnitFrame(Unit)
     self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
     self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
     self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
-    if General.ColourBackgroundByHealth then
-        self.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
-        self.unitHealthBar.bg = self.unitHealthBarBackground
-    else
-        self.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
-        self.unitHealthBar.bg = nil
-    end
 
     self.unitHealthBar:SetFrameLevel(2)
     self.Health = self.unitHealthBar
@@ -476,6 +502,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar.colorTapping = General.ColourIfTapped
         FrameName.unitHealthBar.colorHealth = true
         FrameName.unitHealthBar:SetAlpha(General.ForegroundColour[4])
+        FrameName.unitHealthBar.PostUpdateColor = function() ColourBackgroundByUnitStatus(FrameName) end
         if Health.Direction == "RL" then
             FrameName.unitHealthBar:SetReverseFill(true)
         elseif Health.Direction == "LR" then
@@ -483,13 +510,6 @@ function UUF:UpdateUnitFrame(FrameName)
         end
         FrameName.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
         FrameName.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
-        if General.ColourBackgroundByHealth then
-            FrameName.unitHealthBarBackground.multiplier = General.BackgroundMultiplier
-            FrameName.unitHealthBar.bg = FrameName.unitHealthBarBackground
-        else
-            FrameName.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
-            FrameName.unitHealthBar.bg = nil
-        end
         FrameName.unitHealthBar:ForceUpdate()
     end
 
@@ -737,6 +757,8 @@ function UUF:LoadCustomColours()
     end
 
     UUF_oUF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
+    UUF_oUF.colors.tapped = { General.CustomColours.Status[2][1], General.CustomColours.Status[2][2], General.CustomColours.Status[2][3] }
+    UUF_oUF.colors.disconnected = { General.CustomColours.Status[3][1], General.CustomColours.Status[3][2], General.CustomColours.Status[3][3] }
 end
 
 function UUF:DisplayBossFrames()
@@ -766,7 +788,7 @@ function UUF:DisplayBossFrames()
             if BossFrame.unitHealthBar.Background then
                 BF.Background:SetAllPoints()
                 BF.Background:SetTexture(General.BackgroundTexture)
-                if General.ColourBackgroundByHealth then
+                if General.ColourBackgroundByReaction then
                     BF.Background:SetVertexColor(PlayerClassColour.r * General.BackgroundMultiplier, PlayerClassColour.g * General.BackgroundMultiplier, PlayerClassColour.b * General.BackgroundMultiplier)
                 else
                     BF.Background:SetVertexColor(unpack(General.BackgroundColour))

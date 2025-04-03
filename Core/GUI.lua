@@ -42,6 +42,12 @@ local ReactionNames = {
     [8] = "Exalted",
 }
 
+local StatusNames = {
+    [1] = "Dead - Background Only",
+    [2] = "Tapped - Foreground Only",
+    [3] = "Disconnected - Foreground Only"
+}
+
 function UUF:GenerateLSMFonts()
     local Fonts = LSM:HashTable("font")
     for Path, Font in pairs(Fonts) do
@@ -344,23 +350,30 @@ function UUF:CreateGUI()
         BackgroundColour:SetColor(BGR, BGG, BGB, BGA)
         BackgroundColour:SetCallback("OnValueChanged", function(widget, _, r, g, b, a) General.BackgroundColour = {r, g, b, a} UUF:UpdateFrames() end)
         BackgroundColour:SetHasAlpha(true)
-        BackgroundColour:SetRelativeWidth(0.33)
+        BackgroundColour:SetRelativeWidth(0.5)
         BackgroundColourOptions:AddChild(BackgroundColour)
-
-        local BackgroundColourByHealth = UUFGUI:Create("CheckBox")
-        BackgroundColourByHealth:SetLabel("Colour Background By Health")
-        BackgroundColourByHealth:SetValue(General.ColourBackgroundByHealth)
-        BackgroundColourByHealth:SetCallback("OnValueChanged", function(widget, event, value) General.ColourBackgroundByHealth = value UUF:UpdateFrames() end)
-        BackgroundColourByHealth:SetRelativeWidth(0.33)
-        BackgroundColourOptions:AddChild(BackgroundColourByHealth)
 
         local BackgroundColourMultiplier = UUFGUI:Create("Slider")
         BackgroundColourMultiplier:SetLabel("Background Colour Multiplier")
         BackgroundColourMultiplier:SetSliderValues(0, 1, 0.01)
         BackgroundColourMultiplier:SetValue(General.BackgroundMultiplier)
         BackgroundColourMultiplier:SetCallback("OnMouseUp", function(widget, event, value) General.BackgroundMultiplier = value UUF:UpdateFrames() end)
-        BackgroundColourMultiplier:SetRelativeWidth(0.33)
+        BackgroundColourMultiplier:SetRelativeWidth(0.5)
         BackgroundColourOptions:AddChild(BackgroundColourMultiplier)
+
+        local BackgroundColourByHealth = UUFGUI:Create("CheckBox")
+        BackgroundColourByHealth:SetLabel("Colour Background By Reaction")
+        BackgroundColourByHealth:SetValue(General.ColourBackgroundByHealth)
+        BackgroundColourByHealth:SetCallback("OnValueChanged", function(widget, event, value) General.ColourBackgroundByReaction = value UUF:UpdateFrames() end)
+        BackgroundColourByHealth:SetRelativeWidth(0.5)
+        BackgroundColourOptions:AddChild(BackgroundColourByHealth)
+
+        local BackgroundColourIfDead = UUFGUI:Create("CheckBox")
+        BackgroundColourIfDead:SetLabel("Colour Background If Dead")
+        BackgroundColourIfDead:SetValue(General.ColourBackgroundIfDead)
+        BackgroundColourIfDead:SetCallback("OnValueChanged", function(widget, event, value) General.ColourBackgroundIfDead = value UUF:UpdateFrames() end)
+        BackgroundColourIfDead:SetRelativeWidth(0.5)
+        BackgroundColourOptions:AddChild(BackgroundColourIfDead)
 
         local BorderColourOptions = UUFGUI:Create("InlineGroup")
         BorderColourOptions:SetTitle("Border Colour Options")
@@ -449,6 +462,23 @@ function UUF:CreateGUI()
             ReactionColour:SetHasAlpha(false)
             ReactionColour:SetRelativeWidth(0.25)
             ReactionColours:AddChild(ReactionColour)
+        end
+
+        local StatusColours = UUFGUI:Create("InlineGroup")
+        StatusColours:SetTitle("Status Colours")
+        StatusColours:SetLayout("Flow")
+        StatusColours:SetFullWidth(true)
+        CustomColours:AddChild(StatusColours)
+
+        for statusType, statusColour in pairs(General.CustomColours.Status) do
+            local StatusColour = UUFGUI:Create("ColorPicker")
+            StatusColour:SetLabel(StatusNames[statusType])
+            local R, G, B = unpack(statusColour)
+            StatusColour:SetColor(R, G, B)
+            StatusColour:SetCallback("OnValueChanged", function(widget, _, r, g, b) General.CustomColours.Status[statusType] = {r, g, b} UUF:UpdateFrames() end)
+            StatusColour:SetHasAlpha(false)
+            StatusColour:SetRelativeWidth(0.33)
+            StatusColours:AddChild(StatusColour)
         end
 
         local ResetToDefault = UUFGUI:Create("Button")

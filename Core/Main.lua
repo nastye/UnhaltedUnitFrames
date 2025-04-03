@@ -24,7 +24,8 @@ UUF.Defaults = {
             ColourByReaction        = true,
             ColourIfDisconnected    = true,
             ColourIfTapped          = true,
-            ColourBackgroundByHealth = false,
+            ColourBackgroundByReaction = false,
+            ColourBackgroundIfDead  = false,
             BackgroundMultiplier   = 0.25,
             CustomColours = {
                 Reaction = {
@@ -48,6 +49,11 @@ UUF.Defaults = {
                     [13] = {0.4, 0, 0.8},       -- Insanity
                     [17] = {0.79, 0.26, 0.99},  -- Fury
                     [18] = {1, 0.61, 0}         -- Pain
+                },
+                Status = {
+                    [1] = {255/255, 64/255, 64/255},           -- Dead
+                    [2] = {153/255, 153/255, 153/255}, -- Tapped 
+                    [3] = {0.6, 0.6, 0.6}, -- Disconnected
                 }
             },
             MouseoverHighlight = {
