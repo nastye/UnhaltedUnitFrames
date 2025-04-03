@@ -508,6 +508,8 @@ function UUF:UpdateUnitFrame(FrameName)
         elseif Health.Direction == "LR" then
             FrameName.unitHealthBar:SetReverseFill(false)
         end
+        FrameName.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
+        FrameName.unitHealthBarBackground:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
         FrameName.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
         FrameName.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
         FrameName.unitHealthBar:ForceUpdate()
@@ -763,6 +765,7 @@ end
 
 function UUF:DisplayBossFrames()
     local General = UUF.DB.global.General
+    local Frame = UUF.DB.global.Boss.Frame
     local Health = UUF.DB.global.Boss.Health
     local PowerBar = UUF.DB.global.Boss.PowerBar
     local HealthPrediction = Health.HealthPrediction
@@ -779,19 +782,33 @@ function UUF:DisplayBossFrames()
     if not UUF.BossFrames then return end
     
     for _, BossFrame in ipairs(UUF.BossFrames) do
+        
+        if BossFrame.unitBorder then
+            BossFrame.unitBorder:SetAllPoints()
+            BossFrame.unitBorder:SetBackdrop(BackdropTemplate)
+            BossFrame.unitBorder:SetBackdropColor(0,0,0,0)
+            BossFrame.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+        end
+
         if BossFrame.unitHealthBar then
             local BF = BossFrame.unitHealthBar
             local PlayerClassColour = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-            BF:SetStatusBarColor(PlayerClassColour.r, PlayerClassColour.g, PlayerClassColour.b)
+            if General.ColourByClass then
+                BF:SetStatusBarColor(PlayerClassColour.r, PlayerClassColour.g, PlayerClassColour.b)
+            else 
+                BF:SetStatusBarColor(unpack(General.ForegroundColour))
+            end
             BF:SetMinMaxValues(0, 100)
             BF:SetValue(math.random(20, 50))
-            if BossFrame.unitHealthBar.Background then
-                BF.Background:SetAllPoints()
-                BF.Background:SetTexture(General.BackgroundTexture)
+            if BossFrame.unitHealthBarBackground then
+                BossFrame.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
+                BossFrame.unitHealthBarBackground:SetPoint("TOPLEFT", BossFrame, "TOPLEFT", 1, -1)
+                BossFrame.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
+                BossFrame.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
                 if General.ColourBackgroundByReaction then
-                    BF.Background:SetVertexColor(PlayerClassColour.r * General.BackgroundMultiplier, PlayerClassColour.g * General.BackgroundMultiplier, PlayerClassColour.b * General.BackgroundMultiplier)
+                    BossFrame.unitHealthBarBackground:SetVertexColor(PlayerClassColour.r * General.BackgroundMultiplier, PlayerClassColour.g * General.BackgroundMultiplier, PlayerClassColour.b * General.BackgroundMultiplier)
                 else
-                    BF.Background:SetVertexColor(unpack(General.BackgroundColour))
+                    BossFrame.unitHealthBarBackground:SetVertexColor(unpack(General.BackgroundColour))
                 end
             end
         end
