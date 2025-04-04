@@ -199,38 +199,42 @@ function UUF:CreateUnitFrame(Unit)
     self:SetSize(Frame.Width, Frame.Height)
 
     -- Frame Border
-    self.unitBorder = CreateFrame("Frame", nil, self, "BackdropTemplate")
-    self.unitBorder:SetAllPoints()
-    self.unitBorder:SetBackdrop(BackdropTemplate)
-    self.unitBorder:SetBackdropColor(0,0,0,0)
-    self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
-    self.unitBorder:SetFrameLevel(1)
-    -- Frame Health Bar
-    self.unitHealthBar = CreateFrame("StatusBar", nil, self)
-    self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
-    self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
-    self.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
-    self.unitHealthBar.colorClass = General.ColourByClass
-    self.unitHealthBar.colorReaction = General.ColourByClass
-    self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
-    self.unitHealthBar.colorTapping = General.ColourIfTapped
-    self.unitHealthBar.colorHealth = true
-    self.unitHealthBar:SetMinMaxValues(0, 100)
-    self.unitHealthBar:SetAlpha(General.ForegroundColour[4])
-    self.unitHealthBar.PostUpdate = function() ColourBackgroundByUnitStatus(self) end
-    if Health.Direction == "RL" then
-        self.unitHealthBar:SetReverseFill(true)
-    elseif Health.Direction == "LR" then
-        self.unitHealthBar:SetReverseFill(false)
+    if not self.unitBorder then 
+        self.unitBorder = CreateFrame("Frame", nil, self, "BackdropTemplate")
+        self.unitBorder:SetAllPoints()
+        self.unitBorder:SetBackdrop(BackdropTemplate)
+        self.unitBorder:SetBackdropColor(0,0,0,0)
+        self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+        self.unitBorder:SetFrameLevel(1)
     end
-    self.unitHealthBar:SetFrameLevel(2)
-    self.Health = self.unitHealthBar
-    -- Frame Health Bar Background
-    self.unitHealthBarBackground = self:CreateTexture(nil, "BACKGROUND")
-    self.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
-    self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
-    self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
-    self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
+    -- Frame Health Bar
+    if not self.unitHealthBar then
+        self.unitHealthBar = CreateFrame("StatusBar", nil, self)
+        self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
+        self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+        self.unitHealthBar:SetStatusBarTexture(General.ForegroundTexture)
+        self.unitHealthBar.colorClass = General.ColourByClass
+        self.unitHealthBar.colorReaction = General.ColourByClass
+        self.unitHealthBar.colorDisconnected = General.ColourIfDisconnected
+        self.unitHealthBar.colorTapping = General.ColourIfTapped
+        self.unitHealthBar.colorHealth = true
+        self.unitHealthBar:SetMinMaxValues(0, 100)
+        self.unitHealthBar:SetAlpha(General.ForegroundColour[4])
+        self.unitHealthBar.PostUpdate = function() ColourBackgroundByUnitStatus(self) end
+        if Health.Direction == "RL" then
+            self.unitHealthBar:SetReverseFill(true)
+        elseif Health.Direction == "LR" then
+            self.unitHealthBar:SetReverseFill(false)
+        end
+        self.unitHealthBar:SetFrameLevel(2)
+        self.Health = self.unitHealthBar
+        -- Frame Health Bar Background
+        self.unitHealthBarBackground = self:CreateTexture(nil, "BACKGROUND")
+        self.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
+        self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+        self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
+        self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
+    end
 
     -- Frame Mouseover Highlight
     if MouseoverHighlight.Enabled and not self.unitHighlight then
