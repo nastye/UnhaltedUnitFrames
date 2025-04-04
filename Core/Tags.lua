@@ -178,6 +178,13 @@ UUF_oUF.Tags.Methods["Power:CurPP"] = function(unit)
     return UUF:FormatLargeNumber(unitPower)
 end
 
+UUF_oUF.Tags.Methods["Power:PerPP"] = function(unit)
+    local unitPower = UnitPower(unit)
+    local unitMaxPower = UnitPowerMax(unit)
+    local unitPowerPercent = (unitMaxPower > 0) and (unitPower / unitMaxPower * 100) or 0
+    return string.format("%.1f%%", unitPowerPercent)
+end
+
 UUF_oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 UUF_oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 UUF_oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
@@ -198,6 +205,7 @@ UUF_oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
 UUF_oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
 
 UUF_oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+UUF_oUF.Tags.Events["Power:PerPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 
 local HealthTagsDescription = {
     ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},
@@ -232,6 +240,7 @@ end
 
 local PowerTagsDescription = {
     ["Current Power"] = {Tag = "[Power:CurPP]", Desc = "Displays Current Power"},
+    ["Percent Power"] = {Tag = "[Power:PerPP]", Desc = "Displays Percent Power"},
     ["Colour Power"] = {Tag = "[powercolor]", Desc = "Colour Power. Put infront of Power Tag to colour it."},
 }
 
