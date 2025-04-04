@@ -32,7 +32,7 @@ function UUFG:UpdateAllTags()
     end
 end
 
-function UUF:PostCreateButton(_, button, Unit, AuraType)
+local function PostCreateButton(_, button, Unit, AuraType)
     local General = UUF.DB.global.General
     local BuffCount = UUF.DB.global[Unit].Buffs.Count
     local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
@@ -377,7 +377,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitBuffs["growth-x"] = Buffs.GrowthX
         self.unitBuffs["growth-y"] = Buffs.GrowthY
         self.unitBuffs.filter = "HELPFUL"
-        self.unitBuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, "Player", "HELPFUL") end
+        self.unitBuffs.PostCreateButton = function(_, button) PostCreateButton(_, button, "Player", "HELPFUL") end
         self.Buffs = self.unitBuffs
     end
 
@@ -393,7 +393,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitDebuffs["growth-x"] = Debuffs.GrowthX
         self.unitDebuffs["growth-y"] = Debuffs.GrowthY
         self.unitDebuffs.filter = "HARMFUL"
-        self.unitDebuffs.PostCreateButton = function(_, button) UUF:PostCreateButton(_, button, "Player", "HARMFUL") end
+        self.unitDebuffs.PostCreateButton = function(_, button) PostCreateButton(_, button, "Player", "HARMFUL") end
         self.Debuffs = self.unitDebuffs
     end
 
