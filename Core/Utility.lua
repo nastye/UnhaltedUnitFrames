@@ -524,7 +524,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar:ForceUpdate()
     end
 
-    if FrameName.unitAbsorbs then
+    if FrameName.unitAbsorbs and Absorbs.Enabled then
         FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
@@ -542,7 +542,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
     end
     
-    if FrameName.unitHealAbsorbs then
+    if FrameName.unitHealAbsorbs and HealAbsorbs.Enabled then
         FrameName.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
         if HealthBarTexture then
@@ -561,7 +561,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
     end
 
-    if FrameName.unitPortraitBackdrop and FrameName.unitPortrait then
+    if FrameName.unitPortraitBackdrop and FrameName.unitPortrait and Portrait.Enabled then
         FrameName.unitPortraitBackdrop:ClearAllPoints()
         FrameName.unitPortraitBackdrop:SetSize(Portrait.Size, Portrait.Size)
         FrameName.unitPortraitBackdrop:SetPoint(Portrait.AnchorFrom, FrameName, Portrait.AnchorTo, Portrait.XOffset, Portrait.YOffset)
@@ -572,7 +572,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPortrait:SetPoint("CENTER", FrameName.unitPortraitBackdrop, "CENTER", 0, 0)
     end
 
-    if FrameName.unitPowerBar then
+    if FrameName.unitPowerBar and PowerBar.Enabled then
         -- Power Bar
         FrameName.unitPowerBar:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
         FrameName.unitPowerBar:SetSize(Frame.Width, PowerBar.Height)
