@@ -34,6 +34,14 @@ UUF_oUF.Tags.Methods["Health:CurHP"] = function(unit)
     end
 end
 
+UUF_oUF.Tags.Methods["Health:CurHPwithAbsorbs"] = function(unit)
+    local unitHealth = UnitHealth(unit)
+    local unitMaxHealth = UnitHealthMax(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
+    if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
+    return string.format("%s", UUF:FormatLargeNumber(unitHealth))
+end
+
 UUF_oUF.Tags.Methods["Health:CurAbsorbs"] = function(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
     if unitAbsorb > 0 then 
