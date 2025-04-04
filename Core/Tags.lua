@@ -211,6 +211,7 @@ UUF_oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_
 UUF_oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 UUF_oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
 UUF_oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
+UUF_oUF.Tags.Events["Health:CurHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 
 UUF_oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 UUF_oUF.Tags.Events["Power:PerPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
@@ -220,6 +221,7 @@ local HealthTagsDescription = {
     ["Percent Health with Absorbs"] = {Tag = "[Health:PerHPwithAbsorbs]", Desc = "Displays Percent Health with Absorbs"},
     ["Current Health"] = {Tag = "[Health:CurHP]", Desc = "Displays Current Health"},
     ["Current Absorbs"] = {Tag = "[Health:CurAbsorbs]", Desc = "Displays Current Absorbs"},
+    ["Current Health with Absorbs"] = {Tag = "[Health:CurHPwithAbsorbs]", Desc = "Displays Current Health with Absorbs"},
 }
 
 function UUF:FetchHealthTagDescriptions()
