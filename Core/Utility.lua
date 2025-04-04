@@ -1,5 +1,5 @@
 local _, UUF = ...
-local UUF_oUF = UUF.oUF
+local oUF = UUF.oUF
 UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
@@ -148,7 +148,7 @@ function UUF:WrapTextInColor(unitName, unit)
     else
         local reaction = UnitReaction(unit, "player")
         if reaction then
-            local r, g, b = unpack(UUF_oUF.colors.reaction[reaction])
+            local r, g, b = unpack(oUF.colors.reaction[reaction])
             unitColor = { r = r, g = g, b = b }
         end
     end
@@ -170,6 +170,7 @@ function UUF:ResetDefaultSettings()
 end
 
 function UUF:CreateUnitFrame(Unit)
+    -- Localised SavedVariables
     local General = UUF.DB.global.General
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
@@ -185,23 +186,26 @@ function UUF:CreateUnitFrame(Unit)
     local SecondText = UUF.DB.global[Unit].Texts.Second
     local ThirdText = UUF.DB.global[Unit].Texts.Third
     local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
-    
+
+    -- Backdrop Template
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
         edgeFile = General.BorderTexture,
         edgeSize = General.BorderSize,
         insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
     }
-    
+
+    -- Frame Size
     self:SetSize(Frame.Width, Frame.Height)
 
+    -- Frame Border
     self.unitBorder = CreateFrame("Frame", nil, self, "BackdropTemplate")
     self.unitBorder:SetAllPoints()
     self.unitBorder:SetBackdrop(BackdropTemplate)
     self.unitBorder:SetBackdropColor(0,0,0,0)
     self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
     self.unitBorder:SetFrameLevel(1)
-
+    -- Frame Health Bar
     self.unitHealthBar = CreateFrame("StatusBar", nil, self)
     self.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
     self.unitHealthBar:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
@@ -219,17 +223,17 @@ function UUF:CreateUnitFrame(Unit)
     elseif Health.Direction == "LR" then
         self.unitHealthBar:SetReverseFill(false)
     end
-
+    self.unitHealthBar:SetFrameLevel(2)
+    self.Health = self.unitHealthBar
+    -- Frame Health Bar Background
     self.unitHealthBarBackground = self:CreateTexture(nil, "BACKGROUND")
     self.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
     self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
     self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
     self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
 
-    self.unitHealthBar:SetFrameLevel(2)
-    self.Health = self.unitHealthBar
-
-    if MouseoverHighlight.Enabled then
+    -- Frame Mouseover Highlight
+    if MouseoverHighlight.Enabled and not self.unitHighlight then
         self.unitHighlight = CreateFrame("Frame", nil, self, "BackdropTemplate")
         self.unitHighlight:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
         self.unitHighlight:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
@@ -248,8 +252,8 @@ function UUF:CreateUnitFrame(Unit)
             self.unitHighlight:Hide()
         end
     end
-
-    if Absorbs.Enabled then
+    -- Frame Absorbs
+    if Absorbs.Enabled and not self.unitAbsorbs then
         self.unitAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
         self.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = self.unitHealthBar:GetStatusBarTexture()
@@ -271,8 +275,8 @@ function UUF:CreateUnitFrame(Unit)
         self.unitAbsorbs:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 1)
         self.unitAbsorbs:Hide()
     end
-
-    if HealAbsorbs.Enabled then
+    -- Frame Heal Absorbs
+    if HealAbsorbs.Enabled and not self.unitHealAbsorbs then
         self.unitHealAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
         self.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = self.unitHealthBar:GetStatusBarTexture()
@@ -294,7 +298,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitHealAbsorbs:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 1)
         self.unitHealAbsorbs:Hide()
     end
-
+    -- Register Absorb / Heal Absorbs for Health Prediction
     self.HealthPrediction = {
         myBar = nil,
         otherBar = nil,
@@ -315,8 +319,8 @@ function UUF:CreateUnitFrame(Unit)
             absorbBar:Show()
         end
     }
-
-    if Portrait.Enabled then
+    -- Frame Portrait
+    if Portrait.Enabled and not self.unitPortraitBackdrop and not self.unitPortrait then
         self.unitPortraitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
         self.unitPortraitBackdrop:SetSize(Portrait.Size, Portrait.Size)
         self.unitPortraitBackdrop:SetPoint(Portrait.AnchorFrom, self, Portrait.AnchorTo, Portrait.XOffset, Portrait.YOffset)
@@ -330,8 +334,8 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
         self.Portrait = self.unitPortrait
     end
-
-    if PowerBar.Enabled then
+    -- Frame Power Bar
+    if PowerBar.Enabled and not self.unitPowerBar and not self.unitPowerBarBackground then
         self.unitPowerBar = CreateFrame("StatusBar", nil, self)
         self.unitPowerBar:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
         self.unitPowerBar:SetSize(Frame.Width, PowerBar.Height)
@@ -340,9 +344,11 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBar:SetMinMaxValues(0, 100)
         self.unitPowerBar:SetAlpha(PowerBar.Colour[4])
         self.unitPowerBar.colorPower = PowerBar.ColourByType
+        self.Power = self.unitPowerBar
+        -- Set Height of the Health Bar and Background to fit the Power Bar
         self.unitHealthBar:SetHeight(self:GetHeight() - PowerBar.Height - 1)
         self.unitHealthBarBackground:SetHeight(self:GetHeight() - PowerBar.Height - 1)
-
+        -- Frame Power Bar Background
         self.unitPowerBarBackground = self.unitPowerBar:CreateTexture(nil, "BACKGROUND")
         self.unitPowerBarBackground:SetAllPoints()
         self.unitPowerBarBackground:SetTexture(General.BackgroundTexture)
@@ -354,8 +360,7 @@ function UUF:CreateUnitFrame(Unit)
             self.unitPowerBarBackground:SetVertexColor(unpack(PowerBar.BackgroundColour))
             self.unitPowerBar.bg = nil
         end
-        self.Power = self.unitPowerBar
-
+        -- Power Bar Border
         self.unitPowerBarBorder = CreateFrame("Frame", nil, self.unitPowerBar, "BackdropTemplate")
         self.unitPowerBarBorder:SetSize(Frame.Width, PowerBar.Height)
         self.unitPowerBarBorder:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
@@ -365,7 +370,8 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPowerBarBorder:SetFrameLevel(4)
     end
 
-    if Buffs.Enabled then
+    -- Frame Buffs / Debuffs
+    if Buffs.Enabled and not self.unitBuffs then
         self.unitBuffs = CreateFrame("Frame", nil, self)
         self.unitBuffs:SetSize(self:GetWidth(), Buffs.Size)
         self.unitBuffs:SetPoint(Buffs.AnchorFrom, self, Buffs.AnchorTo, Buffs.XOffset, Buffs.YOffset)
@@ -381,7 +387,7 @@ function UUF:CreateUnitFrame(Unit)
         self.Buffs = self.unitBuffs
     end
 
-    if Debuffs.Enabled then
+    if Debuffs.Enabled and not self.unitDebuffs then
         self.unitDebuffs = CreateFrame("Frame", nil, self)
         self.unitDebuffs:SetSize(self:GetWidth(), Debuffs.Size)
         self.unitDebuffs:SetPoint(Debuffs.AnchorFrom, self, Debuffs.AnchorTo, Debuffs.XOffset, Debuffs.YOffset)
@@ -397,39 +403,48 @@ function UUF:CreateUnitFrame(Unit)
         self.Debuffs = self.unitDebuffs
     end
 
-    self.unitHighLevelFrame = CreateFrame("Frame", nil, self)
-    self.unitHighLevelFrame:SetSize(Frame.Width, Frame.Height)
-    self.unitHighLevelFrame:SetPoint("CENTER", 0, 0)
-    self.unitHighLevelFrame:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 20)
+    -- Text Fields
+    if not self.unitHighLevelFrame then 
+        self.unitHighLevelFrame = CreateFrame("Frame", nil, self)
+        self.unitHighLevelFrame:SetSize(Frame.Width, Frame.Height)
+        self.unitHighLevelFrame:SetPoint("CENTER", 0, 0)
+        self.unitHighLevelFrame:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 20)
 
-    self.unitFirstText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
-    self.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitFirstText:SetPoint(FirstText.AnchorFrom, self.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
-    self.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
-    self.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo))
-    self:Tag(self.unitFirstText, FirstText.Tag)
-    
-    self.unitSecondText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
-    self.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitSecondText:SetPoint(SecondText.AnchorFrom, self.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
-    self.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
-    self.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo))
-    self:Tag(self.unitSecondText, SecondText.Tag)
-    
-    self.unitThirdText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
-    self.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
-    self.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-    self.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-    self.unitThirdText:SetPoint(ThirdText.AnchorFrom, self.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
-    self.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
-    self.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo))
-    self:Tag(self.unitThirdText, ThirdText.Tag)
+        if not self.unitFirstText then
+            self.unitFirstText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+            self.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
+            self.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            self.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            self.unitFirstText:SetPoint(FirstText.AnchorFrom, self.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
+            self.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
+            self.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo))
+            self:Tag(self.unitFirstText, FirstText.Tag)
+        end
 
-    if TargetMarker.Enabled then
+        if not self.unitSecondText then
+            self.unitSecondText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+            self.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
+            self.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            self.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            self.unitSecondText:SetPoint(SecondText.AnchorFrom, self.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
+            self.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
+            self.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo))
+            self:Tag(self.unitSecondText, SecondText.Tag)
+        end
+
+        if not self.unitThirdText then
+            self.unitThirdText = self.unitHighLevelFrame:CreateFontString(nil, "OVERLAY")
+            self.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
+            self.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            self.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            self.unitThirdText:SetPoint(ThirdText.AnchorFrom, self.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
+            self.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
+            self.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo))
+            self:Tag(self.unitThirdText, ThirdText.Tag)
+        end
+    end
+    -- Frame Target Marker
+    if TargetMarker.Enabled and not self.unitTargetMarker then
         self.unitTargetMarker = self.unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
         self.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
         self.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, self.unitHighLevelFrame, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
@@ -759,17 +774,17 @@ function UUF:LoadCustomColours()
     for powerType, color in pairs(General.CustomColours.Power) do
         local powerTypeString = PowerTypesToString[powerType]
         if powerTypeString then
-            UUF_oUF.colors.power[powerTypeString] = color
+            oUF.colors.power[powerTypeString] = color
         end
     end
 
     for reaction, color in pairs(General.CustomColours.Reaction) do
-        UUF_oUF.colors.reaction[reaction] = color
+        oUF.colors.reaction[reaction] = color
     end
 
-    UUF_oUF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
-    UUF_oUF.colors.tapped = { General.CustomColours.Status[2][1], General.CustomColours.Status[2][2], General.CustomColours.Status[2][3] }
-    UUF_oUF.colors.disconnected = { General.CustomColours.Status[3][1], General.CustomColours.Status[3][2], General.CustomColours.Status[3][3] }
+    oUF.colors.health = { General.ForegroundColour[1], General.ForegroundColour[2], General.ForegroundColour[3] }
+    oUF.colors.tapped = { General.CustomColours.Status[2][1], General.CustomColours.Status[2][2], General.CustomColours.Status[2][3] }
+    oUF.colors.disconnected = { General.CustomColours.Status[3][1], General.CustomColours.Status[3][2], General.CustomColours.Status[3][3] }
 end
 
 function UUF:DisplayBossFrames()

@@ -1,7 +1,7 @@
 local _, UUF = ...
-local UUF_oUF = UUF.oUF
+local oUF = UUF.oUF
 
-UUF_oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
+oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
@@ -15,7 +15,7 @@ UUF_oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     end
 end
 
-UUF_oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
+oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
@@ -24,7 +24,7 @@ UUF_oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
     return string.format("%.1f%%", unitHealthPercent)
 end
 
-UUF_oUF.Tags.Methods["Health:CurHP"] = function(unit)
+oUF.Tags.Methods["Health:CurHP"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
     if unitStatus then
@@ -34,7 +34,7 @@ UUF_oUF.Tags.Methods["Health:CurHP"] = function(unit)
     end
 end
 
-UUF_oUF.Tags.Methods["Health:CurHPwithAbsorbs"] = function(unit)
+oUF.Tags.Methods["Health:CurHPwithAbsorbs"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
@@ -42,14 +42,14 @@ UUF_oUF.Tags.Methods["Health:CurHPwithAbsorbs"] = function(unit)
     return string.format("%s", UUF:FormatLargeNumber(unitHealth))
 end
 
-UUF_oUF.Tags.Methods["Health:CurAbsorbs"] = function(unit)
+oUF.Tags.Methods["Health:CurAbsorbs"] = function(unit)
     local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
     if unitAbsorb > 0 then 
         return UUF:FormatLargeNumber(unitAbsorb)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
+oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
@@ -59,14 +59,14 @@ UUF_oUF.Tags.Methods["Name:NamewithTargetTarget"] = function(unit)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:TargetTarget"] = function(unit)
+oUF.Tags.Methods["Name:TargetTarget"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return unitTarget
     end
 end
 
-UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:Coloured"] = function(unit)
+oUF.Tags.Methods["Name:NamewithTargetTarget:Coloured"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
     local colouredUnitName = UUF:WrapTextInColor(unitName, unit)
@@ -77,14 +77,14 @@ UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:Coloured"] = function(unit)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:TargetTarget:Coloured"] = function(unit)
+oUF.Tags.Methods["Name:TargetTarget:Coloured"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return UUF:WrapTextInColor(unitTarget, unit .. "target")
     end
 end
 
-UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly"] = function(unit)
+oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
     local unitLastName = UUF:ShortenName(unitName, UUF.nameBlacklist)
@@ -95,7 +95,7 @@ UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly"] = function(unit)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = function(unit)
+oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = function(unit)
     local unitName = UnitName(unit)
     local unitTarget = UnitName(unit .. "target")
     local colouredUnitName = UUF:WrapTextInColor(UUF:ShortenName(unitName, UUF.nameBlacklist), unit)
@@ -106,45 +106,45 @@ UUF_oUF.Tags.Methods["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = functi
     end
 end
 
-UUF_oUF.Tags.Methods["Name:LastNameOnly"] = function(unit)
+oUF.Tags.Methods["Name:LastNameOnly"] = function(unit)
     local unitName = UnitName(unit)
     return UUF:ShortenName(unitName, UUF.nameBlacklist)
 end
 
-UUF_oUF.Tags.Methods["Name:LastNameOnly:Coloured"] = function(unit)
+oUF.Tags.Methods["Name:LastNameOnly:Coloured"] = function(unit)
     local unitName = UnitName(unit)
     return UUF:WrapTextInColor(UUF:ShortenName(unitName, UUF.nameBlacklist), unit)
 end
 
-UUF_oUF.Tags.Methods["Name:TargetTarget:LastNameOnly"] = function(unit)
+oUF.Tags.Methods["Name:TargetTarget:LastNameOnly"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return UUF:ShortenName(unitTarget, UUF.nameBlacklist)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:TargetTarget:LastNameOnly:Coloured"] = function(unit)
+oUF.Tags.Methods["Name:TargetTarget:LastNameOnly:Coloured"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
         return UUF:WrapTextInColor(UUF:ShortenName(unitTarget, UUF.nameBlacklist), unit .. "target")
     end
 end
 
-UUF_oUF.Tags.Methods["Name:VeryShort"] = function(unit)
+oUF.Tags.Methods["Name:VeryShort"] = function(unit)
     local name = UnitName(unit)
     if name then 
         return string.sub(name, 1, 5)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:Short"] = function(unit)
+oUF.Tags.Methods["Name:Short"] = function(unit)
     local name = UnitName(unit)
     if name then 
         return string.sub(name, 1, 8)
     end
 end
 
-UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
+oUF.Tags.Methods["Name:Medium"] = function(unit)
     local name = UnitName(unit)
     if name then 
         return string.sub(name, 1, 10)
@@ -152,69 +152,69 @@ UUF_oUF.Tags.Methods["Name:Medium"] = function(unit)
 end
 
 if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then    
-	UUF_oUF.Tags.Methods['NSNickName'] = function(unit)
+	oUF.Tags.Methods['NSNickName'] = function(unit)
 		local name = UnitName(unit)
 		return name and NSAPI and NSAPI:GetName(name) or name
 	end
 
-	UUF_oUF.Tags.Methods['NSNickName:veryshort'] = function(unit)
+	oUF.Tags.Methods['NSNickName:veryshort'] = function(unit)
 		local name = UnitName(unit)
 		name = name and NSAPI and NSAPI:GetName(name) or name
 		return string.sub(name, 1, 5)
 	end
 
-	UUF_oUF.Tags.Methods['NSNickName:short'] = function(unit)
+	oUF.Tags.Methods['NSNickName:short'] = function(unit)
 		local name = UnitName(unit)
 		name = name and NSAPI and NSAPI:GetName(name) or name
 		return string.sub(name, 1, 8)
 	end
 
-	UUF_oUF.Tags.Methods['NSNickName:medium'] = function(unit)
+	oUF.Tags.Methods['NSNickName:medium'] = function(unit)
 		local name = UnitName(unit)
 		name = name and NSAPI and NSAPI:GetName(name) or name
 		return string.sub(name, 1, 10)
 	end
 
-    UUF_oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
-	UUF_oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
+    oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
+	oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
+	oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
+	oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
 end
 
-UUF_oUF.Tags.Methods["Power:CurPP"] = function(unit)
+oUF.Tags.Methods["Power:CurPP"] = function(unit)
     local unitPower = UnitPower(unit)
     return UUF:FormatLargeNumber(unitPower)
 end
 
-UUF_oUF.Tags.Methods["Power:PerPP"] = function(unit)
+oUF.Tags.Methods["Power:PerPP"] = function(unit)
     local unitPower = UnitPower(unit)
     local unitMaxPower = UnitPowerMax(unit)
     local unitPowerPercent = (unitMaxPower > 0) and (unitPower / unitMaxPower * 100) or 0
     return string.format("%.1f%%", unitPowerPercent)
 end
 
-UUF_oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:TargetTarget:Coloured"] = "UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:LastNameOnly"] = "UNIT_NAME_UPDATE"
-UUF_oUF.Tags.Events["Name:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE"
-UUF_oUF.Tags.Events["Name:TargetTarget:LastNameOnly"] = "UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:TargetTarget:LastNameOnly:Coloured"] = "UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
-UUF_oUF.Tags.Events["Name:VeryShort"] = "UNIT_NAME_UPDATE"
-UUF_oUF.Tags.Events["Name:Short"] = "UNIT_NAME_UPDATE"
-UUF_oUF.Tags.Events["Name:Medium"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
+oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
+oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:TargetTarget:Coloured"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:LastNameOnly"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:TargetTarget:LastNameOnly"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:TargetTarget:LastNameOnly:Coloured"] = "UNIT_TARGET"
+oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly"] = "UNIT_NAME_UPDATE UNIT_TARGET"
+oUF.Tags.Events["Name:NamewithTargetTarget:LastNameOnly:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
+oUF.Tags.Events["Name:VeryShort"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Short"] = "UNIT_NAME_UPDATE"
+oUF.Tags.Events["Name:Medium"] = "UNIT_NAME_UPDATE"
 
-UUF_oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
-UUF_oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
-UUF_oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
-UUF_oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
-UUF_oUF.Tags.Events["Health:CurHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
+oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:CurHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 
-UUF_oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
-UUF_oUF.Tags.Events["Power:PerPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+oUF.Tags.Events["Power:PerPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 
 local HealthTagsDescription = {
     ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},

@@ -4,6 +4,7 @@
 ## Notes: Simple, effecient & aesthetic Unit Frames built on the oUF Framework.
 ## SavedVariables: UUFDB
 ## X-Wago-ID: 96do35NO
+## X-oUF: UnhaltedUF
 ## Category-enUS: Unit Frames
 ## IconTexture: Interface\AddOns\UnhaltedUF\Media\Logo.tga
 
