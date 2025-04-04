@@ -207,6 +207,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
         self.unitBorder:SetFrameLevel(1)
     end
+
     -- Frame Health Bar
     if not self.unitHealthBar then
         self.unitHealthBar = CreateFrame("StatusBar", nil, self)
@@ -256,6 +257,7 @@ function UUF:CreateUnitFrame(Unit)
             self.unitHighlight:Hide()
         end
     end
+
     -- Frame Absorbs
     if Absorbs.Enabled and not self.unitAbsorbs then
         self.unitAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
@@ -279,6 +281,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitAbsorbs:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 1)
         self.unitAbsorbs:Hide()
     end
+
     -- Frame Heal Absorbs
     if HealAbsorbs.Enabled and not self.unitHealAbsorbs then
         self.unitHealAbsorbs = CreateFrame("StatusBar", nil, self.unitHealthBar)
@@ -302,6 +305,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitHealAbsorbs:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 1)
         self.unitHealAbsorbs:Hide()
     end
+
     -- Register Absorb / Heal Absorbs for Health Prediction
     self.HealthPrediction = {
         myBar = nil,
@@ -323,6 +327,7 @@ function UUF:CreateUnitFrame(Unit)
             absorbBar:Show()
         end
     }
+
     -- Frame Portrait
     if Portrait.Enabled and not self.unitPortraitBackdrop and not self.unitPortrait then
         self.unitPortraitBackdrop = CreateFrame("Frame", nil, self, "BackdropTemplate")
@@ -338,6 +343,7 @@ function UUF:CreateUnitFrame(Unit)
         self.unitPortrait:SetTexCoord(0.2, 0.8, 0.2, 0.8)
         self.Portrait = self.unitPortrait
     end
+
     -- Frame Power Bar
     if PowerBar.Enabled and not self.unitPowerBar and not self.unitPowerBarBackground then
         self.unitPowerBar = CreateFrame("StatusBar", nil, self)
@@ -447,6 +453,7 @@ function UUF:CreateUnitFrame(Unit)
             self:Tag(self.unitThirdText, ThirdText.Tag)
         end
     end
+
     -- Frame Target Marker
     if TargetMarker.Enabled and not self.unitTargetMarker then
         self.unitTargetMarker = self.unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
@@ -466,7 +473,9 @@ end
 
 function UUF:UpdateUnitFrame(FrameName)
     if not FrameName then return end
+    if not FrameName.unit then return end
 
+    -- Localised SavedVariables
     local Unit = UUF.Frames[FrameName.unit] or "Boss"
     local Frame = UUF.DB.global[Unit].Frame
     local Portrait = UUF.DB.global[Unit].Portrait
@@ -485,6 +494,7 @@ function UUF:UpdateUnitFrame(FrameName)
     local Range = UUF.DB.global[Unit].Range
     local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
 
+    -- Backdrop Template
     local BackdropTemplate = {
         bgFile = General.BackgroundTexture,
         edgeFile = General.BorderTexture,
@@ -492,16 +502,20 @@ function UUF:UpdateUnitFrame(FrameName)
         insets = { left = General.BorderInset, right = General.BorderInset, top = General.BorderInset, bottom = General.BorderInset },
     }
 
+    -- Frame Size & Position
     if FrameName then
         FrameName:ClearAllPoints()
         FrameName:SetSize(Frame.Width, Frame.Height)
         FrameName:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
     end
 
+    -- Frame Border
     if FrameName.unitBorder then
         FrameName.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
+        FrameName.unitBorder:SetFrameLevel(1)
     end
 
+    -- Frame Health Bar
     if MouseoverHighlight.Enabled and FrameName.unitHighlight then
         local MHR, MHG, MHB, MHA = unpack(MouseoverHighlight.Colour)
         if MouseoverHighlight.Style == "BORDER" then
@@ -519,6 +533,7 @@ function UUF:UpdateUnitFrame(FrameName)
         end
     end
 
+    -- Frame Health Bar
     if FrameName.unitHealthBar then
         FrameName.unitHealthBar:SetSize(Frame.Width - 2, Frame.Height - 2)
         FrameName.unitHealthBar:ClearAllPoints()
@@ -536,6 +551,8 @@ function UUF:UpdateUnitFrame(FrameName)
         elseif Health.Direction == "LR" then
             FrameName.unitHealthBar:SetReverseFill(false)
         end
+        FrameName.unitHealthBar:SetFrameLevel(2)
+        -- Frame Health Bar Background
         FrameName.unitHealthBarBackground:SetSize(Frame.Width - 2, Frame.Height - 2)
         FrameName.unitHealthBarBackground:SetPoint("TOPLEFT", FrameName, "TOPLEFT", 1, -1)
         FrameName.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
@@ -543,6 +560,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitHealthBar:ForceUpdate()
     end
 
+    -- Frame Absorbs
     if FrameName.unitAbsorbs and Absorbs.Enabled then
         FrameName.unitAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
@@ -559,8 +577,11 @@ function UUF:UpdateUnitFrame(FrameName)
         end
         local UHAR, UHAG, UHAB, UHAA = unpack(Absorbs.Colour)
         FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
+        FrameName.unitAbsorbs:SetSize(FrameName:GetWidth() - 2, FrameName:GetHeight() - 2)
+        FrameName.unitAbsorbs:SetFrameLevel(FrameName.unitHealthBar:GetFrameLevel() + 1)
     end
     
+    -- Frame Heal Absorbs
     if FrameName.unitHealAbsorbs and HealAbsorbs.Enabled then
         FrameName.unitHealAbsorbs:SetStatusBarTexture(General.ForegroundTexture)
         local HealthBarTexture = FrameName.unitHealthBar:GetStatusBarTexture()
@@ -578,8 +599,11 @@ function UUF:UpdateUnitFrame(FrameName)
         end
         local UHAR, UHAG, UHAB, UHAA = unpack(HealAbsorbs.Colour)
         FrameName.unitHealAbsorbs:SetStatusBarColor(UHAR, UHAG, UHAB, UHAA)
+        FrameName.unitHealAbsorbs:SetSize(FrameName:GetWidth() - 2, FrameName:GetHeight() - 2)
+        FrameName.unitHealAbsorbs:SetFrameLevel(FrameName.unitHealthBar:GetFrameLevel() + 1)
     end
 
+    -- Frame Portrait
     if FrameName.unitPortraitBackdrop and FrameName.unitPortrait and Portrait.Enabled then
         FrameName.unitPortraitBackdrop:ClearAllPoints()
         FrameName.unitPortraitBackdrop:SetSize(Portrait.Size, Portrait.Size)
@@ -591,6 +615,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPortrait:SetPoint("CENTER", FrameName.unitPortraitBackdrop, "CENTER", 0, 0)
     end
 
+    -- Frame Power Bar
     if FrameName.unitPowerBar and PowerBar.Enabled then
         -- Power Bar
         FrameName.unitPowerBar:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
@@ -614,6 +639,7 @@ function UUF:UpdateUnitFrame(FrameName)
             FrameName.unitPowerBarBackground:SetVertexColor(unpack(PowerBar.BackgroundColour))
             FrameName.unitPowerBar.bg = nil
         end
+        -- Power Bar Border
         FrameName.unitPowerBarBorder:SetSize(Frame.Width, PowerBar.Height)
         FrameName.unitPowerBarBorder:SetPoint("BOTTOMLEFT", FrameName, "BOTTOMLEFT", 0, 0)
         FrameName.unitPowerBarBorder:SetBackdrop(BackdropTemplate)
@@ -623,6 +649,7 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitPowerBar:ForceUpdate()
     end
 
+    -- Frame Buffs / Debuffs
     if Buffs.Enabled then
         FrameName.unitBuffs:ClearAllPoints()
         FrameName.unitBuffs:SetSize(FrameName:GetWidth(), Buffs.Size)
@@ -665,59 +692,64 @@ function UUF:UpdateUnitFrame(FrameName)
         end
     end
 
+    -- Frame Texts
     if FrameName.unitHighLevelFrame then
         FrameName.unitHighLevelFrame:ClearAllPoints()
         FrameName.unitHighLevelFrame:SetSize(Frame.Width, Frame.Height)
         FrameName.unitHighLevelFrame:SetPoint("CENTER", 0, 0)
         FrameName.unitHighLevelFrame:SetFrameLevel(FrameName.unitHealthBar:GetFrameLevel() + 20)
+
+        if FrameName.unitFirstText then
+            FrameName.unitFirstText:ClearAllPoints()
+            FrameName.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
+            FrameName.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            FrameName.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            FrameName.unitFirstText:SetPoint(FirstText.AnchorFrom, FrameName.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
+            FrameName.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
+            FrameName.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo)) -- Always Ensure Alignment Is Either Left/Right/Center based on AnchorTo.
+            FrameName:Tag(FrameName.unitFirstText, FirstText.Tag)
+        end
+
+        if FrameName.unitSecondText then
+            FrameName.unitSecondText:ClearAllPoints()
+            FrameName.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
+            FrameName.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            FrameName.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            FrameName.unitSecondText:SetPoint(SecondText.AnchorFrom, FrameName.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
+            FrameName.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
+            FrameName.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo)) -- Always Ensure Alignment Is Either Left/Right/Center based on AnchorTo.
+            FrameName:Tag(FrameName.unitSecondText, SecondText.Tag)
+        end
+
+        if FrameName.unitThirdText then
+            FrameName.unitThirdText:ClearAllPoints()
+            FrameName.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
+            FrameName.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
+            FrameName.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
+            FrameName.unitThirdText:SetPoint(ThirdText.AnchorFrom, FrameName.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
+            FrameName.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
+            FrameName.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo)) -- Always Ensure Alignment Is Either Left/Right/Center based on AnchorTo.
+            FrameName:Tag(FrameName.unitThirdText, ThirdText.Tag)
+        end
+
+        FrameName:UpdateTags()
     end
 
-    if FrameName.unitFirstText then
-        FrameName.unitFirstText:ClearAllPoints()
-        FrameName.unitFirstText:SetFont(General.Font, FirstText.FontSize, General.FontFlag)
-        FrameName.unitFirstText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitFirstText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitFirstText:SetPoint(FirstText.AnchorFrom, FrameName.unitHighLevelFrame, FirstText.AnchorTo, FirstText.XOffset, FirstText.YOffset)
-        FrameName.unitFirstText:SetTextColor(FirstText.Colour[1], FirstText.Colour[2], FirstText.Colour[3], FirstText.Colour[4])
-        FrameName.unitFirstText:SetJustifyH(UUF:GetFontJustification(FirstText.AnchorTo))
-        FrameName:Tag(FrameName.unitFirstText, FirstText.Tag)
-    end
-
-    if FrameName.unitSecondText then
-        FrameName.unitSecondText:ClearAllPoints()
-        FrameName.unitSecondText:SetFont(General.Font, SecondText.FontSize, General.FontFlag)
-        FrameName.unitSecondText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitSecondText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitSecondText:SetPoint(SecondText.AnchorFrom, FrameName.unitHighLevelFrame, SecondText.AnchorTo, SecondText.XOffset, SecondText.YOffset)
-        FrameName.unitSecondText:SetTextColor(SecondText.Colour[1], SecondText.Colour[2], SecondText.Colour[3], SecondText.Colour[4])
-        FrameName.unitSecondText:SetJustifyH(UUF:GetFontJustification(SecondText.AnchorTo))
-        FrameName:Tag(FrameName.unitSecondText, SecondText.Tag)
-    end
-
-    if FrameName.unitThirdText then
-        FrameName.unitThirdText:ClearAllPoints()
-        FrameName.unitThirdText:SetFont(General.Font, ThirdText.FontSize, General.FontFlag)
-        FrameName.unitThirdText:SetShadowColor(General.FontShadowColour[1], General.FontShadowColour[2], General.FontShadowColour[3], General.FontShadowColour[4])
-        FrameName.unitThirdText:SetShadowOffset(General.FontShadowXOffset, General.FontShadowYOffset)
-        FrameName.unitThirdText:SetPoint(ThirdText.AnchorFrom, FrameName.unitHighLevelFrame, ThirdText.AnchorTo, ThirdText.XOffset, ThirdText.YOffset)
-        FrameName.unitThirdText:SetTextColor(ThirdText.Colour[1], ThirdText.Colour[2], ThirdText.Colour[3], ThirdText.Colour[4])
-        FrameName.unitThirdText:SetJustifyH(UUF:GetFontJustification(ThirdText.AnchorTo))
-        FrameName:Tag(FrameName.unitThirdText, ThirdText.Tag)
-    end
-
+    -- Frame Target Marker
     if FrameName.unitTargetMarker and TargetMarker.Enabled then
         FrameName.unitTargetMarker:ClearAllPoints()
         FrameName.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
         FrameName.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
     end
 
+    -- Frame Range Alpha
     if Range and Range.Enable then
         FrameName.__RangeAlphaSettings = Range
     else
         FrameName.__RangeAlphaSettings = nil
     end
 
-    FrameName:UpdateTags()
+    -- Display Frames for Testing
     if UUF.DB.global.TestMode then UUF:DisplayBossFrames() end
 end
 
@@ -728,7 +760,6 @@ function UUF:UpdateBossFrames()
     local BossSpacing = Frame.Spacing
     local BossContainer = 0
     local growDown = Frame.GrowthY == "DOWN"
-
     for i, BossFrame in ipairs(UUF.BossFrames) do
         BossFrame:ClearAllPoints()
         if i == 1 then
