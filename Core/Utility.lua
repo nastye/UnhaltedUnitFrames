@@ -9,6 +9,29 @@ UUF.Frames = {
     ["targettarget"] = "TargetTarget",
 }
 
+UUF.nameBlacklist = {
+    ["the"] = true,
+    ["of"] = true,
+    ["Tentacle"] = true,
+    ["Apprentice"] = true,
+    ["Denizen"] = true,
+    ["Emissary"] = true,
+    ["Howlis"] = true,
+    ["Terror"] = true,
+    ["Totem"] = true,
+    ["Waycrest"] = true,
+    ["Aspect"] = true
+}
+
+-- This can be called globally by other AddOns that require a refresh of all tags.
+function UUFG:UpdateAllTags()
+    for FrameName, Frame in pairs(_G) do
+        if FrameName:match("^UUF_") and Frame.UpdateTags then
+            Frame:UpdateTags()
+        end
+    end
+end
+
 function UUF:PostCreateButton(_, button, Unit, AuraType)
     local General = UUF.DB.global.General
     local BuffCount = UUF.DB.global[Unit].Buffs.Count
@@ -134,20 +157,6 @@ function UUF:WrapTextInColor(unitName, unit)
     end
     return unitName
 end
-
-UUF.nameBlacklist = {
-    ["the"] = true,
-    ["of"] = true,
-    ["Tentacle"] = true,
-    ["Apprentice"] = true,
-    ["Denizen"] = true,
-    ["Emissary"] = true,
-    ["Howlis"] = true,
-    ["Terror"] = true,
-    ["Totem"] = true,
-    ["Waycrest"] = true,
-    ["Aspect"] = true
-}
 
 function UUF:ShortenName(name, nameBlacklist)
     if not name or name == "" then return nil end
@@ -888,13 +897,4 @@ function UUF:GetFontJustification(AnchorTo)
     if AnchorTo == "TOPLEFT" or AnchorTo == "BOTTOMLEFT" or AnchorTo == "LEFT" then return "LEFT" end
     if AnchorTo == "TOPRIGHT" or AnchorTo == "BOTTOMRIGHT" or AnchorTo == "RIGHT" then return "RIGHT" end
     if AnchorTo == "TOP" or AnchorTo == "BOTTOM" or AnchorTo == "CENTER" then return "CENTER" end
-end
-
--- This can be called globally by other AddOns that require a refresh of all tags.
-function UUFG:UpdateAllTags()
-    for FrameName, Frame in pairs(_G) do
-        if FrameName:match("^UUF_") and Frame.UpdateTags then
-            Frame:UpdateTags()
-        end
-    end
 end
