@@ -14,6 +14,20 @@ local Supporters = {
     [1] = {Supporter = "", Comment = ""},
 }
 
+
+local function GenerateSupportOptions()
+    local SupportOptions = {
+        [1] = {SupportOption = "Buy Me A Coffee via |cFFFF8040Ko-Fi|r", SupportURL = "ko-fi.com/unhalted"},
+        [2] = {SupportOption = "Support Me On |cFFFF8040Patreon|r", SupportURL = "patreon.com/unhalted"},
+    }
+
+    local RandomIndex = math.random(1, #SupportOptions)
+    local RandomSupportOption = SupportOptions[RandomIndex].SupportOption
+    local RandomSupportURL = SupportOptions[RandomIndex].SupportURL
+
+    return "|cFFFFFFFF" .. RandomSupportOption .. "|r" .. " - |cFF8080FF" .. RandomSupportURL .. "|r"
+end
+
 local PowerNames = {
     [0] = "Mana",
     [1] = "Rage",
@@ -131,7 +145,7 @@ function UUF:CreateGUI()
     -- UUF:GenerateLSMBorders()
     local UUFGUI_Container = UUFGUI:Create("Frame")
     UUFGUI_Container:SetTitle(GUI_TITLE)
-    UUFGUI_Container:SetStatusText("Version: " .. GUI_VERSION)
+    UUFGUI_Container:SetStatusText(GenerateSupportOptions())
     UUFGUI_Container:SetLayout("Fill")
     UUFGUI_Container:SetWidth(GUI_WIDTH)
     UUFGUI_Container:SetHeight(GUI_HEIGHT)
