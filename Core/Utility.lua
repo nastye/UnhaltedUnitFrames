@@ -33,9 +33,9 @@ function UUFG:UpdateAllTags()
 end
 
 local function PostCreateButton(_, button, Unit, AuraType)
-    local General = UUF.DB.global.General
-    local BuffCount = UUF.DB.global[Unit].Buffs.Count
-    local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
+    local General = UUF.DB.profile.General
+    local BuffCount = UUF.DB.profile[Unit].Buffs.Count
+    local DebuffCount = UUF.DB.profile[Unit].Debuffs.Count
     -- Icon Options
     local auraIcon = button.Icon
     auraIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
@@ -71,9 +71,9 @@ local function PostCreateButton(_, button, Unit, AuraType)
 end
 
 local function PostUpdateButton(_, button, Unit, AuraType)
-    local General = UUF.DB.global.General
-    local BuffCount = UUF.DB.global[Unit].Buffs.Count
-    local DebuffCount = UUF.DB.global[Unit].Debuffs.Count
+    local General = UUF.DB.profile.General
+    local BuffCount = UUF.DB.profile[Unit].Buffs.Count
+    local DebuffCount = UUF.DB.profile[Unit].Debuffs.Count
 
     local auraCount = button.Count
     if AuraType == "HELPFUL" then
@@ -92,7 +92,7 @@ local function PostUpdateButton(_, button, Unit, AuraType)
 end
 
 local function ColourBackgroundByUnitStatus(self)
-    local General = UUF.DB.global.General
+    local General = UUF.DB.profile.General
     local CustomColour = General.CustomColours
     local unit = self.unit
     if not unit then return end
@@ -165,27 +165,27 @@ function UUF:ShortenName(name, nameBlacklist)
 end
 
 function UUF:ResetDefaultSettings()
-    UUF.DB:ResetDB()
+    UUF.DB:ResetProfile()
     UUF:CreateReloadPrompt()
 end
 
 function UUF:CreateUnitFrame(Unit)
     -- Localised SavedVariables
-    local General = UUF.DB.global.General
-    local Frame = UUF.DB.global[Unit].Frame
-    local Portrait = UUF.DB.global[Unit].Portrait
-    local Health = UUF.DB.global[Unit].Health
-    local PowerBar = UUF.DB.global[Unit].PowerBar
+    local General = UUF.DB.profile.General
+    local Frame = UUF.DB.profile[Unit].Frame
+    local Portrait = UUF.DB.profile[Unit].Portrait
+    local Health = UUF.DB.profile[Unit].Health
+    local PowerBar = UUF.DB.profile[Unit].PowerBar
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
     local HealAbsorbs = HealthPrediction.HealAbsorbs
-    local Buffs = UUF.DB.global[Unit].Buffs
-    local Debuffs = UUF.DB.global[Unit].Debuffs
-    local TargetMarker = UUF.DB.global[Unit].TargetMarker
-    local FirstText = UUF.DB.global[Unit].Texts.First
-    local SecondText = UUF.DB.global[Unit].Texts.Second
-    local ThirdText = UUF.DB.global[Unit].Texts.Third
-    local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
+    local Buffs = UUF.DB.profile[Unit].Buffs
+    local Debuffs = UUF.DB.profile[Unit].Debuffs
+    local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+    local FirstText = UUF.DB.profile[Unit].Texts.First
+    local SecondText = UUF.DB.profile[Unit].Texts.Second
+    local ThirdText = UUF.DB.profile[Unit].Texts.Third
+    local MouseoverHighlight = UUF.DB.profile.General.MouseoverHighlight
 
     -- Backdrop Template
     local BackdropTemplate = {
@@ -477,22 +477,22 @@ function UUF:UpdateUnitFrame(FrameName)
 
     -- Localised SavedVariables
     local Unit = UUF.Frames[FrameName.unit] or "Boss"
-    local Frame = UUF.DB.global[Unit].Frame
-    local Portrait = UUF.DB.global[Unit].Portrait
-    local Health = UUF.DB.global[Unit].Health
+    local Frame = UUF.DB.profile[Unit].Frame
+    local Portrait = UUF.DB.profile[Unit].Portrait
+    local Health = UUF.DB.profile[Unit].Health
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
     local HealAbsorbs = HealthPrediction.HealAbsorbs
-    local PowerBar = UUF.DB.global[Unit].PowerBar
-    local General = UUF.DB.global.General
-    local Buffs = UUF.DB.global[Unit].Buffs
-    local Debuffs = UUF.DB.global[Unit].Debuffs
-    local TargetMarker = UUF.DB.global[Unit].TargetMarker
-    local FirstText = UUF.DB.global[Unit].Texts.First
-    local SecondText = UUF.DB.global[Unit].Texts.Second
-    local ThirdText = UUF.DB.global[Unit].Texts.Third
-    local Range = UUF.DB.global[Unit].Range
-    local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
+    local PowerBar = UUF.DB.profile[Unit].PowerBar
+    local General = UUF.DB.profile.General
+    local Buffs = UUF.DB.profile[Unit].Buffs
+    local Debuffs = UUF.DB.profile[Unit].Debuffs
+    local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+    local FirstText = UUF.DB.profile[Unit].Texts.First
+    local SecondText = UUF.DB.profile[Unit].Texts.Second
+    local ThirdText = UUF.DB.profile[Unit].Texts.Third
+    local Range = UUF.DB.profile[Unit].Range
+    local MouseoverHighlight = UUF.DB.profile.General.MouseoverHighlight
 
     -- Backdrop Template
     local BackdropTemplate = {
@@ -750,13 +750,13 @@ function UUF:UpdateUnitFrame(FrameName)
     end
 
     -- Display Frames for Testing
-    if UUF.DB.global.TestMode then UUF:DisplayBossFrames() end
+    if UUF.DB.profile.TestMode then UUF:DisplayBossFrames() end
 end
 
 function UUF:UpdateBossFrames()
     if not UUF.BossFrames then return end
     for _, BossFrame in ipairs(UUF.BossFrames) do UUF:UpdateUnitFrame(BossFrame) end
-    local Frame = UUF.DB.global.Boss.Frame
+    local Frame = UUF.DB.profile.Boss.Frame
     local BossSpacing = Frame.Spacing
     local BossContainer = 0
     local growDown = Frame.GrowthY == "DOWN"
@@ -792,7 +792,7 @@ function UUF:SetupSlashCommands()
 end
 
 function UUF:LoadCustomColours()
-    local General = UUF.DB.global.General
+    local General = UUF.DB.profile.General
     local PowerTypesToString = {
         [0] = "MANA",
         [1] = "RAGE",
@@ -823,10 +823,10 @@ function UUF:LoadCustomColours()
 end
 
 function UUF:DisplayBossFrames()
-    local General = UUF.DB.global.General
-    local Frame = UUF.DB.global.Boss.Frame
-    local Health = UUF.DB.global.Boss.Health
-    local PowerBar = UUF.DB.global.Boss.PowerBar
+    local General = UUF.DB.profile.General
+    local Frame = UUF.DB.profile.Boss.Frame
+    local Health = UUF.DB.profile.Boss.Health
+    local PowerBar = UUF.DB.profile.Boss.PowerBar
     local HealthPrediction = Health.HealthPrediction
     local Absorbs = HealthPrediction.Absorbs
     local HealAbsorbs = HealthPrediction.HealAbsorbs
@@ -931,7 +931,7 @@ function UUF:DisplayBossFrames()
             BF:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_8")
         end
 
-        if not UUF.DB.global.TestMode then
+        if not UUF.DB.profile.TestMode then
             BossFrame:SetAttribute("unit", "boss" .. _)
             RegisterUnitWatch(BossFrame)
             BossFrame:Hide()

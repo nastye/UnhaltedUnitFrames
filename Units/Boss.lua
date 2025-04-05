@@ -2,7 +2,7 @@ local _, UUF = ...
 local oUF = UUF.oUF
 
 function UUF:SpawnBossFrames()
-    local Frame = UUF.DB.global.Boss.Frame
+    local Frame = UUF.DB.profile.Boss.Frame
     oUF:RegisterStyle("UUF_Boss", function(self) UUF.CreateUnitFrame(self, "Boss") end)
     oUF:SetActiveStyle("UUF_Boss")
     UUF.BossFrames = {}

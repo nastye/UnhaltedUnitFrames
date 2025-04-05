@@ -98,7 +98,7 @@ function UUF:CreateReloadPrompt()
 end
 
 function UUF:UpdateUIScale()
-    UIParent:SetScale(UUF.DB.global.General.UIScale)
+    UIParent:SetScale(UUF.DB.profile.General.UIScale)
 end
 
 local AnchorPoints = {
@@ -145,7 +145,7 @@ function UUF:CreateGUI()
         ScrollableContainer:SetFullHeight(true)
         UUFGUI_Container:AddChild(ScrollableContainer)
 
-        local General = UUF.DB.global.General
+        local General = UUF.DB.profile.General
         local UIScaleContainer = UUFGUI:Create("InlineGroup")
         UIScaleContainer:SetTitle("UI Scale")
         UIScaleContainer:SetLayout("Flow")
@@ -390,7 +390,7 @@ function UUF:CreateGUI()
         BorderColour:SetRelativeWidth(0.33)
         BorderColourOptions:AddChild(BorderColour)
 
-        local MouseoverHighlight = UUF.DB.global.General.MouseoverHighlight
+        local MouseoverHighlight = UUF.DB.profile.General.MouseoverHighlight
         local MouseoverHighlightOptions = UUFGUI:Create("InlineGroup")
         MouseoverHighlightOptions:SetTitle("Mouseover Highlight Options")
         MouseoverHighlightOptions:SetLayout("Flow")
@@ -497,20 +497,20 @@ function UUF:CreateGUI()
         ScrollableContainer:SetFullHeight(true)
         UUFGUI_Container:AddChild(ScrollableContainer)
 
-        local Frame = UUF.DB.global[Unit].Frame
-        local Portrait = UUF.DB.global[Unit].Portrait
-        local Health = UUF.DB.global[Unit].Health
+        local Frame = UUF.DB.profile[Unit].Frame
+        local Portrait = UUF.DB.profile[Unit].Portrait
+        local Health = UUF.DB.profile[Unit].Health
         local HealthPrediction = Health.HealthPrediction
         local Absorbs = HealthPrediction.Absorbs
         local HealAbsorbs = HealthPrediction.HealAbsorbs
-        local PowerBar = UUF.DB.global[Unit].PowerBar
-        local Buffs = UUF.DB.global[Unit].Buffs
-        local Debuffs = UUF.DB.global[Unit].Debuffs
-        local TargetMarker = UUF.DB.global[Unit].TargetMarker
-        local FirstText = UUF.DB.global[Unit].Texts.First
-        local SecondText = UUF.DB.global[Unit].Texts.Second
-        local ThirdText = UUF.DB.global[Unit].Texts.Third
-        local Range = UUF.DB.global[Unit].Range
+        local PowerBar = UUF.DB.profile[Unit].PowerBar
+        local Buffs = UUF.DB.profile[Unit].Buffs
+        local Debuffs = UUF.DB.profile[Unit].Debuffs
+        local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+        local FirstText = UUF.DB.profile[Unit].Texts.First
+        local SecondText = UUF.DB.profile[Unit].Texts.Second
+        local ThirdText = UUF.DB.profile[Unit].Texts.Third
+        local Range = UUF.DB.profile[Unit].Range
 
         local function DrawFrameContainer(UUFGUI_Container)
             if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" or Unit == "FocusTarget" then
@@ -790,7 +790,7 @@ function UUF:CreateGUI()
             if Unit == "Boss" then
                 local DisplayFrames = UUFGUI:Create("Button")
                 DisplayFrames:SetText("Display Frames")
-                DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.TestMode = not UUF.DB.global.TestMode UUF:DisplayBossFrames() UUF:UpdateFrames() end)
+                DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.profile.TestMode = not UUF.DB.profile.TestMode UUF:DisplayBossFrames() UUF:UpdateFrames() end)
                 DisplayFrames:SetRelativeWidth(1)
                 UUFGUI_Container:AddChild(DisplayFrames)
             end

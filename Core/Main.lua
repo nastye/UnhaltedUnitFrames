@@ -3,7 +3,7 @@ local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 UUFG = UUFG or {}
 
 UUF.Defaults = {
-    global = {
+    profile = {
         TestMode = false,
         General = {
             UIScale                 = 0.5333333333333,
@@ -958,14 +958,14 @@ UUF.Defaults = {
 function UnhaltedUF:OnInitialize()
     UUF.DB = LibStub("AceDB-3.0"):New("UUFDB", UUF.Defaults)
     for k, v in pairs(UUF.Defaults) do
-        if UUF.DB.global[k] == nil then
-            UUF.DB.global[k] = v
+        if UUF.DB.profile[k] == nil then
+            UUF.DB.profile[k] = v
         end
     end
 end
 
 function UnhaltedUF:OnEnable()
-    UIParent:SetScale(UUF.DB.global.General.UIScale)
+    UIParent:SetScale(UUF.DB.profile.General.UIScale)
     UUF:LoadCustomColours()
     UUF:SpawnPlayerFrame()
     UUF:SpawnTargetFrame()

@@ -2,8 +2,8 @@ local _, UUF = ...
 local oUF = UUF.oUF
 
 function UUF:SpawnFocusFrame()
-    if not UUF.DB.global.Focus.Frame.Enabled then return end
-    local Frame = UUF.DB.global.Focus.Frame
+    if not UUF.DB.profile.Focus.Frame.Enabled then return end
+    local Frame = UUF.DB.profile.Focus.Frame
     oUF:RegisterStyle("UUF_Focus", function(self) UUF.CreateUnitFrame(self, "Focus") end)
     oUF:SetActiveStyle("UUF_Focus")
     self.FocusFrame = oUF:Spawn("focus", "UUF_Focus")

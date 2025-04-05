@@ -2,7 +2,7 @@ local _, UUF = ...
 local oUF = UUF.oUF
 
 function UUF:SpawnTargetFrame()
-    local Frame = UUF.DB.global.Target.Frame
+    local Frame = UUF.DB.profile.Target.Frame
     oUF:RegisterStyle("UUF_Target", function(self) UUF.CreateUnitFrame(self, "Target") end)
     oUF:SetActiveStyle("UUF_Target")
     self.TargetFrame = oUF:Spawn("target", "UUF_Target")
