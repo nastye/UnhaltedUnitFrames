@@ -545,6 +545,10 @@ function UUF:CreateGUI()
             FrameAnchorParent:SetRelativeWidth(0.33)
             FrameOptions:AddChild(FrameAnchorParent)
 
+            local FrameAnchorParentTooltipDesc = "|cFF8080FFPLEASE NOTE|r: This will |cFFFF4040NOT|r work for WeakAuras."
+            FrameAnchorParent:SetCallback("OnEnter", function(widget, event) GameTooltip:SetOwner(widget.frame, "ANCHOR_TOPLEFT") GameTooltip:AddLine(FrameAnchorParentTooltipDesc) GameTooltip:Show() end)
+            FrameAnchorParent:SetCallback("OnLeave", function(widget, event) GameTooltip:Hide() end)
+
             local FrameWidth = UUFGUI:Create("Slider")
             FrameWidth:SetLabel("Frame Width")
             FrameWidth:SetSliderValues(1, 999, 0.1)
