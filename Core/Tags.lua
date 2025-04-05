@@ -183,6 +183,7 @@ end
 
 oUF.Tags.Methods["Power:CurPP"] = function(unit)
     local unitPower = UnitPower(unit)
+    if unitPower <= 0 then return end
     return UUF:FormatLargeNumber(unitPower)
 end
 
@@ -190,6 +191,7 @@ oUF.Tags.Methods["Power:PerPP"] = function(unit)
     local unitPower = UnitPower(unit)
     local unitMaxPower = UnitPowerMax(unit)
     local unitPowerPercent = (unitMaxPower > 0) and (unitPower / unitMaxPower * 100) or 0
+    if unitPower <= 0 then return end
     return string.format("%.1f%%", unitPowerPercent)
 end
 
