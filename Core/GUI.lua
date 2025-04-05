@@ -480,14 +480,8 @@ function UUF:CreateGUI()
             StatusColour:SetRelativeWidth(0.33)
             StatusColours:AddChild(StatusColour)
         end
-
-        local ResetToDefault = UUFGUI:Create("Button")
-        ResetToDefault:SetText("Reset Settings")
-        ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
-        ResetToDefault:SetRelativeWidth(1)
         
         ScrollableContainer:AddChild(ColouringOptionsContainer)
-        ScrollableContainer:AddChild(ResetToDefault)
     end
 
     local function DrawUnitContainer(UUFGUI_Container, Unit)
@@ -1609,61 +1603,138 @@ function UUF:CreateGUI()
         ScrollableContainer:AddChild(GUIContainerTabGroup)
     end
 
-    local function DrawImportExportContainer(UUFGUI_Container)
+    local function ProfileContainer(UUFGUI_Container)
         local ScrollableContainer = UUFGUI:Create("ScrollFrame")
         ScrollableContainer:SetLayout("Flow")
         ScrollableContainer:SetFullWidth(true)
         ScrollableContainer:SetFullHeight(true)
         UUFGUI_Container:AddChild(ScrollableContainer)
+    
+        -- Profile Options Section
+        local ProfileOptions = UUFGUI:Create("InlineGroup")
+        ProfileOptions:SetTitle("Profile Options")
+        ProfileOptions:SetLayout("Flow")
+        ProfileOptions:SetFullWidth(true)
+        ScrollableContainer:AddChild(ProfileOptions)
+    
+        local selectedProfile = nil
+        local profileList = {}
+        local profileKeys = {}
+    
+        for _, name in ipairs(UUF.DB:GetProfiles(profileList, true)) do
+            profileKeys[name] = name
+        end
 
+        local NewProfileBox = UUFGUI:Create("EditBox")
+        NewProfileBox:SetLabel("Create New Profile")
+        NewProfileBox:SetFullWidth(true)
+        NewProfileBox:SetCallback("OnEnterPressed", function(widget, event, text)
+            if text ~= "" then
+                UUF.DB:SetProfile(text)
+                UUF:CreateReloadPrompt()
+                widget:SetText("")
+            end
+        end)
+        ProfileOptions:AddChild(NewProfileBox)
+    
+        local ActiveProfileDropdown = UUFGUI:Create("Dropdown")
+        ActiveProfileDropdown:SetLabel("Active Profile")
+        ActiveProfileDropdown:SetList(profileKeys)
+        ActiveProfileDropdown:SetValue(UUF.DB:GetCurrentProfile())
+        ActiveProfileDropdown:SetCallback("OnValueChanged", function(widget, event, value) selectedProfile = value UUF.DB:SetProfile(value) UUF:CreateReloadPrompt() end)
+        ActiveProfileDropdown:SetRelativeWidth(0.33)
+        ProfileOptions:AddChild(ActiveProfileDropdown)
+
+        local CopyProfileDropdown = UUFGUI:Create("Dropdown")
+        CopyProfileDropdown:SetLabel("Copy From Profile")
+        CopyProfileDropdown:SetList(profileKeys)
+        CopyProfileDropdown:SetCallback("OnValueChanged", function(widget, event, value) selectedProfile = value UUF.DB:CopyProfile(selectedProfile) UUF:CreateReloadPrompt() end)
+        CopyProfileDropdown:SetRelativeWidth(0.33)
+        ProfileOptions:AddChild(CopyProfileDropdown)
+
+        local DeleteProfileDropdown = UUFGUI:Create("Dropdown")
+        DeleteProfileDropdown:SetLabel("Delete Profile")
+        DeleteProfileDropdown:SetList(profileKeys)
+        DeleteProfileDropdown:SetCallback("OnValueChanged", function(widget, event, value)
+            selectedProfile = value
+            if selectedProfile and selectedProfile ~= UUF.DB:GetCurrentProfile() then
+                UUF.DB:DeleteProfile(selectedProfile)
+                profileKeys = {}
+                for _, name in ipairs(UUF.DB:GetProfiles(profileList, true)) do
+                    profileKeys[name] = name
+                end
+                CopyProfileDropdown:SetList(profileKeys)
+                DeleteProfileDropdown:SetList(profileKeys)
+                ActiveProfileDropdown:SetList(profileKeys)
+                DeleteProfileDropdown:SetValue(nil)
+            else
+                print("|cFF8080FFUnhalted Unit Frames|r: Unable to delete an active profile.")
+            end
+         end)
+        DeleteProfileDropdown:SetRelativeWidth(0.33)
+        ProfileOptions:AddChild(DeleteProfileDropdown)
+
+        local ResetToDefault = UUFGUI:Create("Button")
+        ResetToDefault:SetText("Reset Settings")
+        ResetToDefault:SetCallback("OnClick", function(widget, event, value) UUF:ResetDefaultSettings() end)
+        ResetToDefault:SetRelativeWidth(1)
+        ProfileOptions:AddChild(ResetToDefault)
+    
+        -- Sharing Options Section
         local SharingOptionsContainer = UUFGUI:Create("InlineGroup")
         SharingOptionsContainer:SetTitle("Sharing Options")
         SharingOptionsContainer:SetLayout("Flow")
         SharingOptionsContainer:SetFullWidth(true)
         ScrollableContainer:AddChild(SharingOptionsContainer)
-
+    
+        -- Import Section
         local ImportOptionsContainer = UUFGUI:Create("InlineGroup")
         ImportOptionsContainer:SetTitle("Import Options")
         ImportOptionsContainer:SetLayout("Flow")
         ImportOptionsContainer:SetFullWidth(true)
         SharingOptionsContainer:AddChild(ImportOptionsContainer)
-
+    
         local ImportEditBox = UUFGUI:Create("MultiLineEditBox")
         ImportEditBox:SetLabel("Import String")
         ImportEditBox:SetNumLines(5)
         ImportEditBox:SetFullWidth(true)
         ImportEditBox:DisableButton(true)
         ImportOptionsContainer:AddChild(ImportEditBox)
-
+    
         local ImportButton = UUFGUI:Create("Button")
         ImportButton:SetText("Import")
-        ImportButton:SetCallback("OnClick", function() 
-            UUF:ImportSavedVariables(ImportEditBox:GetText()) 
-            UUF:CreateReloadPrompt()
+        ImportButton:SetCallback("OnClick", function()
+            UUF:ImportSavedVariables(ImportEditBox:GetText())
             ImportEditBox:SetText("")
         end)
         ImportButton:SetRelativeWidth(1)
-        ImportOptionsContainer:AddChild(ImportButton)   
-
+        ImportOptionsContainer:AddChild(ImportButton)
+    
+        -- Export Section
         local ExportOptionsContainer = UUFGUI:Create("InlineGroup")
         ExportOptionsContainer:SetTitle("Export Options")
         ExportOptionsContainer:SetLayout("Flow")
         ExportOptionsContainer:SetFullWidth(true)
         SharingOptionsContainer:AddChild(ExportOptionsContainer)
-
+    
         local ExportEditBox = UUFGUI:Create("MultiLineEditBox")
         ExportEditBox:SetLabel("Export String")
         ExportEditBox:SetFullWidth(true)
         ExportEditBox:SetNumLines(5)
         ExportEditBox:DisableButton(true)
         ExportOptionsContainer:AddChild(ExportEditBox)
-
+    
         local ExportButton = UUFGUI:Create("Button")
         ExportButton:SetText("Export")
-        ExportButton:SetCallback("OnClick", function() ExportEditBox:SetText(UUF:ExportSavedVariables()) ExportEditBox:HighlightText() ExportEditBox:SetFocus() end)
+        ExportButton:SetCallback("OnClick", function()
+            ExportEditBox:SetText(UUF:ExportSavedVariables())
+            ExportEditBox:HighlightText()
+            ExportEditBox:SetFocus()
+        end)
         ExportButton:SetRelativeWidth(1)
         ExportOptionsContainer:AddChild(ExportButton)
     end
+    
 
     function SelectedGroup(UUFGUI_Container, Event, Group)
         UUFGUI_Container:ReleaseChildren()
@@ -1685,8 +1756,8 @@ function UUF:CreateGUI()
             DrawUnitContainer(UUFGUI_Container, Group)
         elseif Group == "Tags" then
             DrawTagsContainer(UUFGUI_Container)
-        elseif Group == "ImportExport" then
-            DrawImportExportContainer(UUFGUI_Container)
+        elseif Group == "Profiles" then
+            ProfileContainer(UUFGUI_Container)
         end
     end
 
@@ -1702,7 +1773,7 @@ function UUF:CreateGUI()
         { text = "Focus Target",                    value = "FocusTarget" },
         { text = "Pet",                             value = "Pet" },
         { text = "Tags",                            value = "Tags" },
-        { text = "Import/Export",                   value = "ImportExport" },
+        { text = "Profiles",                        value = "Profiles" },
     })
     GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
     GUIContainerTabGroup:SelectTab("General")
