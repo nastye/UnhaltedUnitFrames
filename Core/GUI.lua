@@ -1657,7 +1657,7 @@ function UUF:CreateGUI()
         ActiveProfileDropdown:SetLabel("Active Profile")
         ActiveProfileDropdown:SetList(profileKeys)
         ActiveProfileDropdown:SetValue(UUF.DB:GetCurrentProfile())
-        ActiveProfileDropdown:SetCallback("OnValueChanged", function(widget, event, value) selectedProfile = value UUF.DB:SetProfile(value) UUF:CreateReloadPrompt() end)
+        ActiveProfileDropdown:SetCallback("OnValueChanged", function(widget, event, value) selectedProfile = value UUF.DB:SetProfile(value) UUF:UpdateFrames() UUF:CreateReloadPrompt() end)
         ActiveProfileDropdown:SetRelativeWidth(0.33)
         ProfileOptions:AddChild(ActiveProfileDropdown)
 
