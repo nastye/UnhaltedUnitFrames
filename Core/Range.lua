@@ -17,7 +17,7 @@ end)
 
 function UUF:RegisterRangeFrame(frame, unit)
     local DBKey = unit:match("^boss") and "Boss" or UUF.Frames[unit]
-    local DB = UUF.DB.global[DBKey]
+    local DB = UUF.DB.profile[DBKey]
     if DB and DB.Range and DB.Range.Enable then
         frame.__RangeAlphaSettings = DB.Range
         table.insert(UUF.RangeEvtFrames, { frame = frame, unit = unit })
@@ -60,7 +60,7 @@ end
 
 function UUF:UpdateRangeAlpha(frame, unit)
     if not frame:IsVisible() then return end
-    if UUF.DB.global.TestMode then frame:SetAlpha(1.0) return end
+    if UUF.DB.profile.TestMode then frame:SetAlpha(1.0) return end
 
     local DB = frame.__RangeAlphaSettings
     if not DB then return end
