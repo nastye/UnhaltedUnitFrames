@@ -1,6 +1,8 @@
 local _, UUF = ...
 local oUF = UUF.oUF
 
+oUF.Tags:SetEventUpdateTimer(0.5)
+
 oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
