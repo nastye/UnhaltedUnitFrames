@@ -7,7 +7,7 @@ rangeEventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 rangeEventFrame:RegisterEvent("UNIT_TARGET")
 rangeEventFrame:RegisterEvent("UNIT_AURA")
 rangeEventFrame:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-rangeEventFrame:RegisterEvent("SPELL_UPDATE_USABLE")
+-- rangeEventFrame:RegisterEvent("SPELL_UPDATE_USABLE")
 rangeEventFrame:SetScript("OnEvent", function()
     for _, frameData in ipairs(UUF.RangeEvtFrames) do
         local frame, unit = frameData.frame, frameData.unit
@@ -60,6 +60,8 @@ end
 
 function UUF:UpdateRangeAlpha(frame, unit)
     if not frame:IsVisible() then return end
+    if not unit or not UnitExists(unit) then return end
+    if not frame.__RangeAlphaSettings then return end
     if UUF.DB.profile.TestMode then frame:SetAlpha(1.0) return end
 
     local DB = frame.__RangeAlphaSettings
