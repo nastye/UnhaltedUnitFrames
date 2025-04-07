@@ -6,12 +6,19 @@
 ## About
 Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Player**, **Target**, **Focus**, **Focus Target**, **Pet**, **Target of Target** and **Boss Frames**.
 
-The entire project is solo developed. 
+The entire project is solo developed.
+
+If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues) or join my [Discord](https://discord.gg/UZCgWRYvVE).
 
 ## Libraries
 
 - [Ace3](https://www.curseforge.com/wow/addons/ace3)
+  - AceAddOn, AceGUI, AceDB, AceSerializer.
 - [oUF Framework](https://www.curseforge.com/wow/addons/ouf)
+- [LibRangeCheck-3.0](https://www.curseforge.com/wow/addons/librangecheck-3-0)
+- [LibSharedMedia-3.0](https://www.curseforge.com/wow/addons/libsharedmedia-3-0)
+- [LibDeflate](https://www.curseforge.com/wow/addons/libdeflate)
+
 
 ## Frames
 - Player.
@@ -49,4 +56,4 @@ The entire project is solo developed.
     - `[Health:CurHPwithPerHP]`: Displays Current Health with Percent Health (Absorbs Included)
     - `[Name:NamewithTargetTarget:LastNameOnly:Coloured]`: Displays Name with Target's Target Last Name Only (Reaction / Class Coloured)
     - `[Name:NamewithTargetTarget:Coloured]`: Displays Name with Target's Target (Reaction / Class Coloured)
-- Tag names may change in the future due to length.
+- Nickname Support for [Northern Sky Media](https://www.curseforge.com/wow/addons/northern-sky-media).
