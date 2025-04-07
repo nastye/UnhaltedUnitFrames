@@ -1,6 +1,10 @@
-<p align="center">
-  <img src="Media/LogoPNG.png" alt="Logo" width="200"/>
+<p align="left">
+  <img src="Media/LogoPNG.png" alt="Logo" width="128"/>
 </p>
+<a href="https://discord.gg/UZCgWRYvVE"><img src="https://img.shields.io/badge/Join-Discord-blue" alt="Discord"></a>
+<a href="https://www.twitch.tv/subs/UnhaltedGB"><img src="https://img.shields.io/badge/Support-Twitch-purple" alt="Twitch"></a>
+<a href="https://patreon.com/Unhalted"><img src="https://img.shields.io/badge/Support-Patreon-orange" alt="Patreon"></a>
+<a href="https://streamelements.com/unhaltedgb/tip"><img src="https://img.shields.io/badge/Support-Donate-yellow" alt="StreamElements"></a>
 
 
 ## About
@@ -8,7 +12,7 @@ Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Pla
 
 The entire project is solo developed.
 
-If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues) or join my [Discord](https://discord.gg/UZCgWRYvVE).
+If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues).
 
 ## Libraries
 
