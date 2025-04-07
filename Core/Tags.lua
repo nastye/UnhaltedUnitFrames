@@ -13,7 +13,7 @@ oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     if unitStatus then
         return unitStatus
     else
-        return string.format("%s | %.1f%%", UUF:FormatLargeNumber(unitHealth), unitHealthPercent)
+        return string.format("%s - %.1f%%", UUF:FormatLargeNumber(unitHealth), unitHealthPercent)
     end
 end
 
