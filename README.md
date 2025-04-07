@@ -8,7 +8,7 @@ Unhalted Unit Frames is an AddOn that aims to replace the default Blizzard **Pla
 
 The entire project is solo developed.
 
-If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues) or join my [Discord](https://discord.gg/UZCgWRYvVE).
+<!-- If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues) or join my [Discord](https://discord.gg/UZCgWRYvVE). -->
 
 ## Libraries
 
