@@ -19,7 +19,6 @@ If you have any issues / feedback, you can open them on [Github](https://github.
 ## Libraries
 
 - [Ace3](https://www.curseforge.com/wow/addons/ace3)
-  - AceAddOn, AceGUI, AceDB, AceSerializer.
 - [oUF Framework](https://www.curseforge.com/wow/addons/ouf)
 - [LibRangeCheck-3.0](https://www.curseforge.com/wow/addons/librangecheck-3-0)
 - [LibSharedMedia-3.0](https://www.curseforge.com/wow/addons/libsharedmedia-3-0)
