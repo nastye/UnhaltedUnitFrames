@@ -1751,7 +1751,7 @@ function UUF:CreateGUI()
         end)
         ExportButton:SetRelativeWidth(1)
         ExportOptionsContainer:AddChild(ExportButton)
-    end  
+    end
 
     function SelectedGroup(UUFGUI_Container, Event, Group)
         UUFGUI_Container:ReleaseChildren()
