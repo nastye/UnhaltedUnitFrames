@@ -14,6 +14,8 @@ The entire project is solo developed.
 
 If you have any issues / feedback, you can open them on [Github](https://github.com/DaleHuntGB/UnhaltedUnitFrames/issues).
 
+`/uuf` in-game to open the configuration window.
+
 ## Libraries
 
 - [Ace3](https://www.curseforge.com/wow/addons/ace3)
