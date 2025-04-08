@@ -975,4 +975,5 @@ function UnhaltedUF:OnEnable()
     UUF:SpawnPetFrame()
     UUF:SpawnBossFrames()
     UUF:SetupSlashCommands()
+    print(C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title") .. ": `|cFF8080FF/uuf|r` for in-game configuration.")
 end

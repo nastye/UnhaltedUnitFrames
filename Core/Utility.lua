@@ -787,6 +787,10 @@ function UUF:SetupSlashCommands()
             UUF:CreateGUI()
         elseif msg == "reset" then
             UUF:ResetDefaultSettings()
+        elseif msg == "help" then
+            print(C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title") .. " Slash Commands.")
+            print("|cFF8080FF/uuf|r: Opens the GUI")
+            print("|cFF8080FF/uuf reset|r: Resets To Default")
         end
     end
 end
