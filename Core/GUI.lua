@@ -1,7 +1,7 @@
 local _, UUF = ...
 local UUFGUI = LibStub("AceGUI-3.0")
 local GUI_WIDTH = 920
-local GUI_HEIGHT = 1080
+local GUI_HEIGHT = 720
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub:GetLibrary("LibSharedMedia-3.0") or LibStub("LibSharedMedia-3.0")
