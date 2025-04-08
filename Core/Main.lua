@@ -3,10 +3,12 @@ local UnhaltedUF = LibStub("AceAddon-3.0"):NewAddon("UnhaltedUF")
 UUFG = UUFG or {}
 
 UUF.Defaults = {
+    global = {
+        UIScale = 0.5333333333333,
+    },
     profile = {
         TestMode = false,
         General = {
-            UIScale                           = 0.5333333333333,
             Font                              = "Fonts\\FRIZQT__.TTF",
             FontFlag                          = "OUTLINE",
             FontShadowColour                  = {0, 0, 0, 1},
@@ -965,7 +967,7 @@ function UnhaltedUF:OnInitialize()
 end
 
 function UnhaltedUF:OnEnable()
-    UIParent:SetScale(UUF.DB.profile.General.UIScale)
+    UIParent:SetScale(UUF.DB.global.UIScale)
     UUF:LoadCustomColours()
     UUF:SpawnPlayerFrame()
     UUF:SpawnTargetFrame()

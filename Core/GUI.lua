@@ -112,7 +112,7 @@ function UUF:CreateReloadPrompt()
 end
 
 function UUF:UpdateUIScale()
-    UIParent:SetScale(UUF.DB.profile.General.UIScale)
+    UIParent:SetScale(UUF.DB.global.UIScale)
 end
 
 local AnchorPoints = {
@@ -168,8 +168,8 @@ function UUF:CreateGUI()
         local UIScale = UUFGUI:Create("Slider")
         UIScale:SetLabel("UI Scale")
         UIScale:SetSliderValues(0.4, 2, 0.01)
-        UIScale:SetValue(General.UIScale)
-        UIScale:SetCallback("OnMouseUp", function(widget, event, value) General.UIScale = value UUF:UpdateUIScale() end)
+        UIScale:SetValue(UUF.DB.global.UIScale)
+        UIScale:SetCallback("OnMouseUp", function(widget, event, value) UUF.DB.global.UIScale = value UUF:UpdateUIScale() end)
         UIScale:SetRelativeWidth(0.25)
         UIScale:SetCallback("OnEnter", function(widget, event) GameTooltip:SetOwner(widget.frame, "ANCHOR_TOPLEFT") GameTooltip:AddLine("Decimals are supported. They will need to be manually typed in.") GameTooltip:Show() end)
         UIScale:SetCallback("OnLeave", function(widget, event) GameTooltip:Hide() end)
@@ -177,13 +177,13 @@ function UUF:CreateGUI()
 
         local TenEightyP = UUFGUI:Create("Button")
         TenEightyP:SetText("1080p")
-        TenEightyP:SetCallback("OnClick", function(widget, event, value) General.UIScale = 0.7111111111111 UIScale:SetValue(0.7111111111111) UUF:UpdateUIScale() end)
+        TenEightyP:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.UIScale = 0.7111111111111 UIScale:SetValue(0.7111111111111) UUF:UpdateUIScale() end)
         TenEightyP:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(TenEightyP)
 
         local FourteenFortyP = UUFGUI:Create("Button")
         FourteenFortyP:SetText("1440p")
-        FourteenFortyP:SetCallback("OnClick", function(widget, event, value) General.UIScale = 0.5333333333333 UIScale:SetValue(0.5333333333333) UUF:UpdateUIScale() end)
+        FourteenFortyP:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.UIScale = 0.5333333333333 UIScale:SetValue(0.5333333333333) UUF:UpdateUIScale() end)
         FourteenFortyP:SetRelativeWidth(0.25)
         UIScaleContainer:AddChild(FourteenFortyP)
 
