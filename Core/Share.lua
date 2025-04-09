@@ -46,8 +46,10 @@ function UUF:ImportSavedVariables(EncodedInfo)
     StaticPopup_Show("UUF_IMPORT_PROFILE_NAME")
 end
 
-function UUFG:ExportSavedVariables()
-    local SerializedInfo = Serialize:Serialize(UUF.DB.profile)
+function UUFG:ExportUUF(profileKey)
+    local profile = UUF.DB.profiles[profileKey]
+    if not profile then return nil end
+    local SerializedInfo = Serialize:Serialize(profile)
     local CompressedInfo = Compress:CompressDeflate(SerializedInfo)
     local EncodedInfo = Compress:EncodeForPrint(CompressedInfo)
     return EncodedInfo
@@ -56,13 +58,8 @@ end
 function UUFG:ImportUUF(importString, profileKey)
     local DecodedInfo = Compress:DecodeForPrint(importString)
     local DecompressedInfo = Compress:DecompressDeflate(DecodedInfo)
-    local InformationDecoded, InformationTable = Serialize:Deserialize(DecompressedInfo)
-    if InformationDecoded then
-        for k in pairs(UUF.DB.profile) do
-            UUF.DB.profile[k] = nil
-        end
-        for k, v in pairs(InformationTable) do
-            UUF.DB.profile[k] = v
-        end
+    local InformationDecoded, profileData = Serialize:Deserialize(DecompressedInfo)
+    if InformationDecoded and type(profileData) == "table" then
+        UUF.DB.profiles[profileKey] = profileData
     end
 end
