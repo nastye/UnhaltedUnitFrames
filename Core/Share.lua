@@ -58,8 +58,8 @@ end
 function UUFG:ImportUUF(importString, profileKey)
     local DecodedInfo = Compress:DecodeForPrint(importString)
     local DecompressedInfo = Compress:DecompressDeflate(DecodedInfo)
-    local InformationDecoded, profileData = Serialize:Deserialize(DecompressedInfo)
-    if InformationDecoded and type(profileData) == "table" then
+    local success, profileData = Serialize:Deserialize(DecompressedInfo)
+    if success and type(profileData) == "table" then
         UUF.DB.profiles[profileKey] = profileData
     end
 end
