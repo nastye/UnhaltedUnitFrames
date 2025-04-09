@@ -14,6 +14,8 @@ local Supporters = {
     [1] = {Supporter = "", Comment = ""},
 }
 
+local UUFGUI_Container = nil;
+
 
 local function GenerateSupportOptions()
     local SupportOptions = {
@@ -143,7 +145,7 @@ function UUF:CreateGUI()
     UUF:GenerateLSMFonts()
     UUF:GenerateLSMTextures()
     -- UUF:GenerateLSMBorders()
-    local UUFGUI_Container = UUFGUI:Create("Frame")
+    UUFGUI_Container = UUFGUI:Create("Frame")
     UUFGUI_Container:SetTitle(GUI_TITLE)
     UUFGUI_Container:SetStatusText(GenerateSupportOptions())
     UUFGUI_Container:SetLayout("Fill")
@@ -1795,4 +1797,18 @@ function UUF:CreateGUI()
     GUIContainerTabGroup:SetCallback("OnGroupSelected", SelectedGroup)
     GUIContainerTabGroup:SelectTab("General")
     UUFGUI_Container:AddChild(GUIContainerTabGroup)
+end
+
+function UUFG.OpenUUFGUI()
+    if not GUIActive then
+        UUF:CreateGUI()
+    elseif UUFGUI_Container then
+        UUFGUI_Container:Show()
+    end
+end
+
+function UUFG.CloseUUFGUI()
+    if UUFGUI_Container then
+        UUFGUI_Container:Hide()
+    end
 end
