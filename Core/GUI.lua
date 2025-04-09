@@ -16,7 +16,6 @@ local Supporters = {
 
 local UUFGUI_Container = nil;
 
-
 local function GenerateSupportOptions()
     local SupportOptions = {
         [1] = {SupportOption = "Buy Me A Coffee via |cFFFF8040Ko-Fi|r", SupportURL = "ko-fi.com/unhalted"},
