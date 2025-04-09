@@ -156,6 +156,22 @@ UUF.Defaults = {
                 AnchorFrom          = "LEFT",
                 AnchorTo            = "TOPLEFT",
             },
+            CombatIndicator = {
+                Enabled             = true,
+                Size                = 24,
+                XOffset             = 0,
+                YOffset             = 0,
+                AnchorFrom          = "CENTER",
+                AnchorTo            = "CENTER",
+            },
+            LeaderIndicator = {
+                Enabled             = true,
+                Size                = 16,
+                XOffset             = 3,
+                YOffset             = 0,
+                AnchorFrom          = "LEFT",
+                AnchorTo            = "TOPLEFT",
+            },
             Texts = {
                 First = {
                     AnchorTo        = "LEFT",

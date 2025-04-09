@@ -518,6 +518,8 @@ function UUF:CreateGUI()
         local Buffs = UUF.DB.profile[Unit].Buffs
         local Debuffs = UUF.DB.profile[Unit].Debuffs
         local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+        local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
+        local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
         local FirstText = UUF.DB.profile[Unit].Texts.First
         local SecondText = UUF.DB.profile[Unit].Texts.Second
         local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -1107,12 +1109,18 @@ function UUF:CreateGUI()
             DebuffCountOptions:AddChild(DebuffCountColour)
         end
 
-        local function DrawTargetMarkerContainer(UUFGUI_Container)
+        local function DrawIndicatorContainer(UUFGUI_Container)
+            local IndicatorOptions = UUFGUI:Create("InlineGroup")
+            IndicatorOptions:SetTitle("Indicator Options")
+            IndicatorOptions:SetLayout("Flow")
+            IndicatorOptions:SetFullWidth(true)
+            UUFGUI_Container:AddChild(IndicatorOptions)
+
             local TargetMarkerOptions = UUFGUI:Create("InlineGroup")
             TargetMarkerOptions:SetTitle("Target Marker Options")
             TargetMarkerOptions:SetLayout("Flow")
             TargetMarkerOptions:SetFullWidth(true)
-            UUFGUI_Container:AddChild(TargetMarkerOptions)
+            IndicatorOptions:AddChild(TargetMarkerOptions)
 
             local TargetMarkerEnabled = UUFGUI:Create("CheckBox")
             TargetMarkerEnabled:SetLabel("Enable Target Marker")
@@ -1160,6 +1168,115 @@ function UUF:CreateGUI()
             TargetMarkerYOffset:SetCallback("OnMouseUp", function(widget, event, value) TargetMarker.YOffset = value UUF:UpdateFrames() end)
             TargetMarkerYOffset:SetRelativeWidth(0.33)
             TargetMarkerOptions:AddChild(TargetMarkerYOffset)
+
+            if Unit == "Player" then
+                local CombatIndicatorOptions = UUFGUI:Create("InlineGroup")
+                CombatIndicatorOptions:SetTitle("Combat Indicator Options")
+                CombatIndicatorOptions:SetLayout("Flow")
+                CombatIndicatorOptions:SetFullWidth(true)
+                IndicatorOptions:AddChild(CombatIndicatorOptions)
+
+                local CombatIndicatorEnabled = UUFGUI:Create("CheckBox")
+                CombatIndicatorEnabled:SetLabel("Enable Combat Indicator")
+                CombatIndicatorEnabled:SetValue(CombatIndicator.Enabled)
+                CombatIndicatorEnabled:SetCallback("OnValueChanged", function(widget, event, value) CombatIndicator.Enabled = value UUF:CreateReloadPrompt() end)
+                CombatIndicatorEnabled:SetRelativeWidth(1)
+                CombatIndicatorOptions:AddChild(CombatIndicatorEnabled)
+
+                local CombatIndicatorAnchorFrom = UUFGUI:Create("Dropdown")
+                CombatIndicatorAnchorFrom:SetLabel("Anchor From")
+                CombatIndicatorAnchorFrom:SetList(AnchorPoints)
+                CombatIndicatorAnchorFrom:SetValue(CombatIndicator.AnchorFrom)
+                CombatIndicatorAnchorFrom:SetCallback("OnValueChanged", function(widget, event, value) CombatIndicator.AnchorFrom = value UUF:UpdateFrames() end)
+                CombatIndicatorAnchorFrom:SetRelativeWidth(0.5)
+                CombatIndicatorOptions:AddChild(CombatIndicatorAnchorFrom)
+
+                local CombatIndicatorAnchorTo = UUFGUI:Create("Dropdown")
+                CombatIndicatorAnchorTo:SetLabel("Anchor To")
+                CombatIndicatorAnchorTo:SetList(AnchorPoints)
+                CombatIndicatorAnchorTo:SetValue(CombatIndicator.AnchorTo)
+                CombatIndicatorAnchorTo:SetCallback("OnValueChanged", function(widget, event, value) CombatIndicator.AnchorTo = value UUF:UpdateFrames() end)
+                CombatIndicatorAnchorTo:SetRelativeWidth(0.5)
+                CombatIndicatorOptions:AddChild(CombatIndicatorAnchorTo)
+
+                local CombatIndicatorSize = UUFGUI:Create("Slider")
+                CombatIndicatorSize:SetLabel("Size")
+                CombatIndicatorSize:SetSliderValues(-1, 64, 1)
+                CombatIndicatorSize:SetValue(CombatIndicator.Size)
+                CombatIndicatorSize:SetCallback("OnMouseUp", function(widget, event, value) CombatIndicator.Size = value UUF:UpdateFrames() end)
+                CombatIndicatorSize:SetRelativeWidth(0.33)
+                CombatIndicatorOptions:AddChild(CombatIndicatorSize)
+
+                local CombatIndicatorXOffset = UUFGUI:Create("Slider")
+                CombatIndicatorXOffset:SetLabel("X Offset")
+                CombatIndicatorXOffset:SetSliderValues(-64, 64, 1)
+                CombatIndicatorXOffset:SetValue(CombatIndicator.XOffset)
+                CombatIndicatorXOffset:SetCallback("OnMouseUp", function(widget, event, value) CombatIndicator.XOffset = value UUF:UpdateFrames() end)
+                CombatIndicatorXOffset:SetRelativeWidth(0.33)
+                CombatIndicatorOptions:AddChild(CombatIndicatorXOffset)
+
+                local CombatIndicatorYOffset = UUFGUI:Create("Slider")
+                CombatIndicatorYOffset:SetLabel("Y Offset")
+                CombatIndicatorYOffset:SetSliderValues(-64, 64, 1)
+                CombatIndicatorYOffset:SetValue(CombatIndicator.YOffset)
+                CombatIndicatorYOffset:SetCallback("OnMouseUp", function(widget, event, value) CombatIndicator.YOffset = value UUF:UpdateFrames() end)
+                CombatIndicatorYOffset:SetRelativeWidth(0.33)
+                CombatIndicatorOptions:AddChild(CombatIndicatorYOffset)
+                
+                -- Leader Indicator
+                local LeaderIndicatorOptions = UUFGUI:Create("InlineGroup")
+                LeaderIndicatorOptions:SetTitle("Leader Indicator Options")
+                LeaderIndicatorOptions:SetLayout("Flow")
+                LeaderIndicatorOptions:SetFullWidth(true)
+                IndicatorOptions:AddChild(LeaderIndicatorOptions)
+
+                local LeaderIndicatorEnabled = UUFGUI:Create("CheckBox")
+                LeaderIndicatorEnabled:SetLabel("Enable Leader Indicator")
+                LeaderIndicatorEnabled:SetValue(LeaderIndicator.Enabled)
+                LeaderIndicatorEnabled:SetCallback("OnValueChanged", function(widget, event, value) LeaderIndicator.Enabled = value UUF:CreateReloadPrompt() end)
+                LeaderIndicatorEnabled:SetRelativeWidth(1)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorEnabled)
+
+                local LeaderIndicatorAnchorFrom = UUFGUI:Create("Dropdown")
+                LeaderIndicatorAnchorFrom:SetLabel("Anchor From")
+                LeaderIndicatorAnchorFrom:SetList(AnchorPoints)
+                LeaderIndicatorAnchorFrom:SetValue(LeaderIndicator.AnchorFrom)
+                LeaderIndicatorAnchorFrom:SetCallback("OnValueChanged", function(widget, event, value) LeaderIndicator.AnchorFrom = value UUF:UpdateFrames() end)
+                LeaderIndicatorAnchorFrom:SetRelativeWidth(0.5)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorAnchorFrom)
+
+                local LeaderIndicatorAnchorTo = UUFGUI:Create("Dropdown")
+                LeaderIndicatorAnchorTo:SetLabel("Anchor To")
+                LeaderIndicatorAnchorTo:SetList(AnchorPoints)
+                LeaderIndicatorAnchorTo:SetValue(LeaderIndicator.AnchorTo)
+                LeaderIndicatorAnchorTo:SetCallback("OnValueChanged", function(widget, event, value) LeaderIndicator.AnchorTo = value UUF:UpdateFrames() end)
+                LeaderIndicatorAnchorTo:SetRelativeWidth(0.5)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorAnchorTo)
+
+                local LeaderIndicatorSize = UUFGUI:Create("Slider")
+                LeaderIndicatorSize:SetLabel("Size")
+                LeaderIndicatorSize:SetSliderValues(-1, 64, 1)
+                LeaderIndicatorSize:SetValue(LeaderIndicator.Size)
+                LeaderIndicatorSize:SetCallback("OnMouseUp", function(widget, event, value) LeaderIndicator.Size = value UUF:UpdateFrames() end)
+                LeaderIndicatorSize:SetRelativeWidth(0.33)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorSize)
+
+                local LeaderIndicatorXOffset = UUFGUI:Create("Slider")
+                LeaderIndicatorXOffset:SetLabel("X Offset")
+                LeaderIndicatorXOffset:SetSliderValues(-64, 64, 1)
+                LeaderIndicatorXOffset:SetValue(LeaderIndicator.XOffset)
+                LeaderIndicatorXOffset:SetCallback("OnMouseUp", function(widget, event, value) LeaderIndicator.XOffset = value UUF:UpdateFrames() end)
+                LeaderIndicatorXOffset:SetRelativeWidth(0.33)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorXOffset)
+
+                local LeaderIndicatorYOffset = UUFGUI:Create("Slider")
+                LeaderIndicatorYOffset:SetLabel("Y Offset")
+                LeaderIndicatorYOffset:SetSliderValues(-64, 64, 1)
+                LeaderIndicatorYOffset:SetValue(LeaderIndicator.YOffset)
+                LeaderIndicatorYOffset:SetCallback("OnMouseUp", function(widget, event, value) LeaderIndicator.YOffset = value UUF:UpdateFrames() end)
+                LeaderIndicatorYOffset:SetRelativeWidth(0.33)
+                LeaderIndicatorOptions:AddChild(LeaderIndicatorYOffset)
+            end
         end
 
         local function DrawTextsContainer(UUFGUI_Container)
@@ -1398,8 +1515,8 @@ function UUF:CreateGUI()
                 DrawBuffsContainer(UUFGUI_Container)
             elseif Group == "Debuffs" then
                 DrawDebuffsContainer(UUFGUI_Container)
-            elseif Group == "TargetMarker" then
-                DrawTargetMarkerContainer(UUFGUI_Container)
+            elseif Group == "Indicators" then
+                DrawIndicatorContainer(UUFGUI_Container)
             elseif Unit ~= "player" and Group == "Range" then
                 DrawRangeContainer(UUFGUI_Container)
             end
@@ -1412,7 +1529,7 @@ function UUF:CreateGUI()
             { text = "Texts",            value = "Texts" },
             { text = "Buffs",            value = "Buffs" },
             { text = "Debuffs",          value = "Debuffs" },
-            { text = "Target Marker",    value = "TargetMarker" },
+            { text = "Indicators",       value = "Indicators" },
         }
         if Unit ~= "Player" then
             table.insert(ContainerTabs, { text = "Range", value = "Range" })

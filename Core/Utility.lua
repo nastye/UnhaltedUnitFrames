@@ -182,6 +182,8 @@ function UUF:CreateUnitFrame(Unit)
     local Buffs = UUF.DB.profile[Unit].Buffs
     local Debuffs = UUF.DB.profile[Unit].Debuffs
     local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+    local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
+    local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
     local FirstText = UUF.DB.profile[Unit].Texts.First
     local SecondText = UUF.DB.profile[Unit].Texts.Second
     local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -462,6 +464,22 @@ function UUF:CreateUnitFrame(Unit)
         self.RaidTargetIndicator = self.unitTargetMarker
     end
 
+    -- Frame Combat Indicator
+    if not self.unitCombatIndicator and Unit == "Player" and CombatIndicator.Enabled then
+        self.unitCombatIndicator = self.unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
+        self.unitCombatIndicator:SetSize(CombatIndicator.Size, CombatIndicator.Size)
+        self.unitCombatIndicator:SetPoint(CombatIndicator.AnchorFrom, self.unitHighLevelFrame, CombatIndicator.AnchorTo, CombatIndicator.XOffset, CombatIndicator.YOffset)
+        self.CombatIndicator = self.unitCombatIndicator
+    end
+
+    -- Frame Leader Indicator
+    if not self.unitLeaderIndicator and Unit == "Player" and LeaderIndicator.Enabled then
+        self.unitLeaderIndicator = self.unitHighLevelFrame:CreateTexture(nil, "OVERLAY")
+        self.unitLeaderIndicator:SetSize(LeaderIndicator.Size, LeaderIndicator.Size)
+        self.unitLeaderIndicator:SetPoint(LeaderIndicator.AnchorFrom, self.unitHighLevelFrame, LeaderIndicator.AnchorTo, LeaderIndicator.XOffset, LeaderIndicator.YOffset)
+        self.LeaderIndicator = self.unitLeaderIndicator
+    end
+
     self:RegisterForClicks("AnyUp")
     self:SetAttribute("*type1", "target")
     self:SetAttribute("*type2", "togglemenu")
@@ -488,6 +506,8 @@ function UUF:UpdateUnitFrame(FrameName)
     local Buffs = UUF.DB.profile[Unit].Buffs
     local Debuffs = UUF.DB.profile[Unit].Debuffs
     local TargetMarker = UUF.DB.profile[Unit].TargetMarker
+    local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
+    local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
     local FirstText = UUF.DB.profile[Unit].Texts.First
     local SecondText = UUF.DB.profile[Unit].Texts.Second
     local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -740,6 +760,29 @@ function UUF:UpdateUnitFrame(FrameName)
         FrameName.unitTargetMarker:ClearAllPoints()
         FrameName.unitTargetMarker:SetSize(TargetMarker.Size, TargetMarker.Size)
         FrameName.unitTargetMarker:SetPoint(TargetMarker.AnchorFrom, FrameName, TargetMarker.AnchorTo, TargetMarker.XOffset, TargetMarker.YOffset)
+    end
+
+    -- Frame Combat Indicator
+    if FrameName.unitCombatIndicator and Unit == "Player" and CombatIndicator.Enabled then
+        FrameName.unitCombatIndicator:Show()
+        if FrameName.unitCombatIndicator.hideTimer then
+            FrameName.unitCombatIndicator.hideTimer:Cancel()
+        end
+        FrameName.unitCombatIndicator.hideTimer = C_Timer.NewTimer(5, function()
+            if FrameName.unitCombatIndicator and FrameName.unitCombatIndicator:IsShown() then
+                FrameName.unitCombatIndicator:Hide()
+            end
+        end)
+        FrameName.unitCombatIndicator:ClearAllPoints()
+        FrameName.unitCombatIndicator:SetSize(CombatIndicator.Size, CombatIndicator.Size)
+        FrameName.unitCombatIndicator:SetPoint(CombatIndicator.AnchorFrom, FrameName, CombatIndicator.AnchorTo, CombatIndicator.XOffset, CombatIndicator.YOffset)
+    end
+
+    -- Frame Leader Indicator
+    if FrameName.unitLeaderIndicator and Unit == "Player" and LeaderIndicator.Enabled then
+        FrameName.unitLeaderIndicator:ClearAllPoints()
+        FrameName.unitLeaderIndicator:SetSize(LeaderIndicator.Size, LeaderIndicator.Size)
+        FrameName.unitLeaderIndicator:SetPoint(LeaderIndicator.AnchorFrom, FrameName, LeaderIndicator.AnchorTo, LeaderIndicator.XOffset, LeaderIndicator.YOffset)
     end
 
     -- Frame Range Alpha
