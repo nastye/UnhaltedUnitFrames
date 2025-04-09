@@ -17,7 +17,7 @@ function UUF:ImportSavedVariables(EncodedInfo)
     if not InformationDecoded then print("Failed to import: invalid or corrupted string.") return end
 
     StaticPopupDialogs["UUF_IMPORT_PROFILE_NAME"] = {
-        text = "Enter a name for the imported profile:",
+        text = "Enter A Profile Name:",
         button1 = "Import",
         button2 = "Cancel",
         hasEditBox = true,
