@@ -53,8 +53,8 @@ function UUFG:ExportSavedVariables()
     return EncodedInfo
 end
 
-function UUFG:ImportSavedVariables(EncodedInfo)
-    local DecodedInfo = Compress:DecodeForPrint(EncodedInfo)
+function UUFG:ImportUUF(importString, profileKey)
+    local DecodedInfo = Compress:DecodeForPrint(importString)
     local DecompressedInfo = Compress:DecompressDeflate(DecodedInfo)
     local InformationDecoded, InformationTable = Serialize:Deserialize(DecompressedInfo)
     if InformationDecoded then
