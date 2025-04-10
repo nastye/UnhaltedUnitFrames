@@ -984,7 +984,7 @@ function UnhaltedUF:OnInitialize()
 end
 
 function UnhaltedUF:OnEnable()
-    UIParent:SetScale(UUF.DB.global.UIScale)
+    if UUF.DB.global.UIScaleEnabled then UIParent:SetScale(UUF.DB.global.UIScale) end
     UUF:LoadCustomColours()
     UUF:SpawnPlayerFrame()
     UUF:SpawnTargetFrame()

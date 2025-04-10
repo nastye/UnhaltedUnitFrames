@@ -114,6 +114,7 @@ function UUF:CreateReloadPrompt()
 end
 
 function UUF:UpdateUIScale()
+    if not UUF.DB.global.UIScaleEnabled then return end
     UIParent:SetScale(UUF.DB.global.UIScale)
 end
 
@@ -201,12 +202,6 @@ function UUF:CreateGUI()
         UIScaleContainer:SetLayout("Flow")
         UIScaleContainer:SetFullWidth(true)
 
-        local UIScaleToggle = UUFGUI:Create("CheckBox")
-        UIScaleToggle:SetLabel("Enable UI Scale")
-        UIScaleToggle:SetValue(UUF.DB.global.UIScaleEnabled)
-        UIScaleToggle:SetCallback("OnValueChanged", function(widget, event, value) UUF.DB.global.UIScaleEnabled = value UUF:CreateReloadPrompt() end)
-        UIScaleToggle:SetRelativeWidth(1)
-
         local UIScale = UUFGUI:Create("Slider")
         UIScale:SetLabel("UI Scale")
         UIScale:SetSliderValues(0.4, 2, 0.01)
@@ -215,24 +210,40 @@ function UUF:CreateGUI()
         UIScale:SetRelativeWidth(0.25)
         UIScale:SetCallback("OnEnter", function(widget, event) GameTooltip:SetOwner(widget.frame, "ANCHOR_TOPLEFT") GameTooltip:AddLine("Decimals are supported. They will need to be manually typed in.") GameTooltip:Show() end)
         UIScale:SetCallback("OnLeave", function(widget, event) GameTooltip:Hide() end)
-        UIScaleContainer:AddChild(UIScale)
 
         local TenEightyP = UUFGUI:Create("Button")
         TenEightyP:SetText("1080p")
         TenEightyP:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.UIScale = 0.7111111111111 UIScale:SetValue(0.7111111111111) UUF:UpdateUIScale() end)
         TenEightyP:SetRelativeWidth(0.25)
-        UIScaleContainer:AddChild(TenEightyP)
 
         local FourteenFortyP = UUFGUI:Create("Button")
         FourteenFortyP:SetText("1440p")
         FourteenFortyP:SetCallback("OnClick", function(widget, event, value) UUF.DB.global.UIScale = 0.5333333333333 UIScale:SetValue(0.5333333333333) UUF:UpdateUIScale() end)
         FourteenFortyP:SetRelativeWidth(0.25)
-        UIScaleContainer:AddChild(FourteenFortyP)
 
         local ApplyUIScale = UUFGUI:Create("Button")
         ApplyUIScale:SetText("Apply")
         ApplyUIScale:SetCallback("OnClick", function(widget, event, value) UUF:UpdateUIScale() end)
         ApplyUIScale:SetRelativeWidth(0.25)
+
+        local UIScaleToggle = UUFGUI:Create("CheckBox")
+        UIScaleToggle:SetLabel("Enable UI Scale")
+        UIScaleToggle:SetValue(UUF.DB.global.UIScaleEnabled)
+        UIScaleToggle:SetCallback("OnValueChanged", function(widget, event, value) 
+            UUF.DB.global.UIScaleEnabled = value
+            if value then UUF:UpdateUIScale() else UIParent:SetScale(1) end
+            UIScale:SetDisabled(not value)
+            TenEightyP:SetDisabled(not value)
+            FourteenFortyP:SetDisabled(not value)
+            ApplyUIScale:SetDisabled(not value)
+            UUF:CreateReloadPrompt() 
+            end)
+        UIScaleToggle:SetRelativeWidth(1)
+
+        UIScaleContainer:AddChild(UIScaleToggle)
+        UIScaleContainer:AddChild(UIScale)
+        UIScaleContainer:AddChild(TenEightyP)
+        UIScaleContainer:AddChild(FourteenFortyP)
         UIScaleContainer:AddChild(ApplyUIScale)
         
         ScrollableContainer:AddChild(UIScaleContainer)
