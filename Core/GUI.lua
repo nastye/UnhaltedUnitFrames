@@ -493,7 +493,9 @@ function UUF:CreateGUI()
         PowerColours:SetFullWidth(true)
         CustomColours:AddChild(PowerColours)
 
-        for powerType, powerColour in pairs(General.CustomColours.Power) do
+        local PowerOrder = {0, 1, 2, 3, 6, 8, 11, 13, 17, 18}
+        for _, powerType in ipairs(PowerOrder) do
+            local powerColour = General.CustomColours.Power[powerType]
             local PowerColour = UUFGUI:Create("ColorPicker")
             PowerColour:SetLabel(PowerNames[powerType])
             local R, G, B = unpack(powerColour)
