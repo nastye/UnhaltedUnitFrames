@@ -261,6 +261,8 @@ local NameTagsDescription = {
     ["Very Short Name"] = {Tag = "[Name:VeryShort]", Desc = "Displays Very Short Name (5 Characters)"},
     ["Short Name"] = {Tag = "[Name:Short]", Desc = "Displays Short Name (8 Characters)"},
     ["Medium Name"] = {Tag = "[Name:Medium]", Desc = "Displays Medium Name (10 Characters)"},
+    ["Name"] = {Tag = "[name]", Desc = "Displays Name"},
+    
 }
 
 function UUF:FetchNameTagDescriptions()
