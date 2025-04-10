@@ -201,6 +201,12 @@ function UUF:CreateGUI()
         UIScaleContainer:SetLayout("Flow")
         UIScaleContainer:SetFullWidth(true)
 
+        local UIScaleToggle = UUFGUI:Create("CheckBox")
+        UIScaleToggle:SetLabel("Enable UI Scale")
+        UIScaleToggle:SetValue(UUF.DB.global.UIScaleEnabled)
+        UIScaleToggle:SetCallback("OnValueChanged", function(widget, event, value) UUF.DB.global.UIScaleEnabled = value UUF:CreateReloadPrompt() end)
+        UIScaleToggle:SetRelativeWidth(1)
+
         local UIScale = UUFGUI:Create("Slider")
         UIScale:SetLabel("UI Scale")
         UIScale:SetSliderValues(0.4, 2, 0.01)
