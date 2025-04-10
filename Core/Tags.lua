@@ -1,5 +1,6 @@
 local _, UUF = ...
 local oUF = UUF.oUF
+local NSM = C_AddOns.IsAddOnLoaded("NorthernSkyMedia") or C_AddOns.IsAddOnLoaded("NorthernSkyRaidTools")
 
 oUF.Tags:SetEventUpdateTimer(0.5)
 
@@ -153,7 +154,7 @@ oUF.Tags.Methods["Name:Medium"] = function(unit)
     end
 end
 
-if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then    
+if NSM then
 	oUF.Tags.Methods['NSNickName'] = function(unit)
 		local name = UnitName(unit)
 		return name and NSAPI and NSAPI:GetName(name) or name
@@ -177,10 +178,24 @@ if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then
 		return string.sub(name, 1, 10)
 	end
 
+    for i = 1, 12 do
+        oUF.Tags.Methods['NSNickName:' .. i] = function(unit)
+            if i == 0 then return end
+            local name = UnitName(unit)
+            name = name and NSAPI and NSAPI:GetName(name) or name
+            if name and unit then
+                return string.sub(name, 1, i)
+            end
+        end
+    end
+
     oUF.Tags.Events['NSNickName'] = 'UNIT_NAME_UPDATE'
 	oUF.Tags.Events['NSNickName:veryshort'] = 'UNIT_NAME_UPDATE'
 	oUF.Tags.Events['NSNickName:short'] = 'UNIT_NAME_UPDATE'
 	oUF.Tags.Events['NSNickName:medium'] = 'UNIT_NAME_UPDATE'
+    for i = 1, 12 do
+        oUF.Tags.Events['NSNickName:' .. i] = 'UNIT_NAME_UPDATE'
+    end
 end
 
 oUF.Tags.Methods["Power:CurPP"] = function(unit)
