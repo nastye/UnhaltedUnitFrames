@@ -294,6 +294,7 @@ local NSMediaTags = {
     ["NSNickName:veryshort"] = {Tag = "[NSNickName:veryshort]", Desc = "Returns the nickname of the unit, very short (5 Characters)."},
     ["NSNickName:short"] = {Tag = "[NSNickName:short]", Desc = "Returns the nickname of the unit, short (8 Characters)."},
     ["NSNickName:medium"] = {Tag = "[NSNickName:medium]", Desc = "Returns the nickname of the unit, medium (10 Characters)."},
+    ["NSNickName:X"] = {Tag = "[NSNickName:X]", Desc = "Format Name Length where X is the limiting number (1 - 12)."},
 }
 
 function UUF:FetchNSMediaTagDescriptions()
