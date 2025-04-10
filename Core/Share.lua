@@ -61,5 +61,6 @@ function UUFG:ImportUUF(importString, profileKey)
     local success, profileData = Serialize:Deserialize(DecompressedInfo)
     if success and type(profileData) == "table" then
         UUF.DB.profiles[profileKey] = profileData
+        UUF.DB:SetProfile(profileKey)
     end
 end
