@@ -481,6 +481,12 @@ function UUF:CreateGUI()
         CustomColours:SetFullWidth(true)
         ColouringOptionsContainer:AddChild(CustomColours)
 
+        local ResetCustomColoursButton = UUFGUI:Create("Button")
+        ResetCustomColoursButton:SetText("Reset Custom Colours")
+        ResetCustomColoursButton:SetCallback("OnClick", function(widget, event, value) ResetColours() UUF:ReOpenGUI() end)
+        ResetCustomColoursButton:SetRelativeWidth(1)
+        CustomColours:AddChild(ResetCustomColoursButton)
+
         local PowerColours = UUFGUI:Create("InlineGroup")
         PowerColours:SetTitle("Power Colours")
         PowerColours:SetLayout("Flow")
