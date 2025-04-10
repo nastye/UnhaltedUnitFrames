@@ -4,7 +4,7 @@ UUFG = UUFG or {}
 
 UUF.Defaults = {
     global = {
-        Enabled = true,
+        UIScaleEnabled = true,
         UIScale = 0.5333333333333,
     },
     profile = {
