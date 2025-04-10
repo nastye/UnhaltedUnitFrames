@@ -5,6 +5,7 @@ local GUI_HEIGHT = 720
 local GUI_TITLE = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Title")
 local GUI_VERSION = C_AddOns.GetAddOnMetadata("UnhaltedUF", "Version")
 local LSM = LibStub:GetLibrary("LibSharedMedia-3.0") or LibStub("LibSharedMedia-3.0")
+local NSM = C_AddOns.IsAddOnLoaded("NorthernSkyMedia") or C_AddOns.IsAddOnLoaded("NorthernSkyRaidTools")
 if LSM then LSM:Register("border", "WHITE8X8", [[Interface\Buttons\WHITE8X8]]) end
 local LSMFonts = {}
 local LSMTextures = {}
@@ -1752,7 +1753,7 @@ function UUF:CreateGUI()
                 DrawPowerTagsContainer(UUFGUI_Container)
             elseif Group == "Name" then
                 DrawNameTagsContainer(UUFGUI_Container)
-            elseif Group == "NSM" and C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then
+            elseif Group == "NSM" and NSM then
                 NSMediaTagsContainer(UUFGUI_Container)
             elseif Group == "Misc" then
                 DrawMiscTagsContainer(UUFGUI_Container)
@@ -1761,7 +1762,7 @@ function UUF:CreateGUI()
 
         GUIContainerTabGroup = UUFGUI:Create("TabGroup")
         GUIContainerTabGroup:SetLayout("Flow")
-        if C_AddOns.IsAddOnLoaded("NorthernSkyMedia") then
+        if NSM then
             GUIContainerTabGroup:SetTabs({
                 { text = "Health",                              value = "Health"},
                 { text = "Power",                               value = "Power" },
