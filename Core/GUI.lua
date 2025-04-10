@@ -1960,6 +1960,14 @@ function UUF:CreateGUI()
     UUFGUI_Container:AddChild(GUIContainerTabGroup)
 end
 
+function UUF:ReOpenGUI()
+    if GUIActive and UUFGUI_Container then
+        UUFGUI_Container:Hide()
+        UUFGUI_Container:ReleaseChildren()
+        UUF:CreateGUI()
+    end
+end
+
 function UUFG.OpenUUFGUI()
     if not GUIActive then
         UUF:CreateGUI()
