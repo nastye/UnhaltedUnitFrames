@@ -64,7 +64,7 @@ end
 oUF.Tags.Methods["Name:TargetTarget"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
-        return unitTarget
+        return string.format(" » %s", unitTarget)
     end
 end
 
@@ -82,7 +82,7 @@ end
 oUF.Tags.Methods["Name:TargetTarget:Coloured"] = function(unit)
     local unitTarget = UnitName(unit .. "target")
     if unitTarget and unitTarget ~= "" then
-        return UUF:WrapTextInColor(unitTarget, unit .. "target")
+        return string.format(" » %s", UUF:WrapTextInColor(unitTarget, unit .. "target"))
     end
 end
 
