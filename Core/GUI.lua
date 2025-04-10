@@ -138,6 +138,40 @@ local GrowthY = {
     ["DOWN"] = "Down",
 }
 
+local function ResetColours()
+    local General = UUF.DB.profile.General
+    wipe(General.CustomColours)
+    General.CustomColours = {
+        Reaction = {
+            [1] = {255/255, 64/255, 64/255},            -- Hated
+            [2] = {255/255, 64/255, 64/255},            -- Hostile
+            [3] = {255/255, 128/255, 64/255},           -- Unfriendly
+            [4] = {255/255, 255/255, 64/255},           -- Neutral
+            [5] = {64/255, 255/255, 64/255},            -- Friendly
+            [6] = {64/255, 255/255, 64/255},            -- Honored
+            [7] = {64/255, 255/255, 64/255},            -- Revered
+            [8] = {64/255, 255/255, 64/255},            -- Exalted
+        },
+        Power = {
+            [0] = {0, 0, 1},            -- Mana
+            [1] = {1, 0, 0},            -- Rage
+            [2] = {1, 0.5, 0.25},       -- Focus
+            [3] = {1, 1, 0},            -- Energy
+            [6] = {0, 0.82, 1},         -- Runic Power
+            [8] = {0.3, 0.52, 0.9},     -- Lunar Power
+            [11] = {0, 0.5, 1},         -- Maelstrom
+            [13] = {0.4, 0, 0.8},       -- Insanity
+            [17] = {0.79, 0.26, 0.99},  -- Fury
+            [18] = {1, 0.61, 0}         -- Pain
+        },
+        Status = {
+            [1] = {255/255, 64/255, 64/255},           -- Dead
+            [2] = {153/255, 153/255, 153/255}, -- Tapped 
+            [3] = {0.6, 0.6, 0.6}, -- Disconnected
+        }
+    }
+end
+
 function UUF:CreateGUI()
     if GUIActive then return end
     GUIActive = true
