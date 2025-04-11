@@ -18,6 +18,20 @@ oUF.Tags.Methods["Health:CurHPwithPerHP"] = function(unit)
     end
 end
 
+oUF.Tags.Methods["Health:CurHPwithPerHP:Clean"] = function(unit)
+    local unitHealth = UnitHealth(unit)
+    local unitMaxHealth = UnitHealthMax(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
+    local effectiveHealth = unitHealth + unitAbsorb
+    local unitHealthPercent = (unitMaxHealth > 0) and (effectiveHealth / unitMaxHealth * 100) or 0
+    local unitStatus = UnitIsDead(unit) and "Dead" or UnitIsGhost(unit) and "Ghost" or not UnitIsConnected(unit) and "Offline"
+    if unitStatus then
+        return unitStatus
+    else
+        return string.format("%s - %.1f", UUF:FormatLargeNumber(unitHealth), unitHealthPercent)
+    end
+end
+
 oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
     local unitHealth = UnitHealth(unit)
     local unitMaxHealth = UnitHealthMax(unit)
@@ -25,6 +39,15 @@ oUF.Tags.Methods["Health:PerHPwithAbsorbs"] = function(unit)
     if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
     local unitHealthPercent = (unitMaxHealth > 0) and (unitHealth / unitMaxHealth * 100) or 0
     return string.format("%.1f%%", unitHealthPercent)
+end
+
+oUF.Tags.Methods["Health:PerHPwithAbsorbs:Clean"] = function(unit)
+    local unitHealth = UnitHealth(unit)
+    local unitMaxHealth = UnitHealthMax(unit)
+    local unitAbsorb = UnitGetTotalAbsorbs(unit) or 0
+    if unitAbsorb and unitAbsorb > 0 then unitHealth = unitHealth + unitAbsorb end
+    local unitHealthPercent = (unitMaxHealth > 0) and (unitHealth / unitMaxHealth * 100) or 0
+    return string.format("%.1f", unitHealthPercent)
 end
 
 oUF.Tags.Methods["Health:CurHP"] = function(unit)
@@ -212,6 +235,14 @@ oUF.Tags.Methods["Power:PerPP"] = function(unit)
     return string.format("%.1f%%", unitPowerPercent)
 end
 
+oUF.Tags.Methods["Power:PerPP:Clean"] = function(unit)
+    local unitPower = UnitPower(unit)
+    local unitMaxPower = UnitPowerMax(unit)
+    local unitPowerPercent = (unitMaxPower > 0) and (unitPower / unitMaxPower * 100) or 0
+    if unitPower <= 0 then return end
+    return string.format("%.1f", unitPowerPercent)
+end
+
 oUF.Tags.Events["Name:NamewithTargetTarget"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Name:NamewithTargetTarget:Coloured"] = "UNIT_NAME_UPDATE UNIT_TARGET"
 oUF.Tags.Events["Name:TargetTarget"] = "UNIT_TARGET"
@@ -227,13 +258,16 @@ oUF.Tags.Events["Name:Short"] = "UNIT_NAME_UPDATE"
 oUF.Tags.Events["Name:Medium"] = "UNIT_NAME_UPDATE"
 
 oUF.Tags.Events["Health:CurHPwithPerHP"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:CurHPwithPerHP:Clean"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:PerHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
+oUF.Tags.Events["Health:PerHPwithAbsorbs:Clean"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:CurHP"] = "UNIT_HEALTH UNIT_CONNECTION"
 oUF.Tags.Events["Health:CurAbsorbs"] = "UNIT_ABSORB_AMOUNT_CHANGED"
 oUF.Tags.Events["Health:CurHPwithAbsorbs"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED"
 
 oUF.Tags.Events["Power:CurPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 oUF.Tags.Events["Power:PerPP"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
+oUF.Tags.Events["Power:PerPP:Clean"] = "UNIT_POWER_UPDATE UNIT_MAXPOWER"
 
 local HealthTagsDescription = {
     ["Current Health with Percent Health"] = {Tag = "[Health:CurHPwithPerHP]", Desc = "Displays Current Health with Percent Health (Absorbs Included)"},
