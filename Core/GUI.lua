@@ -583,6 +583,7 @@ function UUF:CreateGUI()
         local TargetMarker = UUF.DB.profile[Unit].TargetMarker
         local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
         local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
+        local TargetIndicator = UUF.DB.profile[Unit].TargetIndicator
         local FirstText = UUF.DB.profile[Unit].Texts.First
         local SecondText = UUF.DB.profile[Unit].Texts.Second
         local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -1339,6 +1340,21 @@ function UUF:CreateGUI()
                 LeaderIndicatorYOffset:SetCallback("OnMouseUp", function(widget, event, value) LeaderIndicator.YOffset = value UUF:UpdateFrames() end)
                 LeaderIndicatorYOffset:SetRelativeWidth(0.33)
                 LeaderIndicatorOptions:AddChild(LeaderIndicatorYOffset)
+            end
+
+            if Unit == "Boss" then
+                local TargetIndicatorOptions = UUFGUI:Create("InlineGroup")
+                TargetIndicatorOptions:SetTitle("Combat Indicator Options")
+                TargetIndicatorOptions:SetLayout("Flow")
+                TargetIndicatorOptions:SetFullWidth(true)
+                IndicatorOptions:AddChild(TargetIndicatorOptions)
+
+                local TargetIndicatorEnabled = UUFGUI:Create("CheckBox")
+                TargetIndicatorEnabled:SetLabel("Enable Target Indicator")
+                TargetIndicatorEnabled:SetValue(TargetIndicator.Enabled)
+                TargetIndicatorEnabled:SetCallback("OnValueChanged", function(widget, event, value) TargetIndicator.Enabled = value UUF:CreateReloadPrompt() end)
+                TargetIndicatorEnabled:SetRelativeWidth(1)
+                TargetIndicatorOptions:AddChild(TargetIndicatorEnabled)
             end
         end
 

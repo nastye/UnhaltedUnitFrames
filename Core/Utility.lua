@@ -185,6 +185,7 @@ function UUF:CreateUnitFrame(Unit)
     local TargetMarker = UUF.DB.profile[Unit].TargetMarker
     local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
     local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
+    local TargetIndicator = UUF.DB.profile[Unit].TargetIndicator
     local FirstText = UUF.DB.profile[Unit].Texts.First
     local SecondText = UUF.DB.profile[Unit].Texts.Second
     local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -238,6 +239,18 @@ function UUF:CreateUnitFrame(Unit)
         self.unitHealthBarBackground:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
         self.unitHealthBarBackground:SetTexture(General.BackgroundTexture)
         self.unitHealthBarBackground:SetAlpha(General.BackgroundColour[4])
+    end
+
+    -- Frame Unit Is Target Indicator
+    if not self.unitIsTargetIndicator and Unit == "Boss" and TargetIndicator.Enabled then
+        self.unitIsTargetIndicator = CreateFrame("Frame", nil, self, "BackdropTemplate")
+        self.unitIsTargetIndicator:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -1)
+        self.unitIsTargetIndicator:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
+        self.unitIsTargetIndicator:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1, insets = {left = 0, right = 0, top = 0, bottom = 0} })
+        self.unitIsTargetIndicator:SetBackdropColor(0, 0, 0, 0)
+        self.unitIsTargetIndicator:SetBackdropBorderColor(1, 1, 1, 1)
+        self.unitIsTargetIndicator:SetFrameLevel(self.unitHealthBar:GetFrameLevel() + 10)
+        self.unitIsTargetIndicator:Hide()
     end
 
     -- Frame Mouseover Highlight
@@ -509,6 +522,7 @@ function UUF:UpdateUnitFrame(FrameName)
     local TargetMarker = UUF.DB.profile[Unit].TargetMarker
     local CombatIndicator = UUF.DB.profile[Unit].CombatIndicator
     local LeaderIndicator = UUF.DB.profile[Unit].LeaderIndicator
+    local TargetIndicator = UUF.DB.profile[Unit].TargetIndicator
     local FirstText = UUF.DB.profile[Unit].Texts.First
     local SecondText = UUF.DB.profile[Unit].Texts.Second
     local ThirdText = UUF.DB.profile[Unit].Texts.Third
@@ -534,6 +548,10 @@ function UUF:UpdateUnitFrame(FrameName)
     if FrameName.unitBorder then
         FrameName.unitBorder:SetBackdropBorderColor(unpack(General.BorderColour))
         FrameName.unitBorder:SetFrameLevel(1)
+    end
+
+    if FrameName.unitIsTargetIndicator and not TargetIndicator.Enabled then
+        FrameName.unitIsTargetIndicator:Hide()
     end
 
     -- Frame Health Bar
@@ -1003,11 +1021,11 @@ function UUF:RegisterTargetHighlightFrame(frame, unit)
 end
 
 function UUF:UpdateTargetHighlight(frame, unit)
-    if frame and frame.unitHighlight then
+    if frame and frame.unitIsTargetIndicator then
         if UnitIsUnit("target", unit) then
-            frame.unitHighlight:Show()
-        elseif not frame:IsMouseOver() then
-            frame.unitHighlight:Hide()
+            frame.unitIsTargetIndicator:Show()
+        else
+            frame.unitIsTargetIndicator:Hide()
         end
     end
 end

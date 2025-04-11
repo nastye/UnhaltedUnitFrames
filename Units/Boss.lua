@@ -3,7 +3,9 @@ local oUF = UUF.oUF
 
 local unitIsTargetEvtFrame = CreateFrame("Frame")
 unitIsTargetEvtFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+unitIsTargetEvtFrame:RegisterEvent("UNIT_TARGET")
 unitIsTargetEvtFrame:SetScript("OnEvent", function()
+    if not UUF.DB.profile.Boss.TargetIndicator.Enabled then return end
     for _, frameData in ipairs(UUF.TargetHighlightEvtFrames) do
         local frame, unit = frameData.frame, frameData.unit
         UUF:UpdateTargetHighlight(frame, unit)

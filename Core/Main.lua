@@ -936,6 +936,9 @@ UUF.Defaults = {
                 AnchorFrom          = "RIGHT",
                 AnchorTo            = "TOPRIGHT",
             },
+            TargetIndicator = {
+                Enabled            = true,
+            },
             Texts = {
                 First = {
                     AnchorTo        = "LEFT",
