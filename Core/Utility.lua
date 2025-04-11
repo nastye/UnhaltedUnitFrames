@@ -1,5 +1,6 @@
 local _, UUF = ...
 local oUF = UUF.oUF
+UUF.TargetHighlightEvtFrames = {}
 UUF.Frames = {
     ["player"] = "Player",
     ["target"] = "Target",
@@ -994,4 +995,19 @@ function UUF:GetFontJustification(AnchorTo)
     if AnchorTo == "TOPLEFT" or AnchorTo == "BOTTOMLEFT" or AnchorTo == "LEFT" then return "LEFT" end
     if AnchorTo == "TOPRIGHT" or AnchorTo == "BOTTOMRIGHT" or AnchorTo == "RIGHT" then return "RIGHT" end
     if AnchorTo == "TOP" or AnchorTo == "BOTTOM" or AnchorTo == "CENTER" then return "CENTER" end
+end
+
+function UUF:RegisterTargetHighlightFrame(frame, unit)
+    if not frame then return end
+    table.insert(UUF.TargetHighlightEvtFrames, { frame = frame, unit = unit })
+end
+
+function UUF:UpdateTargetHighlight(frame, unit)
+    if frame and frame.unitHighlight then
+        if UnitIsUnit("target", unit) then
+            frame.unitHighlight:Show()
+        elseif not frame:IsMouseOver() then
+            frame.unitHighlight:Hide()
+        end
+    end
 end

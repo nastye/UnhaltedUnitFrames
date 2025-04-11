@@ -1,6 +1,15 @@
 local _, UUF = ...
 local oUF = UUF.oUF
 
+local unitIsTargetEvtFrame = CreateFrame("Frame")
+unitIsTargetEvtFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+unitIsTargetEvtFrame:SetScript("OnEvent", function()
+    for _, frameData in ipairs(UUF.TargetHighlightEvtFrames) do
+        local frame, unit = frameData.frame, frameData.unit
+        UUF:UpdateTargetHighlight(frame, unit)
+    end
+end)
+
 function UUF:SpawnBossFrames()
     local Frame = UUF.DB.profile.Boss.Frame
     oUF:RegisterStyle("UUF_Boss", function(self) UUF.CreateUnitFrame(self, "Boss") end)
@@ -25,5 +34,6 @@ function UUF:SpawnBossFrames()
             BossFrame:SetPoint(anchor, _G["UUF_Boss" .. (i - 1)], relativeAnchor, 0, offsetY)
         end
         UUF:RegisterRangeFrame(BossFrame, "boss" .. i)
+        UUF:RegisterTargetHighlightFrame(BossFrame, "boss" .. i)
     end
 end
