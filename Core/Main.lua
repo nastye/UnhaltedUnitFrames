@@ -67,6 +67,7 @@ UUF.Defaults = {
         },
         Player = {
             Frame = {
+                Enabled             = true,
                 Width               = 272,
                 Height              = 42,
                 XPosition           = -425.1,
@@ -205,6 +206,7 @@ UUF.Defaults = {
         },
         Target = {
             Frame = {
+                Enabled             = true,
                 Width               = 272,
                 Height              = 42,
                 XPosition           = 425.1,
@@ -844,6 +846,7 @@ UUF.Defaults = {
         },
         Boss = {
             Frame = {
+                Enabled             = true,
                 Width               = 250,
                 Height              = 42,
                 XPosition           = 750.1,

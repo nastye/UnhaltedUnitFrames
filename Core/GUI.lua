@@ -590,14 +590,12 @@ function UUF:CreateGUI()
         local Range = UUF.DB.profile[Unit].Range
 
         local function DrawFrameContainer(UUFGUI_Container)
-            if Unit == "Focus" or Unit == "Pet" or Unit == "TargetTarget" or Unit == "FocusTarget" then
-                local Enabled = UUFGUI:Create("CheckBox")
-                Enabled:SetLabel("Enable Frame")
-                Enabled:SetValue(Frame.Enabled)
-                Enabled:SetCallback("OnValueChanged", function(widget, event, value) Frame.Enabled = value UUF:CreateReloadPrompt() end)
-                Enabled:SetFullWidth(true)
-                UUFGUI_Container:AddChild(Enabled)
-            end
+            local Enabled = UUFGUI:Create("CheckBox")
+            Enabled:SetLabel("Enable Frame")
+            Enabled:SetValue(Frame.Enabled)
+            Enabled:SetCallback("OnValueChanged", function(widget, event, value) Frame.Enabled = value UUF:CreateReloadPrompt() end)
+            Enabled:SetFullWidth(true)
+            UUFGUI_Container:AddChild(Enabled)
 
             -- Frame Options
             local FrameOptions = UUFGUI:Create("InlineGroup")

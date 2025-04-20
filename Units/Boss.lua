@@ -13,6 +13,7 @@ unitIsTargetEvtFrame:SetScript("OnEvent", function()
 end)
 
 function UUF:SpawnBossFrames()
+    if not UUF.DB.profile.Boss.Frame.Enabled then return end
     local Frame = UUF.DB.profile.Boss.Frame
     oUF:RegisterStyle("UUF_Boss", function(self) UUF.CreateUnitFrame(self, "Boss") end)
     oUF:SetActiveStyle("UUF_Boss")
