@@ -7,6 +7,7 @@ function UUF:SpawnFocusFrame()
     oUF:RegisterStyle("UUF_Focus", function(self) UUF.CreateUnitFrame(self, "Focus") end)
     oUF:SetActiveStyle("UUF_Focus")
     self.FocusFrame = oUF:Spawn("focus", "UUF_Focus")
-    self.FocusFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
+    local AnchorParent = Frame.AnchorParent and Frame.AnchorParent ~= nil or UIParent
+    self.FocusFrame:SetPoint(Frame.AnchorFrom, AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
     UUF:RegisterRangeFrame(self.FocusFrame, "focus")
 end
