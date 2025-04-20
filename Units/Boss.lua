@@ -19,17 +19,11 @@ function UUF:SpawnBossFrames()
     oUF:SetActiveStyle("UUF_Boss")
     UUF.BossFrames = {}
     local BossSpacing = Frame.Spacing
-    local BossContainer
     for i = 1, 8 do
         local BossFrame = oUF:Spawn("boss" .. i, "UUF_Boss" .. i)
         UUF.BossFrames[i] = BossFrame
         if i == 1 then
-            BossContainer = (BossFrame:GetHeight() + BossSpacing) * 8 - BossSpacing
-            local offsetY = (BossContainer / 2 - BossFrame:GetHeight() / 2)
-            if Frame.GrowthY ~= "DOWN" then
-                offsetY = -offsetY
-            end
-            BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, offsetY + Frame.YPosition)
+            BossFrame:SetPoint(Frame.AnchorFrom, Frame.AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
         else
             local anchor = Frame.GrowthY == "DOWN" and "TOPLEFT" or "BOTTOMLEFT"
             local relativeAnchor = Frame.GrowthY == "DOWN" and "BOTTOMLEFT" or "TOPLEFT"
