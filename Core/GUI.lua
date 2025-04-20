@@ -621,8 +621,18 @@ function UUF:CreateGUI()
 
             local FrameAnchorParent = UUFGUI:Create("EditBox")
             FrameAnchorParent:SetLabel("Anchor Parent")
-            FrameAnchorParent:SetText(Frame.AnchorParent)
-            FrameAnchorParent:SetCallback("OnEnterPressed", function(widget, event, value) Frame.AnchorParent = value UUF:UpdateFrames() end)
+            FrameAnchorParent:SetText(type(Frame.AnchorParent) == "string" and Frame.AnchorParent or "UIParent")
+
+            FrameAnchorParent:SetCallback("OnEnterPressed", function(widget, event, value)
+                local anchor = _G[value]
+                if anchor and anchor:IsObjectType("Frame") then
+                    Frame.AnchorParent = value
+                else
+                    Frame.AnchorParent = "UIParent"
+                    widget:SetText("UIParent")
+                end
+                UUF:UpdateFrames()
+            end)
             FrameAnchorParent:SetRelativeWidth(0.33)
             FrameOptions:AddChild(FrameAnchorParent)
 

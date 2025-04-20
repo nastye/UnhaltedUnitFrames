@@ -7,7 +7,7 @@ function UUF:SpawnPetFrame()
     oUF:RegisterStyle("UUF_Pet", function(self) UUF.CreateUnitFrame(self, "Pet") end)
     oUF:SetActiveStyle("UUF_Pet")
     self.PetFrame = oUF:Spawn("pet", "UUF_Pet")
-    local AnchorParent = Frame.AnchorParent and Frame.AnchorParent ~= nil or UIParent
+    local AnchorParent = (_G[Frame.AnchorParent] and _G[Frame.AnchorParent]:IsObjectType("Frame")) and _G[Frame.AnchorParent] or UIParent
     self.PetFrame:SetPoint(Frame.AnchorFrom, AnchorParent, Frame.AnchorTo, Frame.XPosition, Frame.YPosition)
     UUF:RegisterRangeFrame(self.PetFrame, "pet")
 end
