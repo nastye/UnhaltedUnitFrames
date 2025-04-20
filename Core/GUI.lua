@@ -880,6 +880,53 @@ function UUF:CreateGUI()
                 DisplayFrames:SetCallback("OnClick", function(widget, event, value) UUF.DB.profile.TestMode = not UUF.DB.profile.TestMode UUF:DisplayBossFrames() UUF:UpdateFrames() end)
                 DisplayFrames:SetRelativeWidth(1)
                 UUFGUI_Container:AddChild(DisplayFrames)
+                if not Frame.Enabled then DisplayFrames:SetDisabled(true) end
+            end
+
+            if not Frame.Enabled then
+                if FrameOptions then 
+                    for _, child in ipairs(FrameOptions.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                if PortraitOptions then
+                    for _, child in ipairs(PortraitOptions.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                if HealthOptionsContainer then
+                    for _, child in ipairs(HealthOptionsContainer.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                if AbsorbsContainer then
+                    for _, child in ipairs(AbsorbsContainer.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                if HealAbsorbsContainer then
+                    for _, child in ipairs(HealAbsorbsContainer.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                if PowerBarOptionsContainer then
+                    for _, child in ipairs(PowerBarOptionsContainer.children) do
+                        if child.SetDisabled then
+                            child:SetDisabled(true)
+                        end
+                    end
+                end
+                return
             end
         end
 
@@ -1620,6 +1667,13 @@ function UUF:CreateGUI()
         }
         if Unit ~= "Player" then
             table.insert(ContainerTabs, { text = "Range", value = "Range" })
+        end
+        if not Frame.Enabled then
+            for i = 1, #ContainerTabs do
+                if ContainerTabs[i].value ~= "Frame" then
+                    ContainerTabs[i].disabled = true
+                end
+            end
         end
         GUIContainerTabGroup:SetTabs(ContainerTabs)
         
